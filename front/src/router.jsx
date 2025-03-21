@@ -2,11 +2,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/home";
 import Login from "./pages/login";
+import Registro from "./pages/registro";
 import Dashboard from "./pages/dashboard";
 import NotFound from "./pages/notFound";
 
 // Rutas privadas
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./privateRoute";
 
 const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
         {/* Ruta pública */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
 
         {/* Rutas privadas */}
         <Route element={<PrivateRoute />}>
