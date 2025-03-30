@@ -5,9 +5,10 @@ const CentralContext = createContext();
 
 function CentralProvider({children}){
   
-    const { getPersonalInfo } = usePersonalInfoContext();
+    const { getPersonalInfo, personalInfo } = usePersonalInfoContext();
 
     const valuesToShare={
+        personalInfo,
         getPersonalInfo,
     }
      return (

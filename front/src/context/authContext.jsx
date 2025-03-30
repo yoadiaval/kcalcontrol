@@ -11,20 +11,18 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import axios from "axios";
+
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  /*Importante, previene efectos no deseados de asincronismo, de no ponerlo
-  aun cuando el usuario está logueado al recargar no reconoce que lo esté*/
-  const [loading, setLoading] = useState(true);
 
+  const [currentUser, setCurrentUser] = useState(null);
+ 
   useEffect(() => {
     const onAuthChange = onAuthStateChanged(auth, (user) => {
       const usuario = user ? user : null;
-
       setCurrentUser(usuario);
-      setLoading(false);
+   
     });
     return () => onAuthChange();
   }, []);
@@ -64,9 +62,7 @@ function AuthProvider({ children }) {
  };
 
   const resetPassword = async (email) => {
-    const result = await sendPasswordResetEmail(auth, email);
-
-    console.log(result);
+    await sendPasswordResetEmail(auth, email);
   };
   const valuesToShare = {
     currentUser,
@@ -75,7 +71,6 @@ function AuthProvider({ children }) {
     registro,
     loginWithGoogle,
     resetPassword,
-    loading,
   };
 
   return (
