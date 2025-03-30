@@ -8,8 +8,9 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-
+import axios from "axios";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
@@ -29,19 +30,43 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    await signInWithEmailAndPassword(auth, email, password);
+     await signInWithEmailAndPassword(auth, email, password);
+     
   };
-  const loginWithGoogle = async() => {
+
+  const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider)
-      
+    await signInWithPopup(auth, provider);
   };
+
   const logout = () => {
     return signOut(auth);
   };
 
-  const registro = async (name, email, password) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+ const registro = async (name, surname, email, password) => {
+  
+     // Crear usuario en Firebase
+     const userCredentials = await createUserWithEmailAndPassword(
+       auth,
+       email,
+       password
+     );
+     const userId = userCredentials.user.uid;
+
+     // Enviar datos a la API de Laravel
+     await axios.post("http://127.0.0.1:8000/api/usuarios", {
+       id: userId,
+       nombre: name,
+       apellidos: surname,
+     });
+
+
+ };
+
+  const resetPassword = async (email) => {
+    const result = await sendPasswordResetEmail(auth, email);
+
+    console.log(result);
   };
   const valuesToShare = {
     currentUser,
@@ -49,6 +74,7 @@ function AuthProvider({ children }) {
     logout,
     registro,
     loginWithGoogle,
+    resetPassword,
     loading,
   };
 

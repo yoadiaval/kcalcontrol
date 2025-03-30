@@ -8,6 +8,7 @@ function Registro() {
   const { registro } = useAuthContext();
   const [registroInfo, setRegistroInfo] = useState({
     name: "",
+    surname:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -22,17 +23,30 @@ function Registro() {
     try {
       await registro(
         registroInfo.name,
+        registroInfo.surname,
         registroInfo.email,
         registroInfo.password
       );
       toast.success("Se ha registrado correctamente");
     } catch (e) {
-      if (e.code) {
-        toast.error("Ha ocurrido un error");
+      switch (e.code) {
+        case "auth/email-already-in-use":
+          toast.error("Ya existe una cuenta asociada a ese email");
+          break;
+        case "auth/invalid-email":
+          toast.error("El email insertado no es válido");
+          break;
+        case "auth/weak-password":
+          toast.error("La contraseña debe tener al menos 6 caracteres");
+          break;
+        default:
+          toast.error("Ha ocurrido un error" + e.code);
+          break;
       }
     } finally {
       setRegistroInfo({
         name: "",
+        surname:"",
         email: "",
         password: "",
         confirmPassword: "",
@@ -53,45 +67,77 @@ function Registro() {
   };
   return (
     <>
-      <h1>Registro</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Nombre</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={registroInfo.name}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          onChange={handleChange}
-          value={registroInfo.email}
-        />
-        <label htmlFor="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleChange}
-          value={registro.password}
-        />
-        <label htmlFor="confirmPassword">Repetir contraseña</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={registroInfo.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Enviar</button>
-      </form>
-      <button onClick={goToLogin}>Login</button>
+      <div id="registroContainer">
+        <h1>Registro</h1>
+        <div>
+          <form onSubmit={handleSubmit} id="registroForm">
+            <div className="inputWithEfect ">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={registroInfo.name}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="name">Inserte su nombre</label>
+            </div>
+            <div className="inputWithEfect ">
+              <input
+                type="text"
+                id="surname"
+                name="surname"
+                value={registroInfo.surname}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="name">Inserte sus apellidos</label>
+            </div>
+            <div className="inputWithEfect ">
+              <input
+                type="text"
+                id="email"
+                name="email"
+                onChange={handleChange}
+                value={registroInfo.email}
+                required
+              />
+              <label htmlFor="email">Inserte su email</label>
+            </div>
+            <div className="inputWithEfect ">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                onChange={handleChange}
+                value={registro.password}
+                required
+              />
+              <label htmlFor="password">Inserte una contraseña</label>
+            </div>
+            <div className="inputWithEfect ">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={registroInfo.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="confirmPassword">Repetir contraseña</label>
+            </div>
+            <button type="submit" className="btn-dark">
+              Registrarse
+            </button>
+          </form>
+        </div>
+        <p>
+          Ya tienes una cuentas?{" "}
+          <span onClick={goToLogin} className="text-blue-700 cursor-pointer">
+            Login
+          </span>
+        </p>
+      </div>
     </>
   );
 }
