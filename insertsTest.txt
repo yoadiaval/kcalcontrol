@@ -1,0 +1,41 @@
+//USUARIO
+
+INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `edad`, `sexo`, `objetivo`, `nivel_actividad`, `obj_calorias`, `obj_proteinas`, `obj_grasas`, `obj_carbohidratos`, `created_at`, `updated_at`) VALUES
+('1', 'Juan', 'Pérez García', 30, 'masculino', 'perder peso', 'moderado', 2200.00, 150.00, 70.00, 250.00, '2025-04-10 07:20:58', '2025-04-10 07:20:58');
+
+
+
+
+//ALIMENTOS
+
+INSERT INTO `alimentos` (`id`, `uid`, `descripcion`, `base`, `calorias`, `proteinas`, `grasas`, `carbohidratos`, `ref_ext`, `created_at`, `updated_at`) VALUES
+(1, '1', 'calabaza', 100, 165.00, 31.00, 3.60, 0.00, 'REF001', '2025-04-10 07:22:14', '2025-04-10 15:02:38'),
+(2, '1', 'Pechuga de pollo', 100, 165.00, 31.00, 3.60, 0.00, 'REF002', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(3, '1', 'Arroz blanco cocido', 100, 130.00, 2.70, 0.30, 28.00, 'REF003', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(4, '1', 'Aguacate', 100, 160.00, 2.00, 15.00, 9.00, 'REF004', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(5, '1', 'Huevo entero', 100, 143.00, 13.00, 10.00, 1.10, 'REF005', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(6, '1', 'Lagartija', 100, 165.00, 31.00, 3.60, 0.00, NULL, NULL, NULL);
+
+
+
+
+
+
+//TIPOS DE COMIDA
+
+
+INSERT INTO `tipos_comida` (`id`, `descripcion`, `created_at`, `updated_at`) VALUES
+(1, 'desayuno', NULL, NULL),
+(2, 'almuerzo', NULL, NULL),
+(3, 'cena', NULL, NULL),
+(4, 'snack', NULL, NULL);
+
+
+
+
+
+
+//REGISTROS DE COMIDA
+INSERT INTO `registros_comidas` (`uid`, `fecha`, `tipo_comida_id`, `alimento_id`, `cantidad`, `created_at`, `updated_at`) VALUES
+('1', '2025-04-10', 1, '1', 150.00, NULL, NULL),
+('1', '2025-04-10', 1, '2', 200.00, NULL, NULL);
