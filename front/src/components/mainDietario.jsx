@@ -36,10 +36,10 @@ function MainDietario() {
         </section>
         <section>
             <div className="p-[20px]">
-                <ul className="flex gap-[30px]">
-                    <li className="border-b-4 border-b-blue-300">Desayuno</li>
-                    <li>Almuerzo</li>
-                    <li>Cena</li>
+                <ul className="flex ">
+                    <li className="border-b-4 border-b-blue-300 cursor-pointer hover:bg-neutral-200 w-[80px] p-[5px]">Desayuno</li>
+                    <li className="cursor-pointer hover:bg-neutral-200 w-[80px] text-center p-[5px]">Almuerzo</li>
+                    <li className="cursor-pointer hover:bg-neutral-100 w-[80px] text-center p-[5px]">Cena</li>
                 </ul>
 
                 <hr className="w-[100%] border-gray-200 mb-[20px]" />

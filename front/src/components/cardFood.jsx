@@ -27,7 +27,7 @@ function CardFood(){
         <hr className="border-neutral-200 " />
         <div className="flex justify-between py-[10px]">
             <p>cantidad(g)</p>
-            <input type="number" min={0} className="border border-neutral-200 w-[80px] bg-white rounded" />
+            <input type="number" min={0} className="border border-neutral-200 w-[80px] bg-white rounded px-[5px]" />
         </div>
         <hr className="w-[100%] border-neutral-200" />
         <div className="flex justify-between py-[10px]">
