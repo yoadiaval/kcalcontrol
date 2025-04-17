@@ -48,6 +48,7 @@ function ComputoProvider({ children }) {
 
             setNutriMacros(nuevosMacros);
             resolve(nuevosMacros);
+            
         });
     };
 
