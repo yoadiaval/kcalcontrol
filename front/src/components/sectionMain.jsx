@@ -1,5 +1,4 @@
 function SectionMain({ header, children }) {
-    console.log()
     return (
         <div className="p-[20px] ">
             <div>

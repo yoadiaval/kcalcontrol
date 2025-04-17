@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import MenuDashboard from "../components/MenudashBoard";
 import { Avatar, Skeleton, Spin, ConfigProvider } from 'antd';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
-import MainCalculadora from "../components/mainCalculadora";
 import { Outlet } from 'react-router-dom';
 
 function Dashboard() {
   const { logout } = useAuthContext();
-  const { personalInfo, getPersonalInfo } = useCentralContext();
+  const { userData, getPersonalInfo } = useCentralContext();
 
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +50,7 @@ function Dashboard() {
             <div className="flex items-center px-3 py-2! border border-gray-200 justify-between rounded w-[250px]">
               <div className="flex items-center gap-3 ">
                 <Avatar size={50} icon={<UserOutlined />} />
-                <p>{personalInfo.usuario.nombre}</p>
+                <p>{userData.usuario.nombre}</p>
               </div>
               <DownOutlined />
             </div>

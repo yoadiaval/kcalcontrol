@@ -5,7 +5,7 @@ import useAuthContext from "../hooks/useAuthContex";
 const PersonalInfoContext = createContext();
 
 function PersonalInfoProvider({ children }) {
-  const [personalInfo, setPersonalInfo] = useState();
+  const [userData, setUserData] = useState();
 
   const { currentUser } = useAuthContext();
 
@@ -15,17 +15,23 @@ function PersonalInfoProvider({ children }) {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/usuarios/${currentUser.uid}`
       );
-       setPersonalInfo(response.data);
+       setUserData(response.data);
       return true;
     } catch (e) {
       console.error(e);
     }
   };
 
+  const setPersonalInfo=(data)=>{
+    if (!currentUser) return false;
+    
+
+  }
 
   const valuesToShare = {
-    personalInfo,
-    getPersonalInfo
+    userData,
+    getPersonalInfo,
+    setPersonalInfo
   };
 
   return (
