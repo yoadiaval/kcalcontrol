@@ -6,8 +6,8 @@ import SectionMain from "./SectionMain";
 import { toast } from "react-toastify";
 import useCentralContext from "../hooks/useCentralContext";
 
-function MainCalculadora() {
-    const { setPersonalInfo, nutriMacros, computar } = useCentralContext();
+function Calculadora() {
+    const { setPersonalInfo, userData, computar } = useCentralContext();
     const [dataForm, setDataForm] = useState({
         genero: '',
         edad: '',
@@ -67,22 +67,21 @@ function MainCalculadora() {
         }
     ]
 
-    let textResultado = "Rellena la información de la sección anterior para obtener un resultado estimado "
+    let textResultado = "Rellena la información de la sección anterior para obtener/modificar el resultado estimado de macronutrintes necesarios por día"
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        //Se envían los datos a computo de calorías
 
         if (
             dataForm.genero != '' &&
             dataForm.objetivo != '' &&
             dataForm.actividad != ''
         ) {
-
+            /*Se gurdan los datos en la base de datos*/
             setPersonalInfo(dataForm);
-            const resultado = await computar(dataForm);
-            console.log(resultado)
+            /*Se envían los datos a computo de calorías*/
+            computar(dataForm);
             setDataForm({
                 genero: '',
                 edad: '',
@@ -94,8 +93,6 @@ function MainCalculadora() {
         } else {
             toast.error('Ha dejado de indicar alguno de los siguientes valores: Género, Indice de actividad u Objetivo');
         }
-        //Se actualiza la info en la base de datos 
-
 
     }
     const handleChange = (event) => {
@@ -191,14 +188,14 @@ function MainCalculadora() {
                     <div className="flex gap-[60px] items-center">
                         <div className="flex flex-col gap-5">
                             <h3>Distribución de macros</h3>
-                            <CardMacro color="#51a2ff" content={{ macro: 'Proteina', value: `${nutriMacros.proteinas.toFixed(2)} g`, percent: "50" }} />
-                            <CardMacro color="#66be72" content={{ macro: 'Carbohidratos', value: `${nutriMacros.carbohidratos.toFixed(2)} g`, percent: "50" }} />
-                            <CardMacro color="#ffc64d" content={{ macro: 'Grasas', value: `${nutriMacros.grasas.toFixed(2)} g`, percent: "50" }} />
+                            <CardMacro color="#51a2ff" content={{ macro: 'Proteina', value: `${userData.usuario.obj_proteinas} g`, percent: "50" }} />
+                            <CardMacro color="#66be72" content={{ macro: 'Carbohidratos', value: `${userData.usuario.obj_carbohidratos} g`, percent: "50" }} />
+                            <CardMacro color="#ffc64d" content={{ macro: 'Grasas', value: `${userData.usuario.obj_grasas} g`, percent: "50" }} />
                         </div>
                         <div className="flex flex-col items-center gap-5">
                             <h3>Calorias totales a consumir por día</h3>
                             <div className="w-[150px] h-[150px] rounded-full bg-linear-to-bl from-[#51a2ff] to-[#66be72] flex items-center justify-center">
-                                <div className="w-[85%] h-[85%] bg-white  rounded-full flex justify-center items-center text-4xl flex-col "><p>{nutriMacros.calorias.toFixed(2)}</p><p>kCal</p></div>
+                                <div className="w-[85%] h-[85%] bg-white  rounded-full flex justify-center items-center text-4xl flex-col "><p>{userData.usuario.obj_calorias}</p><p>kCal</p></div>
                             </div>
                         </div>
                     </div>
@@ -211,4 +208,4 @@ function MainCalculadora() {
     )
 }
 
-export default MainCalculadora;
+export default Calculadora;

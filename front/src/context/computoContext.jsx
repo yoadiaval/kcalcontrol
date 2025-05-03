@@ -1,11 +1,11 @@
 import { createContext, useState } from "react";
-//import useCentralContext from '../hooks/useCentralContext';
+import usePersonalInfoContext from "../hooks/usePersonalInfoContext";
+
 
 
 const ComputoContext = createContext();
 function ComputoProvider({ children }) {
-
-    //const {getPersonalInfo, setPersonalInfo} = useCentralContext();
+    const { setPersonalInfo } = usePersonalInfoContext();
     const [nutriMacros, setNutriMacros] = useState({
         calorias: 0,
         proteinas: 0,
@@ -15,41 +15,42 @@ function ComputoProvider({ children }) {
 
 
     const computar = async (data) => {
-        return new Promise((resolve) => {
-            let bmr = 0;
-            const distinctH = 5;
-            const distinctM = -161;
 
-            switch (data.genero) {
-                case "h":
-                    bmr = bmrCompute(distinctH, data);
-                    break;
-                case "m":
-                    bmr = bmrCompute(distinctM, data);
-                    break;
-                default:
-                    break;
-            }
+        let bmr = 0;
+        const distinctH = 5;
+        const distinctM = -161;
 
-            const gastoEnergTot = tdeeCompute(bmr, data.actividad);
-            const goalAdjust = goalAdjustCompute(gastoEnergTot, data.objetivo);
+        switch (data.genero) {
+            case "h":
+                bmr = bmrCompute(distinctH, data);
+                break;
+            case "m":
+                bmr = bmrCompute(distinctM, data);
+                break;
+            default:
+                break;
+        }
 
-            /*Ajuste de macros por peso */
-            const protObj = (1.9 * parseFloat(data.peso)) / 4;
-            const graObj = (0.3 * goalAdjust) / 9;
-            const carboObj = (goalAdjust - (protObj * 4 + graObj * 9)) / 4;
+        const gastoEnergTot = tdeeCompute(bmr, data.actividad);
+        const goalAdjust = goalAdjustCompute(gastoEnergTot, data.objetivo);
 
-            const nuevosMacros = {
-                calorias: goalAdjust || 0,
-                proteinas: protObj || 0,
-                grasas: graObj || 0,
-                carbohidratos: carboObj || 0,
-            };
+        /*Ajuste de macros por peso */
+        const protObj = (1.9 * parseFloat(data.peso)) / 4;
+        const graObj = (0.3 * goalAdjust) / 9;
+        const carboObj = (goalAdjust - (protObj * 4 + graObj * 9)) / 4;
 
-            setNutriMacros(nuevosMacros);
-            resolve(nuevosMacros);
-            
-        });
+        const nuevosMacros = {
+            calorias: goalAdjust || 0,
+            proteinas: protObj || 0,
+            grasas: graObj || 0,
+            carbohidratos: carboObj || 0,
+        };
+
+
+        setNutriMacros(nuevosMacros);
+        await setPersonalInfo(nuevosMacros);
+
+
     };
 
     //============FUNCIONES AUXILIARES==========//

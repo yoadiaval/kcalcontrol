@@ -3,7 +3,7 @@ import { Input, Select } from "./formComp";
 import Button from "./button";
 
 
-function MainConfig() {
+function Configuracion() {
     const optionsGender = [
         {
             label: "Hombre",
@@ -63,4 +63,4 @@ function MainConfig() {
         </SectionMain>)
 }
 
-export default MainConfig;
+export default Configuracion;

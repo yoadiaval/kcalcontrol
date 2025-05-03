@@ -2,20 +2,25 @@ import useCentralContext from "../hooks/useCentralContext";
 import useAuthContext from "../hooks/useAuthContex";
 import { useEffect, useState } from "react";
 import MenuDashboard from "../components/MenudashBoard";
-import { Avatar, Skeleton, Spin, ConfigProvider } from 'antd';
+import { Avatar, Spin, ConfigProvider } from 'antd';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
 import { Outlet } from 'react-router-dom';
 
 function Dashboard() {
   const { logout } = useAuthContext();
-  const { userData, getPersonalInfo } = useCentralContext();
+  const { userData, getPersonalInfo, getAlimentos, getRegistros } = useCentralContext();
+
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getPersonalInfo();
-      if (result) {
+      /*Resto de elementos que necesito cargar*/
+      const resultPersonalInfo = await getPersonalInfo();
+      const resultAlimentos = await getAlimentos();
+      const resultRegistros = await getRegistros();
+
+      if (resultPersonalInfo || resultAlimentos || resultRegistros) {
         setLoading(false);
       }
     };
@@ -25,7 +30,7 @@ function Dashboard() {
   if (loading) {
     return <div className="flex items-center justify-center w-[100vw] h-[100vh]">
       <Spin tip="Loading" size="large">
-         
+
       </Spin>;
     </div>
 

@@ -10,9 +10,10 @@ import NotFound from "./pages/notFound";
 
 // Rutas privadas
 import PrivateRoute from "./privateRoute";
-import MainCalculadora from "./components/mainCalculadora";
-import MainDietario from "./components/mainDietario";
-import MainConfiguracion from "./components/mainConfig";
+import Calculadora from "./components/calculadora";
+import Dietario from "./components/dietario";
+import Configuracion from "./components/configuracion";
+import Biblioteca from "./components/biblioteca";
 
 const AppRouter = () => {
   return (
@@ -26,10 +27,11 @@ const AppRouter = () => {
         {/* Rutas privadas */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} >
-            <Route index element={<MainCalculadora />} />
-            <Route path="calculadora" element={<MainCalculadora />} />
-            <Route path="dietario" element={<MainDietario />} />
-            <Route path="configuracion" element={<MainConfiguracion />} />
+            <Route index element={<Calculadora />} />
+            <Route path="calculadora" element={<Calculadora />} />
+            <Route path="dietario" element={<Dietario />} />
+            <Route path="alimentos" element={<Biblioteca />} />
+            <Route path="configuracion" element={<Configuracion />} />
           </Route>
         </Route>
 

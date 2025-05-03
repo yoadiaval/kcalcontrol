@@ -7,16 +7,19 @@ import { AuthProvider } from "./context/authContext.jsx";
 import { PersonalInfoProvider } from "./context/personalInfoContex.jsx";
 import { ComputoProvider } from "./context/computoContext.jsx";
 import { CentralProvider } from "./context/centralContext.jsx";
+import FoodCombinedProvider from "./foodCombinedProviders.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <PersonalInfoProvider>
-        <ComputoProvider>
-        <CentralProvider>
-          <App />
-        </CentralProvider>
+        <FoodCombinedProvider>
+          <ComputoProvider>
+            <CentralProvider>
+              <App />
+            </CentralProvider>
           </ComputoProvider>
+        </FoodCombinedProvider>
       </PersonalInfoProvider>
     </AuthProvider>
   </StrictMode>

@@ -16,7 +16,7 @@ function Button({
     danger: 'bg-red-600 text-white hover:bg-red-700',
   };
 
-  const variantStyle = variants[variant] || '';
+  const variantStyle = variants[variant];
 
   const disabledStyle = disabled ? 'opacity-50 cursor-not-allowed' : '';
 
