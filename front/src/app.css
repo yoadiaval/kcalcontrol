@@ -105,6 +105,95 @@ button{
   cursor: pointer;
 }
 
+/*ESTILOS DEL SPINING DEL LANDING*/
+.spinning-text-wrapper{
+  position: relative;
+  width: 600px;
+  height:600px;
+ 
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size:2rem;
+  font-weight:bold;
+}
+.spining-text{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  animation: spin 50s linear infinite;
+}
+
+.spining-text span{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin:0 300px;/*Debe ser la mitad del alto de .spinning-text-wrapper*/
+}
+
+
+
+  .circle-container {
+      position: absolute;
+      width: 470px;
+      height: 470px;
+      border-radius: 50%;
+      border: 1px solid #d0d0d0;
+       animation: spinleft 90s linear infinite;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 485px;
+      height: 485px;
+      top: -7px;
+      left: -8px;
+     
+    }
+
+    .small-circle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+     
+      border-radius: 50%;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .orbit:nth-child(1) { transform: rotate(0deg); }
+    .orbit:nth-child(2) { transform: rotate(72deg); }
+    .orbit:nth-child(3) { transform: rotate(144deg); }
+    .orbit:nth-child(4) { transform: rotate(216deg); }
+    .orbit:nth-child(5) { transform: rotate(288deg); }
+
+    .orbit .small-circle {
+      transform-origin: center 150px; /* distancia desde el centro (radio) */
+    }
+
+@keyframes spin{
+  0%{
+    transform:rotate(0deg)
+  }
+  100%{
+    transform:rotate(-360deg)
+  }
+}
+@keyframes spinleft{
+  0%{
+    transform:rotate(0deg)
+  }
+  100%{
+    transform:rotate(360deg)
+  }
+}
+/*=============================*/
+
+
+
+
 /*=========MEDIUM =============*/
 @media only screen and (min-width: 480px) {
   

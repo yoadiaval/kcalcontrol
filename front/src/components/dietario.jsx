@@ -8,7 +8,7 @@ import usePersonalInfoContext from "../hooks/usePersonalInfoContext";
 import useRegistrosContext from "../hooks/useRegistrosComidaContext";
 import AddRegistro from "./addRegistro";
 import useCentralContext from "../hooks/useCentralContext";
-
+import imgNoData from '../assets/nodata.png';
 
 
 function Dietario() {
@@ -17,13 +17,24 @@ function Dietario() {
     const { registros } = useRegistrosContext();
     const [showModal, setShowModal] = useState(false);
     const [origenAccion, setOrigenAccion] = useState(null);
-   const [macros, setMacros] = useState({
-    proteinas:0,
-    carbohidratos:0,
-    grasas:0,
-    calorias:0
-   })
-    const currentDate = obtenerFechaActual() ;
+   
+    const [macrosAcc, setMacrosAcc] = useState({
+        proteinas: 0,
+        carbohidratos: 0,
+        grasas: 0,
+        calorias: 0
+    });
+
+    const [porcentajeMacros, setPorcentajeMacros] = useState({
+       proteinas: 0,
+       carbohidratos: 0,
+       grasas: 0,
+       calorias: 0
+    })
+
+  
+    const currentDate = obtenerFechaActual();
+    
     const accPorMacro = (macro) => {
         return registros.reduce((acc, item) => {
             const valor = parseFloat(item.alimento_info[macro]) || 0;
@@ -31,19 +42,36 @@ function Dietario() {
         }, 0);
     };
 
-    const computosDeMacros = () => {
-        setMacros({
-            proteinas: accPorMacro('proteinas'),
-            carbohidratos: accPorMacro('carbohidratos'),
-            grasas: accPorMacro('grasas'),
-            calorias: accPorMacro('calorias')
-        });
+    const computosDePorcentajesMacros = () => {
+        const proteinas= accPorMacro('proteinas');
+        const carbohidratos= accPorMacro('carbohidratos');
+        const grasas= accPorMacro('grasas');
+        const calorias= accPorMacro('calorias');
+
+        setMacrosAcc({
+                proteinas: proteinas,
+                carbohidratos: carbohidratos,
+                grasas: grasas,
+                calorias: calorias
+        })
+
+        const objProt = parseFloat(userData.usuario.obj_proteinas)
+        const objCarb = parseFloat(userData.usuario.obj_carbohidratos)
+        const objGras = parseFloat(userData.usuario.obj_grasas)
+        const objCal = parseFloat(userData.usuario.obj_calorias)
+        setPorcentajeMacros({
+           proteinas: objProt === 0 ? 0: ((proteinas / objProt) * 100).toFixed(2),
+           carbohidratos: objCarb === 0 ? 0 : ((carbohidratos / objCarb) * 100).toFixed(2),
+           grasas: objGras === 0 ? 0 : ((grasas / objGras) *100).toFixed(2),
+           calorias: objCal === 0 ? 0 : ((calorias / objCal) * 100).toFixed(2)
+        })
+       
     };
 
     useEffect(() => {
-        computosDeMacros();
-    }, [registros]); 
-  
+        computosDePorcentajesMacros();
+    }, [registros]);
+
     const [activo, setActivo] = useState('desayuno');
 
     const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
@@ -68,27 +96,27 @@ function Dietario() {
                 <div className="text-center">
                     <h3>Objetivos</h3>
                     <p>Este es tu progreso en el día de hoy</p>
-                    <p className="font-bold text-3xl">{currentDate}</p>
+                    <p className="font-bold text-3xl">{currentDate[1]}</p>
                 </div>
                 <div className="flex justify-around gap-[30px]">
                     <div className="flex flex-col items-center gap-2">
-                        <Progress type="circle" percent={(macros.proteinas / parseFloat(userData.usuario.obj_proteinas)).toFixed(2)} strokeColor={twoColors} />
-                        <div className="font-bold">{macros.proteinas.toFixed(2)} / {userData.usuario.obj_proteinas}</div>
+                        <Progress type="circle" percent={porcentajeMacros.proteinas} strokeColor={twoColors} />
+                        <div className="font-bold">{macrosAcc.proteinas.toFixed(2)} / {userData.usuario.obj_proteinas}</div>
                         <p>Proteinas (g)</p>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                        <Progress type="circle" percent={(macros.carbohidratos / parseFloat(userData.usuario.obj_carbohidratos)).toFixed(2)} strokeColor={twoColors} />
-                        <div className="font-bold">{macros.carbohidratos.toFixed(2)} / {userData.usuario.obj_carbohidratos}</div>
+                        <Progress type="circle" percent={porcentajeMacros.carbohidratos} strokeColor={twoColors} />
+                        <div className="font-bold">{macrosAcc.carbohidratos.toFixed(2)} / {userData.usuario.obj_carbohidratos}</div>
                         <p>Carbohidratos (g)</p>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                        <Progress type="circle" percent={(macros.grasas / parseFloat(userData.usuario.obj_grasas)).toFixed(2)} strokeColor={twoColors} />
-                        <div className="font-bold">{macros.grasas.toFixed(2)} / {userData.usuario.obj_grasas}</div>
+                        <Progress type="circle" percent={porcentajeMacros.grasas} strokeColor={twoColors} />
+                        <div className="font-bold">{macrosAcc.grasas.toFixed(2)} / {userData.usuario.obj_grasas}</div>
                         <p>Grasas (g)</p>
                     </div>
                     <div className="flex flex-col items-center gap-2">
-                        <Progress type="circle" percent={(macros.calorias / parseFloat(userData.usuario.obj_calorias)).toFixed(2)} strokeColor={twoColors} />
-                        <div className="font-bold">{macros.calorias.toFixed(2)} / {userData.usuario.obj_calorias}</div>
+                        <Progress type="circle" percent={porcentajeMacros.calorias} strokeColor={twoColors} />
+                        <div className="font-bold">{macrosAcc.calorias.toFixed(2)} / {userData.usuario.obj_calorias}</div>
                         <p>Calorias  </p>
                     </div>
                 </div>
@@ -99,9 +127,9 @@ function Dietario() {
                         {tiposComidas.map((item) => (
                             <li
                                 key={item}
-                                
+
                                 onClick={() => { setActivo(item) }}
-                                
+
                                 className={`${activo === item ? 'border-b-4 border-b-blue-300 ' : ''
                                     } cursor-pointer  hover:bg-neutral-200 w-[80px] p-[5px] border-b-4 border-transparent transition-all duration-200 ease-in`}
 
@@ -117,12 +145,17 @@ function Dietario() {
                         </div>
 
                         <div className="flex flex-wrap gap-5 p-[30px]">
-                            {registros
-                                .filter((item) => item.tipo_comida_id === 1)
-                                .map((item) => (
+                            {(() => {
+                                const filtrados = registros.filter((item) => item.tipo_comida_id === 1)
+
+                                if (filtrados.length === 0) {
+                                    return <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div>;
+                                }
+
+                                return filtrados.map((item) => (
                                     <CardFood key={item.id} data={item} />
-                                ))
-                            }
+                                ));
+                            })()}
                         </div>
                     </div>}
                     {activo === 'comida' && <div>
@@ -131,12 +164,17 @@ function Dietario() {
                         </div>
 
                         <div className="flex flex-wrap  gap-5 p-[30px]">
-                            {registros
-                                .filter((item) => item.tipo_comida_id === 2)
-                                .map((item) => (
+                            {(() => {
+                                const filtrados = registros.filter((item) => item.tipo_comida_id === 2)
+
+                                if (filtrados.length === 0) {
+                                    return <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div>;
+                                }
+
+                                return filtrados.map((item) => (
                                     <CardFood key={item.id} data={item} />
-                                ))
-                            }
+                                ));
+                            })()}
                         </div>
                     </div>}
                     {activo === 'cena' && <div>
@@ -144,27 +182,38 @@ function Dietario() {
                             <Button onClick={() => openModal(3)}>Agregar Comida</Button>
                         </div>
 
-                        <div className="flex flex-wrap gap-[30px] p-5">
-                            {registros
-                                .filter((item) => item.tipo_comida_id === 3)
-                                .map((item) => (
+                        <div className="flex flex-wrap gap-5 p-[30px]">
+                            {(() => {
+                                const filtrados = registros.filter((item) => item.tipo_comida_id === 3)
+
+                                if (filtrados.length === 0) {
+                                    return <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div>;
+                                }
+
+                                return filtrados.map((item) => (
                                     <CardFood key={item.id} data={item} />
-                                ))
-                            }
+                                ));
+                            })()}
                         </div>
                     </div>}
                     {activo === 'merienda' && <div>
                         <div className="w-[100%] text-end pr-[31px]">
-                            <Button onClick={()=>openModal(4)}>Agregar Comida </Button>
+                            <Button onClick={() => openModal(4)}>Agregar Comida </Button>
                         </div>
 
                         <div className="flex flex-wrap justify-between gap-[30px] p-[30px]">
-                            {registros
-                                .filter((item) => item.tipo_comida_id === 4)
-                                .map((item) => (
+                            {(() => {
+                                const filtrados = registros.filter((item) => item.tipo_comida_id === 4)
+
+                                if (filtrados.length === 0) {
+                                    return <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div>;
+                                }
+
+                                return filtrados.map((item) => (
                                     <CardFood key={item.id} data={item} />
-                                ))
-                            }
+                                ));
+                            })()}
+
                         </div>
                     </div>}
 

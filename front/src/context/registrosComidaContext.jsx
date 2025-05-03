@@ -30,16 +30,16 @@ function RegistrosProvider({ children }) {
 
     const insertarRegistro = async (alimentoId, tipoComida) => {
         if (!currentUser) return false;
-        
+        const fechaActual = obtenerFechaActual();
         const dataToSend = {
             uid: currentUser.uid,
             tipo_comida_id: tipoComida,
-            fecha: obtenerFechaActual(),
+            fecha: fechaActual[0],
             alimento_id: alimentoId,
             cantidad: 100
         }
       
-
+        console.log(dataToSend)
         try {
 
             const response = await axios.post(
@@ -100,7 +100,7 @@ function RegistrosProvider({ children }) {
         const anio = fecha.getFullYear();
         const mes = String(fecha.getMonth() + 1).padStart(2, '0');
         const dia = String(fecha.getDate()).padStart(2, '0');
-        return `${anio}-${mes}-${dia}`;
+        return [`${anio}-${mes}-${dia}`, `${dia}-${mes}-${anio}`];
     }
 
     const valuesToShare = {

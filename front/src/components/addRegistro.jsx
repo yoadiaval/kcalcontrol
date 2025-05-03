@@ -25,7 +25,7 @@ function AddRegistro({ tipoComida }) {
     };
 
     const handleAdd = async (record) => {
-        
+        console.log(2)
         const response = await insertarRegistro(record.id, tipoComida);
         if (response) {
             toast.success('Ha insertado un registro exitosamente')

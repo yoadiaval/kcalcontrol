@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../hooks/useAuthContex";
 import { SERVER_HOST } from "../config";
+import useRegistrosComidaContext from "../hooks/useRegistrosComidaContext";
 
 
 const AlimentosContext = createContext();
@@ -9,7 +10,7 @@ const AlimentosContext = createContext();
 function AlimentosProvider({ children }) {
     const [alimentos, setAlimentos] = useState([]);
     const { currentUser } = useAuthContext();
-
+const {getRegistros} = useRegistrosComidaContext();
 
     const getAlimentos = async () => {
         if (!currentUser) return false;
@@ -82,7 +83,7 @@ function AlimentosProvider({ children }) {
         );
 
         getAlimentos()
-
+getRegistros()
         return response;
     } catch (e) {
         console.error(e);
