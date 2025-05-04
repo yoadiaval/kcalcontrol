@@ -70,7 +70,8 @@ function Registro() {
     <div className="w-[100vw] h-[100vh] bg-blue-200">
 
       <div id="registroContainer">
-        <img src={logo} className="w-[250px]" alt="" />
+        
+        <img src={logo} className="w-[250px] mx-auto" alt="" />
         <h1 className="text-3xl text-center my-[1rem] font-bold">Registro</h1>
         <div>
           <form onSubmit={handleSubmit} id="registroForm">

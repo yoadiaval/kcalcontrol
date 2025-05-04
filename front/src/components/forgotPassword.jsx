@@ -30,9 +30,9 @@ function ForgotPassword(props) {
     onChange(false);
   };
   return (
-    <>
+    <div className="bg-blue-200 w-[100vw] h-[100vh]">
       <div id="forgotPasswContainer">
-        <h1>Restablecer contraseña</h1>
+        <h1 className="text-3xl text-center my-[1rem] font-bold">Restablecer contraseña</h1>
         <p>
           Indicanos tu email para enviarte el enlace de restablecimiento de
           contraseña
@@ -59,7 +59,7 @@ function ForgotPassword(props) {
           </span>
         </p>
       </div>
-    </>
+    </div>
   );
 }
 
