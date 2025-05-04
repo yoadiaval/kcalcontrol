@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuthContext from "../hooks/useAuthContex";
 import ForgotPassword from "../components/forgotPassword";
 import { toast } from "react-toastify";
+import logo from '../assets/logo-dark.png'
 
 function Login() {
   const navigate = useNavigate();
@@ -88,10 +89,11 @@ function Login() {
   return resetPassword ? (
     <ForgotPassword onChange={setResetPassword} />
   ) : (
-    <div>
+    <div className="w-[100vw] h-[100vh] bg-blue-200">
       {" "}
-      <div id="loginContainer">
-        <h1>Login</h1>
+        <div id="loginContainer" >
+          <img src={logo} alt="" className="w-[250px] mx-auto" />
+        <h1 className="text-3xl text-center my-[1rem] font-bold">Login</h1>
         <form onSubmit={handleSubmit} id="loginForm">
           <div className="inputWithEfect">
             <input

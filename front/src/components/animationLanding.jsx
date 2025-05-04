@@ -6,6 +6,11 @@ function AnimationLanding(){
     const degree = 360/length;
 
     return(
+        <div className="relative">
+            <div className="w-[500px] h-[500px] bg-blue-100  rounded-full absolute " >
+                <div className="w-[100px] h-[100px] bottom-[50px] bg-blue-400 absolute rounded-full"></div>
+            </div>
+           
         <div className="spinning-text-wrapper">
             <div className="spining-text">
                 <p>{texto.split("").map((letra,i)=>(
@@ -22,7 +27,8 @@ function AnimationLanding(){
                 <div className="orbit"><div className="small-circle bg-[#FFC64D]"></div></div>
                 <div className="orbit"><div className="small-circle bg-[#C10007]"></div></div>
             </div>
-            <img src={logo}/>
+            <img src={logo} className='w-[65%]'/>
+        </div>
         </div>
     )
 }

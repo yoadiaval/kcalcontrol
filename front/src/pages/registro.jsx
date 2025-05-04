@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAuthContext from "../hooks/useAuthContex";
+import logo from '../assets/logo-dark.png'
 
 function Registro() {
   const navigate = useNavigate();
@@ -66,9 +67,11 @@ function Registro() {
     navigate("/login");
   };
   return (
-    <>
+    <div className="w-[100vw] h-[100vh] bg-blue-200">
+
       <div id="registroContainer">
-        <h1>Registro</h1>
+        <img src={logo} className="w-[250px]" alt="" />
+        <h1 className="text-3xl text-center my-[1rem] font-bold">Registro</h1>
         <div>
           <form onSubmit={handleSubmit} id="registroForm">
             <div className="inputWithEfect ">
@@ -138,7 +141,7 @@ function Registro() {
           </span>
         </p>
       </div>
-    </>
+    </div>
   );
 }
 export default Registro;
