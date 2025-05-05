@@ -87,7 +87,7 @@ function Dietario() {
     const closeModal = () => {
         setShowModal(false);
     }
-    const modal = (<Modal onClose={closeModal}><AddRegistro tipoComida={origenAccion} /></Modal>)
+    const modal = (<Modal onClose={closeModal} title='Añadir comida'><AddRegistro tipoComida={origenAccion} /></Modal>)
 
     return (
         <SectionMain header="Dietario">

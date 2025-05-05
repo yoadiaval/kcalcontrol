@@ -29,15 +29,21 @@ body {
   
 box-sizing: border-box;
 
+}
 
+h1{
+  font-size: xx-large;
+}
 h2,h3{
   font-size: larger;
   font-weight:bolder ;
 }
+
 label{
   margin-bottom: 5px;
 }
-}
+
+
 #loginContainer, #registroContainer, #forgotPasswContainer {
   position: absolute;
   top: 50%;
