@@ -31,9 +31,6 @@ body {
 
 }
 
-h1{
-  font-size: xx-large;
-}
 h2,h3, h4{
   font-size: larger;
   font-weight:bolder ;
@@ -236,5 +233,38 @@ button{
 
 /*=========XXLARGE =============*/
 @media (min-width: 1280px) {
+.spinning-text-wrapper{
+
+  width: 500px;
+  height:500px;
+ 
+}
+
+
+
+.spining-text span{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin:0 250px;/*Debe ser la mitad del alto de .spinning-text-wrapper*/
+}
+
+  .circle-container {
+   
+      width: 370px;
+      height: 370px;
+    }
+ 
+    .bg_circle{
+      width:500px;
+      height:500px;
+    }
+    .orbit {
+      width: 380px;
+      height: 380px;
+    }
+
+    
+
 
 }
