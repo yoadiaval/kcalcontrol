@@ -10,7 +10,7 @@ function CentralProvider({ children }) {
 
   const { getPersonalInfo, setPersonalInfo, userData } = usePersonalInfoContext();
   const { nutriMacros, setNutriMacros, computar } = useComputoContext();
-  const { alimentos, getAlimentos, insertarAlimento, editarAlimento, eliminarAlimento } = useAlimentosContext();
+  const { alimentos, getAlimentos, insertarAlimento, editarAlimento, eliminarAlimento, transaccionCrearRegistrarComida } = useAlimentosContext();
 
   const { registros,
     getRegistros,
@@ -36,6 +36,7 @@ function CentralProvider({ children }) {
     insertarRegistro,
     editarRegistro,
     eliminarRegistro,
+    transaccionCrearRegistrarComida,
     obtenerFechaActual
   }
   return (

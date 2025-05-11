@@ -8,21 +8,23 @@ import AddAlimento from './addAlimento';
 import Button from './button';
 import Modal from './modal';
 import EditAlimento from './editAlimento';
+import ImportarAlimento from './importarAlimento';
 import { toast } from "react-toastify";
 
 function Biblioteca() {
     const { alimentos, eliminarAlimento } = useCentralContext();
-    
+
     const [showModalAdd, setShowModalAdd] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [alimentoToEdit, setAlimentoToEdit] = useState(null);
+    const [showModalImportar, setShowModalImportar] = useState(false);
 
+
+    /*ESTADOS DE ANT DESIGN*/
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-
-
 
 
     const openModalAdd = () => setShowModalAdd(true);
@@ -30,6 +32,9 @@ function Biblioteca() {
 
     const openModalEdit = () => setShowModalEdit(true);
     const closeModalEdit = () => setShowModalEdit(false);
+
+    const openModalImportar = () => setShowModalImportar(true);
+    const closeModalImportar = () => setShowModalImportar(false);
 
 
 
@@ -54,6 +59,9 @@ function Biblioteca() {
         }
 
     };
+
+
+
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={e => e.stopPropagation()}>
@@ -137,22 +145,12 @@ function Biblioteca() {
             getColumnSearchProps('descripcion'),
         ),
         Object.assign(
-            { title: 'Base', dataIndex: 'base', key: 'base', width: '20%' },
+            { title: 'Base (g)', dataIndex: 'base', key: 'base', width: '10%' },
 
         ),
         Object.assign(
             Object.assign(
-                { title: 'Calorias', dataIndex: 'calorias', key: 'calorias' },
-
-            ),
-            {
-                sorter: (a, b) => a.address.length - b.address.length,
-                sortDirections: ['descend', 'ascend'],
-            },
-        ),
-        Object.assign(
-            Object.assign(
-                { title: 'Proteinas', dataIndex: 'proteinas', key: 'proteinas' },
+                { title: 'Calorias (kcal)', dataIndex: 'calorias', key: 'calorias' },
 
             ),
             {
@@ -162,7 +160,7 @@ function Biblioteca() {
         ),
         Object.assign(
             Object.assign(
-                { title: 'Grasas', dataIndex: 'grasas', key: 'grasas' },
+                { title: 'Proteinas  (g)', dataIndex: 'proteinas', key: 'proteinas' },
 
             ),
             {
@@ -172,7 +170,17 @@ function Biblioteca() {
         ),
         Object.assign(
             Object.assign(
-                { title: 'Carbohidratos', dataIndex: 'carbohidratos', key: 'carbohidratos' },
+                { title: 'Grasas  (g)', dataIndex: 'grasas', key: 'grasas' },
+
+            ),
+            {
+                sorter: (a, b) => a.address.length - b.address.length,
+                sortDirections: ['descend', 'ascend'],
+            },
+        ),
+        Object.assign(
+            Object.assign(
+                { title: 'Carbohidratos  (g)', dataIndex: 'carbohidratos', key: 'carbohidratos' },
 
             ),
             {
@@ -193,19 +201,26 @@ function Biblioteca() {
         ),
     ];
     return (
-        <>{showModalAdd && (
-            <Modal onClose={closeModalAdd} title='Añadir alimento'>
-                <AddAlimento />
-            </Modal>
-        )}
+        <>
+            {showModalAdd && (
+                <Modal onClose={closeModalAdd} title='Añadir alimento'>
+                    <AddAlimento />
+                </Modal>
+            )}
             {showModalEdit && (
                 <Modal onClose={closeModalEdit} title='Editar Alimento'>
                     <EditAlimento data={alimentoToEdit} onClose={closeModalEdit} />
                 </Modal>
             )}
+            {showModalImportar && (
+                <Modal onClose={closeModalImportar} title='Importar alimento'>
+                    <ImportarAlimento data={alimentoToEdit} onClose={closeModalEdit} />
+                </Modal>
+            )}
             <SectionMain header="Biblioteca de alimentos">
-                <div className='w-[100%] flex justify-end py-[2rem]'>
-                    <Button onClick={openModalAdd}>Añadir alimento</Button>
+                <div className='w-[100%] flex justify-end py-[2rem] gap-[1rem]'>
+                    <Button onClick={openModalAdd}>Añadir personalizado</Button>
+                    <Button onClick={openModalImportar}>Importar alimento por código</Button>
                 </div>
                 <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 7 }} />
 

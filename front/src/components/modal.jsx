@@ -14,7 +14,7 @@ function Modal({ children, title, onClose }) {
     return ReactDOM.createPortal(
         <div className="fixed w-[100vw] h-[100vh] bg-[rgba(0,0,0,0.5)] z-50 left-0 top-0 ">
 
-            <div className="relative left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[fit-content] bg-white rounded-xl p-6 shadow-2xl">
+            <div className="relative left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[fit-content]  bg-white rounded-xl p-6 shadow-2xl">
                 <button
                     onClick={onClose}
                     className="cursor-pointer absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl"

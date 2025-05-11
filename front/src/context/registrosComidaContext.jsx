@@ -4,11 +4,13 @@ import useAuthContext from "../hooks/useAuthContex";
 import { SERVER_HOST } from "../config";
 
 
+
 const RegistrosContext = createContext();
 
 function RegistrosProvider({ children }) {
     const [registros, setRegistros] = useState([]);
     const { currentUser } = useAuthContext();
+    
 
 
     const getRegistros = async () => {
@@ -39,7 +41,7 @@ function RegistrosProvider({ children }) {
             cantidad: 100
         }
       
-        console.log(dataToSend)
+        
         try {
 
             const response = await axios.post(
@@ -95,6 +97,8 @@ function RegistrosProvider({ children }) {
 
     }
 
+    
+
     const obtenerFechaActual = () => {
         const fecha = new Date();
         const anio = fecha.getFullYear();
@@ -109,7 +113,9 @@ function RegistrosProvider({ children }) {
         insertarRegistro,
         editarRegistro,
         eliminarRegistro,
-        obtenerFechaActual
+        obtenerFechaActual,
+        
+        
     }
     return (
         <RegistrosContext.Provider value={valuesToShare}>

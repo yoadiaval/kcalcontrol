@@ -1,38 +1,58 @@
 import { useNavigate } from "react-router-dom";
 import AnimationLanding from "../components/animationLanding";
 import logo from '../assets/logo-dark.png'
-import home1 from '../assets/home1.jpg'
-import home2 from '../assets/home2.jpg'
-import home3 from '../assets/home3.jpg';
+
 import useAuthContext from "../hooks/useAuthContex";
 function Home() {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
 
   return (
-    <div className="px-[4rem] py-[4rem] relative w-[100vw] h-[fit-content]  overflow-x-hidden">
-      <div className="w-[600px] h-[600px] absolute bg-[#DBEAFE80] rounded-full top-[-200px] left-[-200px] z-[-1]"></div>
-      <div className="w-[600px] h-[600px] absolute bg-[#FFC64D33] rounded-full top-[-300px] left-[200px] z-[-1]"></div>
-      <div className="w-[600px] h-[600px] absolute bg-[#66be722a] rounded-full bottom-[-300px] right-[-120px] z-[-1]"></div>
-      <header className="sticky flex justify-between items-center ">
-        <img src={logo} className="w-[150px]" />
+    <div className="relative w-[100vw] h-[100dvh] flex flex-col overflow-x-hidden">
+      <div className="w-[500px] h-[500px] fixed bg-[#DBEAFE80] rounded-full top-[-200px] left-[-200px] z-[-1]"></div>
+      <div className="w-[500px] h-[500px] fixed bg-[#FFC64D33] rounded-full top-[-300px] left-[200px] z-[-1]"></div>
+      <div className="w-[500px] h-[500px] fixed bg-[#66be722a] rounded-full bottom-[-300px] right-[-120px] z-[-1]"></div>
+      <header className="sticky flex flex-col md:flex-row  justify-between items-center ">
 
-        <ul className="flex gap-[1rem] font-bold items-center">
-          <li className="cursor-pointer"><span onClick={() => { currentUser ? navigate("/dashboard") : navigate("/login") }}>MI PANEL</span></li>
+        <div className="w-[100%] flex justify-center py-8">
+          <figure className="w-[150px]">
+            <img src={logo} className="w-[100%]" />
+          </figure>
+        </div>
 
-          {currentUser ? null : <li className="cursor-pointer bg-blue-400 text-white px-[2.5rem] py-[1rem] rounded-full" ><span onClick={() => navigate("/login")}>LOGIN</span></li>}
-          {currentUser ? null : <li className="cursor-pointer bg-black text-white px-[2rem] py-[1rem] rounded-full"><span onClick={() => navigate("/registro")}>REGISTRO</span></li>}
-        </ul>
+        <div className="w-[100%] bg-blue-100 md:bg-transparent">
+          <ul className="flex  gap-4 font-semibold items-center justify-center  px-4 py-4  ">
+            
+            <li className="cursor-pointer w-[150px] text-center">
+              <span onClick={() => { currentUser ? navigate("/dashboard") : navigate("/login") }}>
+                MI PANEL
+              </span>
+            </li>
+
+            {!currentUser && (
+              <li className="cursor-pointer bg-blue-400 text-white px-2 py-2 rounded-full w-[150px]  text-center">
+                <span onClick={() => navigate("/login")}>LOGIN</span>
+              </li>
+            )}
+
+            {!currentUser && (
+              <li className="cursor-pointer bg-black text-white px-2 py-2 rounded-full w-[150px]  text-center">
+                <span onClick={() => navigate("/registro")}>REGISTRO</span>
+              </li>
+            )}
+          </ul>
+        </div>
+
       </header>
-      <div className="h-[70vh] flex flex-wrap justify-around mt-[60px]">
-        <div className="w-[50%] min-w-[540px] flex flex-col items-center  justify-center ">
-          <div className="flex flex-col gap-[1.5rem] pl-[3rem]">
-            <h1 style={{ fontSize: '4rem' }}>SISTEMA DE  <span className="block"> CONTROL DE CALORÍAS</span></h1>
-            <p className="text-3xl">Ahora más cerca de conseguir tu meta. Accede a tu <span className="font-bold">panel </span>y comienza a planificar tu alimentación.</p>
-            <button onClick={() => { currentUser ? navigate("/dashboard") : navigate("/login") }} className="w-[fit-content] cursor-pointer mt-[2rem] bg-blue-400 text-white px-[2rem] py-[1rem] rounded-full ">Acceder</button>
+      <div className=" flex flex-1 mt-[60px] flex-col lg:flex-row justify-center items-center gap-[50px]  ">
+        <div className="w-[50%] min-w-[340px] flex flex-col  ">
+          <div className="flex flex-col lg:pl-[4rem] gap-[1.5rem] items-center lg:items-start">
+            <h1 style={{ fontSize: '32px' }} className="font-bold text-center lg:text-left">SISTEMA DE   CONTROL DE CALORÍAS</h1>
+            <p className="text-gray-500 text-center lg:text-left" >Ahora más cerca de conseguir tu meta. Accede a tu <span className="font-bold">panel </span>y comienza a planificar tu alimentación.</p>
+            <button onClick={() => { currentUser ? navigate("/dashboard") : navigate("/login") }} className="cursor-pointer bg-blue-400 text-white px-2 py-2 rounded-full w-[150px]   font-bold">Acceder</button>
           </div>
         </div>
-        <div className="w-[50%] flex justify-center items-center pl-[60px]"><AnimationLanding /></div>
+        <div className="w-[50%] flex justify-center items-center "><AnimationLanding /></div>
       </div>
     </div>
 

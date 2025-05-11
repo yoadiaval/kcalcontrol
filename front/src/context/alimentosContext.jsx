@@ -10,7 +10,7 @@ const AlimentosContext = createContext();
 function AlimentosProvider({ children }) {
     const [alimentos, setAlimentos] = useState([]);
     const { currentUser } = useAuthContext();
-const {getRegistros} = useRegistrosComidaContext();
+    const { getRegistros, obtenerFechaActual } = useRegistrosComidaContext();
 
     const getAlimentos = async () => {
         if (!currentUser) return false;
@@ -36,7 +36,7 @@ const {getRegistros} = useRegistrosComidaContext();
                 uid: currentUser.uid,
                 ...data
             }
-
+            console.log(dataToSend)
             const response = await axios.post(
                 `${SERVER_HOST}/api/alimentos/`, dataToSend
             );
@@ -73,31 +73,59 @@ const {getRegistros} = useRegistrosComidaContext();
     }
 
 
-    const eliminarAlimento = async(data)=>{
-    if (!currentUser) return false;
+    const eliminarAlimento = async (data) => {
+        if (!currentUser) return false;
 
-    try {
-       
-        const response = await axios.delete(
-            `${SERVER_HOST}/api/alimentos/${data.id}`
-        );
+        try {
 
-        getAlimentos()
-getRegistros()
-        return response;
-    } catch (e) {
-        console.error(e);
-        return false;
+            const response = await axios.delete(
+                `${SERVER_HOST}/api/alimentos/${data.id}`
+            );
+
+            getAlimentos()
+            getRegistros()
+            return response;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
+
     }
 
-}
+    /*Este método tiene que estar aquí, si lo pongo en registroContext() no podria acceder a getAlimentos() por la organizacion de los provider, si invierto esta organizacion entonces me fallaria getRegistros en AlimentosContext() */
+    const transaccionCrearRegistrarComida = async (data, tipoComida) => {
+        if (!currentUser) return false;
+
+        const fechaActual = obtenerFechaActual();
+
+        const dataToSend = {
+            ...data,
+            uid: currentUser.uid,
+            tipo_comida_id: tipoComida,
+            fecha: fechaActual[0],
+            cantidad: 100,
+            base: 100
+        }
+
+
+        try {
+            const response = await axios.post(`${SERVER_HOST}/api/crear-registrar-comida`, dataToSend);
+            getRegistros();
+            getAlimentos();
+            return response;
+        } catch (e) {
+            console.error(e)
+        }
+
+    }
 
     const valuesToShare = {
         alimentos,
         getAlimentos,
         insertarAlimento,
         editarAlimento,
-        eliminarAlimento
+        eliminarAlimento,
+        transaccionCrearRegistrarComida
     }
     return (
         <AlimentosContext.Provider value={valuesToShare}>

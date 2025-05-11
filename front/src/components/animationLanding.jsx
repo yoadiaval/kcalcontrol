@@ -7,10 +7,9 @@ function AnimationLanding(){
 
     return(
         <div className="relative">
-            <div className="w-[500px] h-[500px] bg-blue-100  rounded-full absolute " >
-                <div className="w-[100px] h-[100px] bottom-[50px] bg-blue-400 absolute rounded-full"></div>
+            <div className="bg_circle" >
+                <div className="w-[100px] h-[100px] bottom-[50px] bg-blue-100 absolute rounded-full"></div>
             </div>
-           
         <div className="spinning-text-wrapper">
             <div className="spining-text">
                 <p>{texto.split("").map((letra,i)=>(
