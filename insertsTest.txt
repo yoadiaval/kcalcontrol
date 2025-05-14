@@ -9,16 +9,21 @@ INSERT INTO `usuarios` (`id`, `nombre`, `apellidos`, `edad`, `sexo`, `objetivo`,
 //ALIMENTOS
 
 INSERT INTO `alimentos` (`id`, `uid`, `descripcion`, `base`, `calorias`, `proteinas`, `grasas`, `carbohidratos`, `ref_ext`, `created_at`, `updated_at`) VALUES
-(1, '1', 'calabaza', 100, 165.00, 31.00, 3.60, 0.00, 'REF001', '2025-04-10 07:22:14', '2025-04-10 15:02:38'),
-(2, '1', 'Pechuga de pollo', 100, 165.00, 31.00, 3.60, 0.00, 'REF002', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
-(3, '1', 'Arroz blanco cocido', 100, 130.00, 2.70, 0.30, 28.00, 'REF003', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
-(4, '1', 'Aguacate', 100, 160.00, 2.00, 15.00, 9.00, 'REF004', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
-(5, '1', 'Huevo entero', 100, 143.00, 13.00, 10.00, 1.10, 'REF005', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
-(6, '1', 'Lagartija', 100, 165.00, 31.00, 3.60, 0.00, NULL, NULL, NULL);
-
-
-
-
+(1, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'calabaza', 100, 165.00, 31.00, 3.60, 0.00, 'REF001', '2025-04-10 07:22:14', '2025-04-10 15:02:38'),
+(2, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Pechuga de pollo', 100, 165.00, 31.00, 3.60, 0.00, 'REF002', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(3, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Arroz blanco cocido', 100, 130.00, 2.70, 0.30, 28.00, 'REF003', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(4, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Aguacate', 100, 160.00, 2.00, 15.00, 9.00, 'REF004', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(5, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Huevo entero', 100, 143.00, 13.00, 10.00, 1.10, 'REF005', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(6, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Manzana', 100, 52.00, 0.30, 0.20, 14.00, 'REF006', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(7, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Salmón', 100, 208.00, 20.00, 13.00, 0.00, 'REF007', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(8, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Lentejas cocidas', 100, 116.00, 9.00, 0.40, 20.00, 'REF008', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(9, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Pan integral', 100, 247.00, 13.00, 4.20, 41.00, 'REF009', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(10, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Plátano', 100, 89.00, 1.10, 0.30, 23.00, 'REF010', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(11, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Yogur natural', 100, 61.00, 3.50, 3.30, 4.70, 'REF011', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(12, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Queso fresco', 100, 98.00, 11.00, 5.00, 1.50, 'REF012', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(13, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Brócoli cocido', 100, 55.00, 3.70, 0.60, 11.00, 'REF013', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(14, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Papa cocida', 100, 87.00, 1.90, 0.10, 20.00, 'REF014', '2025-04-10 07:22:14', '2025-04-10 07:22:14'),
+(15, 'SUZVL1HkH8SQURWf5OplRzPvDmu2', 'Atún en agua', 100, 116.00, 26.00, 1.00, 0.00, 'REF015', '2025-04-10 07:22:14', '2025-04-10 07:22:14');
 
 
 //TIPOS DE COMIDA
@@ -29,10 +34,6 @@ INSERT INTO `tipos_comida` (`id`, `descripcion`, `created_at`, `updated_at`) VAL
 (2, 'almuerzo', NULL, NULL),
 (3, 'cena', NULL, NULL),
 (4, 'snack', NULL, NULL);
-
-
-
-
 
 
 //REGISTROS DE COMIDA

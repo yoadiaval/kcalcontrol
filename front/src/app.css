@@ -16,25 +16,25 @@
     --padding-lateral-sm: 2.5vw;
 
     font-family: "Alegreya Sans", sans-serif;
-
+    box-sizing: border-box;
     
 
 }
 
 /*=========SMALL DEFAULT=============*/
+
 body {
   position: relative;
   width: 100vw;
+  overflow-y: hidden;
   height: 100vh;
   font-size: 16px;
-  box-sizing: border-box;
-
 }
 
 h2,h3, h4{
   font-size: larger;
   font-weight:bolder ;
-  margin: 0.5rem 0;
+  margin: 0;
 }
 
 label{
@@ -123,7 +123,14 @@ button{
   cursor: pointer;
 }
 
-/*ESTILOS DEL SPINING DEL LANDING*/
+.icono-aside{
+  font-size: 20px;
+  /*color: #3f3f46;*/
+  color: white;
+}
+
+
+/*==============ESTILOS DEL SPINING DEL LANDING==================*/
 .spinning-text-wrapper{
   position: relative;
   width: 350px;
@@ -196,7 +203,7 @@ button{
     .orbit .small-circle {
       transform-origin: center 150px; /* distancia desde el centro (radio) */
     }
-
+/*===============================================================================*/
 @keyframes spin{
   0%{
     transform:rotate(0deg)

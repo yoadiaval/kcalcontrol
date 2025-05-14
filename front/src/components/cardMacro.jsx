@@ -1,7 +1,7 @@
 function CardMacro({ content, color }) {
   return (
     <div
-      className="rounded flex justify-end w-[400px]"
+      className="rounded flex justify-end w-[100%] max-w-[400px]"
       style={{ backgroundColor: color }}
     >
       <div

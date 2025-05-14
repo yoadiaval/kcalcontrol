@@ -1,15 +1,59 @@
+import { useState, useEffect } from "react";
+import useAuthContext from "../hooks/useAuthContex";
+import { LogoutOutlined } from '@ant-design/icons';
+
+
 function SectionMain({ header, children }) {
+    const { logout } = useAuthContext();
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 768) {
+                setIsMobile(true)
+            }
+            if (window.innerWidth > 768) {
+                setIsMobile(false)
+            }
+        };
+
+        // Ejecutar al montar
+        handleResize();
+
+        // Escuchar cambios
+        window.addEventListener('resize', handleResize);
+
+        // Limpiar evento al desmontar
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const exit = async () => {
+        await logout();
+    };
     return (
-        <div className="p-[20px] ">
-            <div>
-                <h2 className="inline-block border-b-4 border-b-blue-300 ">{header}</h2>
-                <hr className="w-[100%] border-gray-200" />
+        <div className="h-[100vh] overflow-scroll">
+            <div className="sticky top-0 bg-white z-10 pt-2 ">
+                <div className="flex justify-between">
+                    <h2 className="inline-block  text-lg font-semibold">
+                        {header}
+                    </h2>
+                    {isMobile && <div
+                        onClick={exit}
+                        className={'text-[20px] flex items-center justify-center gap-2 text-sm cursor-pointer mr-4 text-white bg-[#1E1E2F] rounded-full w-[30px] h-[30px]  hover:text-[#FF4DAB] transition-colors duration-200 '}
+                    >
+                        <LogoutOutlined className='group-hover:text-[#FF4DAB] text-[20px]' />
+                    </div>}
+                </div>
+
+
             </div>
-            <div >
+            <div>
                 {children}
             </div>
         </div>
-    )
+    );
 }
 
 export default SectionMain
