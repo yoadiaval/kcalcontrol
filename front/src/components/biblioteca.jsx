@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { useRef, useState } from 'react';
+import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Input, Space, Table } from 'antd';
 import SectionMain from './SectionMain';
 import Highlighter from 'react-highlight-words';
@@ -12,7 +12,7 @@ import ImportarAlimento from './importarAlimento';
 import { toast } from "react-toastify";
 
 function Biblioteca() {
-    const { alimentos, eliminarAlimento } = useCentralContext();
+    const { alimentos, eliminarAlimento, simplificarAside, isMobile } = useCentralContext();
 
     const [showModalAdd, setShowModalAdd] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
@@ -140,6 +140,21 @@ function Biblioteca() {
     });
 
     const columns = [
+
+        ...(isMobile ? [
+            {
+                title: 'Acciones',
+                dataIndex: 'acciones',
+                key: 'acciones',
+                width: '20%',
+                render: (text, record) => (
+                    <Space className="flex justify-around w-[50%]">
+                        <EditOutlined onClick={() => handleEdit(record)} />
+                        <DeleteOutlined onClick={() => handleDelete(record)} style={{ color: 'red' }} />
+                    </Space>
+                ),
+            }
+        ] : []),
         Object.assign(
             { title: 'Descripción', dataIndex: 'descripcion', key: 'descripcion', width: '30%' },
             getColumnSearchProps('descripcion'),
@@ -191,9 +206,9 @@ function Biblioteca() {
         Object.assign(
             {
                 title: 'Acciones', dataIndex: 'acciones', key: 'acciones', width: '20%', render: (text, record) => (
-                    <Space>
-                        <Button onClick={() => handleEdit(record)}>Actualizar</Button>
-                        <Button variant='danger' onClick={() => handleDelete(record)}>Eliminar</Button>
+                    <Space className='flex justify-around w-[50%]'>
+                        <EditOutlined onClick={() => handleEdit(record)} />
+                        <DeleteOutlined onClick={() => handleDelete(record)} style={{ color: 'red' }} />
                     </Space>
                 )
             },
@@ -218,11 +233,18 @@ function Biblioteca() {
                 </Modal>
             )}
             <SectionMain header="Biblioteca de alimentos">
-                <div className='w-[100%] flex justify-end py-[2rem] gap-[1rem]'>
-                    <Button onClick={openModalAdd}>Añadir personalizado</Button>
-                    <Button onClick={openModalImportar}>Importar alimento por código</Button>
+                <div className={`w-[90vw] md:m-0 m-auto ${simplificarAside ? 'md:w-[85vw] lg:w-[90vw]' : 'md:w-[58vw] lg:w-[70vw]'}`}>
+                    <div className='w-[100%] '>
+                        <div className='flex flex-col md:flex-row md:justify-end gap-[1rem] my-[2rem]'>
+                            <Button onClick={openModalAdd}>Añadir personalizado</Button>
+                            <Button onClick={openModalImportar}>Importar alimento por código</Button>
+                        </div>
+                        <div className='w-[100%] overflow-x-auto m-auto'>
+                            <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 8 }} scroll={{ x: 'max-content' }} />
+                        </div>
+                    </div>
                 </div>
-                <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 7 }} />
+
 
             </SectionMain>
         </>);

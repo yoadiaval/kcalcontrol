@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import useCentralContext from "../hooks/useCentralContext";
 
-function CardFood( props ) {
+function CardFood(props) {
     const inputRef = useRef(null);
-    const {data} = props;
+    const { data } = props;
     const [dataInput, setDataInput] = useState(data.cantidad);
     const { eliminarRegistro, editarRegistro } = useCentralContext();
 
@@ -11,23 +11,23 @@ function CardFood( props ) {
         setDataInput(event.target.value);
     }
     const handleBlur = () => {
-        editarRegistro({cantidad:dataInput},data.id)
-       
+        editarRegistro({ cantidad: dataInput }, data.id)
+
         //editarRegistro(data_id, dataInput)
     };
-   
 
-    
+
+
     /*ESTIMACIÓN DE CALORIAS TOTALES */
     const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput);
-    
-    const handleDelete=()=>{
+
+    const handleDelete = () => {
         eliminarRegistro(data.id)
     }
- 
-    return (<div className="w-[230px] bg-[#F6F6F6] rounded p-[10px]">
+
+    return (<div className="flex-1 max-w-[250px] min-w-[230px] bg-[#F6F6F6] rounded p-[10px]">
         <div className="flex items-center justify-between"><h3>{data.alimento_info.descripcion}</h3><span onClick={handleDelete} className="text-white bg-red-500 px-2 rounded-full m-1 cursor-pointer">x</span></div>
-        
+
         <hr className="w-[100%] border-neutral-200" />
         <p>Datos (para 100g)</p>
         <div className="flex justify-between">
@@ -69,7 +69,7 @@ function CardFood( props ) {
                     min={0}
                     className="border border-neutral-200 w-[80px] bg-white rounded px-[5px]" />
             </form>
-           
+
         </div>
         <hr className="w-[100%] border-neutral-200" />
         <div className="flex justify-between py-[10px]">

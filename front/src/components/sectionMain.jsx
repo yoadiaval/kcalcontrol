@@ -1,42 +1,20 @@
-import { useState, useEffect } from "react";
 import useAuthContext from "../hooks/useAuthContex";
+import useCentralContext from "../hooks/useCentralContext";
 import { LogoutOutlined } from '@ant-design/icons';
 
 
 function SectionMain({ header, children }) {
     const { logout } = useAuthContext();
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth <= 768) {
-                setIsMobile(true)
-            }
-            if (window.innerWidth > 768) {
-                setIsMobile(false)
-            }
-        };
-
-        // Ejecutar al montar
-        handleResize();
-
-        // Escuchar cambios
-        window.addEventListener('resize', handleResize);
-
-        // Limpiar evento al desmontar
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    const { isMobile } = useCentralContext();
 
     const exit = async () => {
         await logout();
     };
     return (
         <div className="h-[100vh] overflow-scroll">
-            <div className="sticky top-0 bg-white z-10 pt-2 ">
+            <div className="sticky top-0 bg-white z-10 pt-2 pb-2 ">
                 <div className="flex justify-between">
-                    <h2 className="inline-block  text-lg font-semibold">
+                    <h2 className="inline-block  text-lg font-semibold ">
                         {header}
                     </h2>
                     {isMobile && <div

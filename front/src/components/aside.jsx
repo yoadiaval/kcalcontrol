@@ -17,10 +17,9 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 function Aside() {
-    const { userData } = useCentralContext();
+    const { userData, isMobile, setIsMobile, simplificarAside, setSimplificarAside } = useCentralContext();
     const { logout } = useAuthContext();
-    const [simplificarAside, setSimplificarAside] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
     const navigate = useNavigate();
 
     const items = [
@@ -31,6 +30,7 @@ function Aside() {
         { key: 'configuracion', label: 'Configuración', icon: <SettingOutlined className='icono-aside' /> },
     ];
 
+    const [activo, setActivo] = useState('calculadora')
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth <= 768) {
@@ -62,6 +62,7 @@ function Aside() {
     }, []);
 
     const handleClick = (path) => {
+        setActivo(path)
         navigate(path === 'inicio' ? '/' : `/dashboard/${path}`);
     };
 
@@ -72,17 +73,19 @@ function Aside() {
     };
 
     return (
-        < div className={`${isMobile ? 'fixed bottom-4 left-[50%] translate-[-50%] rounded-full' : ''} `}>
+        < div className={`${isMobile ? 'fixed bottom-[-20px] left-[50%] translate-[-50%] rounded-full z-50' : ''} `}>
             {isMobile
-                ? (<aside className=' w-[80vw] rounded-full bg-[#1E1E2F]'>
+                ? (<aside className=' w-[80vw] rounded-full bg-[#1E1E2F] '>
                     <ul className={`flex gap-4 justify-around py-[1.5rem] `}>
                         {items.map((item) => (
                             <li
                                 key={item.key}
                                 onClick={() => handleClick(item.key)}
-                                className="flex items-center gap-2 text-sm cursor-pointer hover:text-blue-600 transition-colors duration-200"
+                                className={`groupflex items-center gap-2 text-sm  ${activo === item.key ? 'text-[#00CFFF]' : 'text-white'}`}
                             >
-                                {item.icon}
+                                {React.cloneElement(item.icon, {
+                                    className: ' transition-colors duration-200 text-[20px] group-hover:text-[#00CFFF] ',
+                                })}
 
                             </li>
                         ))}
@@ -108,15 +111,15 @@ function Aside() {
 
                     {/* Menu */}
                     <div className="flex-1 flex flex-col justify-between">
-                        <ul className={`flex flex-col gap-4 ${simplificarAside ? 'items-center' : ''}`}>
+                        <ul className={`flex flex-col gap-[2rem] ${simplificarAside ? 'items-center' : ''}`}>
                             {items.map((item) => (
                                 <li
                                     key={item.key}
                                     onClick={() => handleClick(item.key)}
-                                    className="group flex items-center gap-2 text-sm cursor-pointer hover:text-[#00CFFF] transition-colors duration-200 text-white "
+                                    className={`group flex items-center gap-2 text-sm cursor-pointer p-2 rounded hover:bg-[#00d0ff71] transition-colors duration-200  ${activo === item.key ? 'text-[#00CFFF]' : 'text-white'}`}
                                 >
                                     {React.cloneElement(item.icon, {
-                                        className: ' transition-colors duration-200 text-[20px] group-hover:text-[#00CFFF]',
+                                        className: ' transition-colors duration-200 text-[20px] group-hover:text-[#00CFFF] ',
                                     })}
                                     {!simplificarAside && item.label}
                                 </li>
@@ -126,10 +129,10 @@ function Aside() {
                         {/* Logout */}
                         <div
                             onClick={exit}
-                            className={`text-[20px] flex items-center gap-2 text-sm cursor-pointer hover:text-[#FF4DAB] transition-colors duration-200 ${simplificarAside ? 'justify-center' : ''} `}
+                            className={`text-[20px] flex items-center gap-2 text-sm cursor-pointer hover:text-[#ff8080] transition-colors duration-200 ${simplificarAside ? 'justify-center' : ''} `}
                         >
-                            <LogoutOutlined className='group-hover:text-[#FF4DAB] text-[20px]' />
-                            {!simplificarAside && <div>Salir</div>}
+                            <LogoutOutlined className='group-hover:text-[#ff8080] text-[20px]' />
+                            {!simplificarAside && <div className='text-[14px]'>Salir</div>}
                         </div>
                     </div>
                 </aside>

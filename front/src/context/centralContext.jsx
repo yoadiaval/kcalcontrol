@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { useEffect, useState } from "react";
 import usePersonalInfoContext from "../hooks/usePersonalInfoContext";
 import useComputoContext from "../hooks/useComputoContext";
 import useAlimentosContext from "../hooks/useAlimentosContext";
@@ -8,6 +9,8 @@ const CentralContext = createContext();
 
 function CentralProvider({ children }) {
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [simplificarAside, setSimplificarAside] = useState(false);
   const { getPersonalInfo, setPersonalInfo, userData } = usePersonalInfoContext();
   const { nutriMacros, setNutriMacros, computar } = useComputoContext();
   const { alimentos, getAlimentos, insertarAlimento, editarAlimento, eliminarAlimento, transaccionCrearRegistrarComida } = useAlimentosContext();
@@ -18,6 +21,41 @@ function CentralProvider({ children }) {
     editarRegistro,
     eliminarRegistro,
     obtenerFechaActual }= useRegistrosContext();
+
+   useEffect(() => {
+          const handleResize = () => {
+              if (window.innerWidth <= 768) {
+                  setIsMobile(true)
+              }
+              if (window.innerWidth > 768) {
+                  setIsMobile(false)
+              }
+              if (window.innerWidth <= 1024) {
+                  setSimplificarAside(true);
+  
+              }
+              if (window.innerWidth > 1024) {
+                  setSimplificarAside(false);
+              }
+  
+          };
+  
+          // Ejecutar al montar
+          handleResize();
+  
+          // Escuchar cambios
+          window.addEventListener('resize', handleResize);
+  
+          // Limpiar evento al desmontar
+          return () => {
+              window.removeEventListener('resize', handleResize);
+          };
+      }, []);
+
+
+
+
+
 
   const valuesToShare = {
     userData,
@@ -37,7 +75,11 @@ function CentralProvider({ children }) {
     editarRegistro,
     eliminarRegistro,
     transaccionCrearRegistrarComida,
-    obtenerFechaActual
+    obtenerFechaActual,
+    isMobile,
+    setIsMobile,
+    simplificarAside,
+    setSimplificarAside
   }
   return (
     <CentralContext.Provider value={valuesToShare}>
