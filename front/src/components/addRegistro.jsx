@@ -1,15 +1,16 @@
 import useAlimentosContext from "../hooks/useAlimentosContext";
 import { useState, useRef } from "react";
 import { Input, Space, Table, Button, Spin } from 'antd';
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
 import useCentralContext from "../hooks/useCentralContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ImportarAlimento from "./importarAlimento";
 
 function AddRegistro({ tipoComida }) {
     const { alimentos } = useAlimentosContext();
-    const { insertarRegistro, transaccionCrearRegistrarComida } = useCentralContext();
+    const { insertarRegistro, transaccionCrearRegistrarComida, isMobile } = useCentralContext();
     const [codProducto, setCodProducto] = useState('');
     const [productoApi, setProductoApi] = useState({
         descripcion: '',
@@ -133,6 +134,16 @@ function AddRegistro({ tipoComida }) {
     });
 
     const columns = [
+        ...(isMobile ? [
+            {
+                title: 'Acciones', dataIndex: 'acciones', key: 'acciones', width: '20%', render: (text, record) => (
+                    <Space>
+                        <PlusOutlined onClick={() => handleAdd(record)} />
+
+                    </Space>
+                )
+            }
+        ] : []),
         Object.assign(
             { title: 'Descripción', dataIndex: 'descripcion', key: 'descripcion', width: '30%' },
             getColumnSearchProps('descripcion'),
@@ -185,7 +196,7 @@ function AddRegistro({ tipoComida }) {
             {
                 title: 'Acciones', dataIndex: 'acciones', key: 'acciones', width: '20%', render: (text, record) => (
                     <Space>
-                        <Button onClick={() => handleAdd(record)}>Agregar</Button>
+                        <PlusOutlined onClick={() => handleAdd(record)} />
 
                     </Space>
                 )
@@ -226,90 +237,15 @@ function AddRegistro({ tipoComida }) {
 
 
     return (
-        <div className="w-[860px] min-h-[500px]">
+        <div className="w-[100%] min-h-[500px]">
             <ul className="flex gap-[1rem]">
                 <li onClick={() => { setActivo('op1') }} className={`cursor-pointer ${activo == 'op1' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Mis alimentos</li>
                 <li onClick={() => { setActivo('op2') }} className={`cursor-pointer ${activo == 'op2' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Alimentos por Código de Barras</li>
             </ul>
 
             <hr className="w-[100%] border-gray-200 mb-[20px]" />
-            {activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} />}
-            {activo === 'op2' && <div>
-                <div className="flex gap-[6rem] mt-[2rem] ">
-                    <div className="w-[30%]">
-                        <p>Desde esta vista podrás escribir el código de barras del alimento que deseas añadir</p>
-                        <br />
-                        <p >Realice esta acción una única vez por alimento</p>
-                        <br />
-                        <p>Cada alimento añadido pasa a formar parte de su biblioteca de alimentos</p>
-                    </div>
-                    <div className="flex flex-col gap-[2rem] w-[400px]">
-                        <form className=' flex flex-col gap-2 w-[100%]' onSubmit={searchAlimentoApi}>
-                            <label>Inserte el código de barras del producto deseado</label>
-                            <input className="bg-[#F9FAFB] px-4 py-2 rounded-md border border-neutral-200 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 w-[100%]" value={codProducto} onChange={(e) => { setCodProducto(e.target.value) }} />
-                            <button type="submit" disabled={busquedaActiva} className={`py-[0.5rem] rounded cursor-pointer text-white
-    ${loading || busquedaActiva ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-500'}`}>Enviar</button>
-                        </form>
-                        {loading ? (
-                            <Spin />
-                        ) : (
-                            busquedaActiva && (
-                                <div>
-                                    <h3>¿Es este el producto que buscas?</h3>
-                                    <div className="flex gap-[1rem]">
-                                        <figure className="w-[100px] h-[fit-content] shadow-md cursor-zoom-in">
-                                            <img onClick={() => setAmpliada(true)} src={imgProducto || "/img/default.jpg"} alt="" className="w-[100%] rounded" />
-                                        </figure>
-                                        {ampliada && (
-                                            <div
-                                                className="fixed inset-0 bg-white rounded-2xl bg-opacity-80 flex items-center justify-center z-50 "
-                                                onClick={() => setAmpliada(false)}
-                                            >
-                                                <div className="absolute top-2.5 right-2.5 cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="text-gray-500 hover:text-gray-700">
-                                                    <path d="M6 18L18 6M6 6l12 12"></path>
-                                                </svg></div>
-                                                <img
-                                                    src={imgProducto}
-                                                    alt=''
-                                                    className="max-w-full max-h-full rounded shadow-lg cursor-zoom-out"
-                                                />
-                                            </div>
-                                        )}
-                                        <div>
-                                            <h3 className="border border-gray-200 rounded  text-center">{productoApi.descripcion}</h3>
-                                            <p className="underline" >Propiedades Macros (por cada 100g de producto)</p>
-                                            <div><span>Proteinas: </span>{productoApi.proteinas} g</div>
-                                            <div><span>Carbohidratos: </span>{productoApi.carbohidratos} g</div>
-                                            <div><span>Grasas: </span>{productoApi.grasas} g</div>
-                                            <div><span>Calorias: </span>{productoApi.calorias} kcal</div>
-                                            <div className="flex gap-[0.5rem] my-2">
-                                                <button
-                                                    onClick={handleImport}
-                                                    className="block w-[100%] bg-blue-400 text-white px-[0.5rem] hover:bg-blue-500 py-[0.5rem] rounded cursor-pointer"
-                                                >
-                                                    Añadir
-                                                </button>
-                                                <button
-                                                    onClick={() => setBusquedaActiva(false)}
-                                                    className="block w-[100%] bg-blue-400 text-white px-[0.5rem] hover:bg-blue-500 py-[0.5rem] rounded cursor-pointer"
-                                                >
-                                                    Cancelar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        )}
-
-                    </div>
-
-
-                </div>
-
-
-
-            </div>}
+            {activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
+            {activo === 'op2' && <ImportarAlimento data={tipoComida}/>}
 
         </div>)
 }

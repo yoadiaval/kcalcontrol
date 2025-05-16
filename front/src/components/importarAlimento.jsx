@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import { Spin } from 'antd';
 import useCentralContext from "../hooks/useCentralContext";
 
-function ImportarAlimento() {
-    const { insertarAlimento } = useCentralContext();
+function ImportarAlimento(props) {
+    const { data: tipoComida } = props;
+    console.log(tipoComida)
+    const { insertarAlimento, transaccionCrearRegistrarComida, isMobile } = useCentralContext();
 
     const [ampliada, setAmpliada] = useState(false);
     const [codProducto, setCodProducto] = useState('');
@@ -53,22 +55,38 @@ function ImportarAlimento() {
     };
 
     const handleImport = async () => {
-        const result = await insertarAlimento(productoApi);
-        if (result) {
-            toast.success('Alimento agregado exitosamente')
-            setBusquedaActiva(false);
+
+        if (tipoComida == undefined) {
+            console.log('Entré a insertar')
+            const result = await insertarAlimento(productoApi);
+            if (result) {
+                toast.success('Alimento agregado exitosamente')
+                setBusquedaActiva(false);
+            } else {
+                toast.error('Ha ocurrido un error. Posible alimento repetido')
+            }
         } else {
-            toast.error('Ha ocurrido un error. Posible alimento repetido')
+
+            const result = await transaccionCrearRegistrarComida(productoApi, tipoComida);
+            if (result) {
+                toast.success('Alimento agregado exitosamente')
+                setBusquedaActiva(false);
+            } else {
+                toast.error('Ha ocurrido un error. Posible alimento repetido')
+            }
         }
+
+
     }
     return (<><div>
-        <div className="flex gap-[6rem] mt-[2rem] mb-[2rem]">
-            <div className="w-[30%]">
+        <div className={`flex gap-[6rem] mt-[2rem] ${isMobile ? 'justify-center' : ''}`}>
+            {!isMobile && <div className="w-[30%]">
                 <p>Desde esta vista podrás escribir el código de barras del alimento que deseas añadir</p>
                 <br />
                 <p >Realice esta acción una única vez por alimento</p>
-
-            </div>
+                <br />
+                <p>Cada alimento añadido pasa a formar parte de su biblioteca de alimentos</p>
+            </div>}
             <div className="flex flex-col gap-[2rem] w-[400px]">
                 <form className=' flex flex-col gap-2 w-[100%]' onSubmit={searchAlimentoApi}>
                     <label>Inserte el código de barras del producto deseado</label>

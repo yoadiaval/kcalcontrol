@@ -229,7 +229,7 @@ function Biblioteca() {
             )}
             {showModalImportar && (
                 <Modal onClose={closeModalImportar} title='Importar alimento'>
-                    <ImportarAlimento data={alimentoToEdit} onClose={closeModalEdit} />
+                    <ImportarAlimento onClose={closeModalEdit} />
                 </Modal>
             )}
             <SectionMain header="Biblioteca de alimentos">
