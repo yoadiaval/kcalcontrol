@@ -15,7 +15,8 @@ function AddAlimento() {
         proteinas: '',
         grasas: '',
         carbohidratos: '',
-    })
+    });
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setDataForm((prev) => {

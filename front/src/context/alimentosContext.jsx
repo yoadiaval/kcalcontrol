@@ -73,13 +73,13 @@ function AlimentosProvider({ children }) {
     }
 
 
-    const eliminarAlimento = async (data) => {
+    const eliminarAlimento = async (id) => {
         if (!currentUser) return false;
 
         try {
 
             const response = await axios.delete(
-                `${SERVER_HOST}/api/alimentos/${data.id}`
+                `${SERVER_HOST}/api/alimentos/${id}`
             );
 
             getAlimentos()

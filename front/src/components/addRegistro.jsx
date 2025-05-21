@@ -17,9 +17,12 @@ function AddRegistro({ tipoComida }) {
     /*ESTADOS*/
 
     const [loading, setLoading] = useState(true);
+    const [loadingAdd, setLoadingAdd] = useState(false);
+    const [foodAdd, setFoodAdd] = useState(null);
     const [activo, setActivo] = useState('op1')
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+
 
     /*VARIABLES GLOBALES*/
     const searchInput = useRef(null);
@@ -54,13 +57,15 @@ function AddRegistro({ tipoComida }) {
     };
 
     const handleAdd = async (record) => {
-
+        setLoadingAdd(true);
+        setFoodAdd(record);
         const response = await insertarRegistro(record.id, tipoComida);
         if (response) {
             toast.success('Ha insertado un registro exitosamente')
         } else {
             toast.error('Alimento repetido')
         }
+        setLoadingAdd(false);
     }
 
     const getColumnSearchProps = dataIndex => ({
@@ -145,8 +150,7 @@ function AddRegistro({ tipoComida }) {
             {
                 title: 'Acciones', dataIndex: 'acciones', key: 'acciones', width: '20%', render: (text, record) => (
                     <Space>
-                        <PlusOutlined onClick={() => handleAdd(record)} />
-
+                        {loadingAdd && (foodAdd.id == record.id) ? 'Añadiendo...' : <PlusOutlined onClick={() => handleAdd(record)} />}
                     </Space>
                 )
             }
@@ -203,7 +207,7 @@ function AddRegistro({ tipoComida }) {
             {
                 title: 'Acciones', dataIndex: 'acciones', key: 'acciones', width: '20%', render: (text, record) => (
                     <Space>
-                        <PlusOutlined onClick={() => handleAdd(record)} />
+                        {loadingAdd && (foodAdd.id == record.id) ? 'Añadiendo...' : <PlusOutlined onClick={() => handleAdd(record)} />}
 
                     </Space>
                 )

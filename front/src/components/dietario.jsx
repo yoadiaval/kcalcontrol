@@ -1,5 +1,5 @@
 import SectionMain from "./SectionMain";
-import { Progress } from "antd";
+import { Progress, Spin } from "antd";
 import CardFood from "./cardFood";
 import Button from "./button";
 import Modal from "./modal";
@@ -10,16 +10,15 @@ import imgNoData from '../assets/nodata.png';
 
 
 function Dietario() {
-    /*CONTEXT*/
-    const { userData, obtenerFechaActual, isMobile, registros } = useCentralContext();
 
-    /*VARIABLES GLOBALES*/
-    const currentDate = obtenerFechaActual();
-    const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
-    const twoColors = {
-        '0%': '#108ee9',
-        '100%': '#87d068',
-    };
+    
+    
+    
+
+    /*CONTEXT*/
+    const { userData, obtenerFechaActual, isMobile, getRegistros, registros } = useCentralContext();
+
+
 
     /*ESTADOS*/
     const [showModal, setShowModal] = useState(false);
@@ -37,9 +36,31 @@ function Dietario() {
         carbohidratos: 0,
         grasas: 0,
         calorias: 0
-    })
+    });
+    const [loading, setLoading] = useState(true);
+
+    /*VARIABLES GLOBALES */
+    const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
+    const twoColors = {
+        '0%': '#108ee9',
+        '100%': '#87d068',
+    };
+    const currentDate = obtenerFechaActual();
 
     /*ACTUALIZACIONES*/
+
+    useEffect(() => {
+        const fetchData = async () => {
+            /*Resto de elementos que necesito cargar*/
+            const resultGetRegistros = await getRegistros();
+
+            if (resultGetRegistros) {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
     useEffect(() => {
         computosDePorcentajesMacros();
         loadFood(activo);
@@ -92,7 +113,6 @@ function Dietario() {
     };
 
     const openModal = () => {
-
         setOrigenAccion(activo)
         setShowModal(true);
     }
@@ -125,12 +145,12 @@ function Dietario() {
                             <Button onClick={() => openModal()}>Agregar Comida</Button>
                         </div>
                         {/*LISTADO DE ALIMENTOS*/}
-                        <div className={`max-h-[75vh] overflow-y-auto flex flex-wrap gap-2 ${isMobile ? 'justify-center' : ''}`}>
+                        {loading ? <div className="w-[100%] min-h-[75%] flex items-center justify-center"><Spin /></div> : <div className={`max-h-[75%] overflow-y-auto flex flex-wrap gap-2 ${isMobile ? 'justify-center' : ''}`}>
                             {food.length === 0 ? <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div> : food.map((item) => (
                                 <CardFood key={item.id} data={item} />
                             ))}
 
-                        </div>
+                        </div>}
                     </div>
                 </section>
                 {/*SECCION OBJETIVOS */}

@@ -9,7 +9,8 @@ import Button from './button';
 import Modal from './modal';
 import EditAlimento from './editAlimento';
 import ImportarAlimento from './importarAlimento';
-import { toast } from "react-toastify";
+
+import AlertDelete from './alertDelete';
 
 function Biblioteca() {
 
@@ -23,7 +24,8 @@ function Biblioteca() {
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [alimentoToEdit, setAlimentoToEdit] = useState(null);
     const [showModalImportar, setShowModalImportar] = useState(false);
-
+    const [showDelModal, setShowDelModal] = useState(false);
+    const [deleteFood, setDeleteFood] = useState(null);
 
     /*ESTADOS DE ANT DESIGN*/
 
@@ -60,7 +62,10 @@ function Biblioteca() {
     const closeModalImportar = () => setShowModalImportar(false);
 
 
+    const closeDelModal = () => setShowDelModal(false);
 
+
+    /*FUNCIONES ANT DESIGN */
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -76,10 +81,13 @@ function Biblioteca() {
     };
 
     const handleDelete = async (record) => {
-        const result = await eliminarAlimento(record)
+        setShowDelModal(true)
+        setDeleteFood(record);
+
+        /*const result = await eliminarAlimento(record)
         if (result.status == 200) {
             toast.success('Alimento eliminado correctamente')
-        }
+        }*/
 
     };
 
@@ -253,6 +261,11 @@ function Biblioteca() {
             {showModalImportar && (
                 <Modal onClose={closeModalImportar} title='Importar alimento'>
                     <ImportarAlimento onClose={closeModalEdit} />
+                </Modal>
+            )}
+            {showDelModal && (
+                <Modal onClose={closeDelModal} title='Eliminar Alimento'>
+                    <AlertDelete onDelete={eliminarAlimento} value={deleteFood} onClose={closeDelModal} />
                 </Modal>
             )}
             <SectionMain header="Biblioteca de alimentos">
