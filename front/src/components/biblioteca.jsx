@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Input, Space, Table } from 'antd';
+import { Input, Space, Table, Spin } from 'antd';
 import SectionMain from './SectionMain';
 import Highlighter from 'react-highlight-words';
 import useCentralContext from '../hooks/useCentralContext'
@@ -12,8 +12,13 @@ import ImportarAlimento from './importarAlimento';
 import { toast } from "react-toastify";
 
 function Biblioteca() {
-    const { alimentos, eliminarAlimento, simplificarAside, isMobile } = useCentralContext();
 
+    /*CONETXT*/
+
+    const { getAlimentos, alimentos, eliminarAlimento, simplificarAside, isMobile } = useCentralContext();
+
+    /*ESTADOS*/
+    const [loading, setLoading] = useState(true);
     const [showModalAdd, setShowModalAdd] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [alimentoToEdit, setAlimentoToEdit] = useState(null);
@@ -26,6 +31,24 @@ function Biblioteca() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
+    /*ACTUALIZACIONES*/
+
+    useEffect(() => {
+        const fetchData = async () => {
+            /*Resto de elementos que necesito cargar*/
+            const resultGetAlimentos = await getAlimentos();
+
+            if (resultGetAlimentos) {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+
+
+    }, []);
+
+    /*FUNCIONES*/
 
     const openModalAdd = () => setShowModalAdd(true);
     const closeModalAdd = () => setShowModalAdd(false);
@@ -233,14 +256,14 @@ function Biblioteca() {
                 </Modal>
             )}
             <SectionMain header="Biblioteca de alimentos">
-                <div className={`w-[90vw] md:m-0 m-auto ${simplificarAside ? 'md:w-[85vw] lg:w-[90vw]' : 'md:w-[58vw] lg:w-[70vw]'}`}>
+                <div className={`w-[90vw]  md:m-0 m-auto ${simplificarAside ? 'md:w-[85vw] lg:w-[90vw]' : 'md:w-[58vw] lg:w-[70vw]'}`}>
                     <div className='w-[100%] '>
                         <div className='flex flex-col md:flex-row md:justify-end gap-[1rem] my-[2rem]'>
                             <Button onClick={openModalAdd}>Añadir personalizado</Button>
                             <Button onClick={openModalImportar}>Importar alimento por código</Button>
                         </div>
                         <div className='w-[100%] overflow-x-auto m-auto'>
-                            <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 8 }} scroll={{ x: 'max-content' }} />
+                            {loading ? <div className='w-[100%] min-h-[580px] flex items-center justify-center'><Spin /></div> : <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 8 }} scroll={{ x: 'max-content' }} />}
                         </div>
                     </div>
                 </div>

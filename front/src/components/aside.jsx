@@ -12,15 +12,21 @@ import {
     DoubleRightOutlined,
 } from '@ant-design/icons';
 import useCentralContext from '../hooks/useCentralContext';
-import useAuthContext from '../hooks/useAuthContex'; // corregido
+import useAuthContext from '../hooks/useAuthContex'; 
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
 function Aside() {
-    const { userData, isMobile, setIsMobile, simplificarAside, setSimplificarAside } = useCentralContext();
+
+    /*CONTEXT*/
+
+    const { userData, getPersonalInfo, isMobile, setIsMobile, simplificarAside, setSimplificarAside } = useCentralContext();
     const { logout } = useAuthContext();
 
+    /*VARIABLES GLOBALES*/
+    
     const navigate = useNavigate();
+
 
     const items = [
         { key: 'inicio', label: 'Inicio', icon: <HomeOutlined className='icono-aside' /> },
@@ -30,8 +36,22 @@ function Aside() {
         { key: 'configuracion', label: 'Configuración', icon: <SettingOutlined className='icono-aside' /> },
     ];
 
-    const [activo, setActivo] = useState('calculadora')
+    /*ESTADOS*/
+
+    const [activo, setActivo] = useState('calculadora');
+    const [loading, setLoading] = useState(true);
+
+    /*ACTUALIZACIONES*/
+
     useEffect(() => {
+        const fetchData = async () => {
+            /*Resto de elementos que necesito cargar*/
+            const resultPersonalInfo = await getPersonalInfo();
+
+            if (resultPersonalInfo) {
+                setLoading(false);
+            }
+        };
         const handleResize = () => {
             if (window.innerWidth <= 768) {
                 setIsMobile(true)
@@ -48,19 +68,15 @@ function Aside() {
             }
 
         };
-
-        // Ejecutar al montar
+        fetchData();
         handleResize();
-
-        // Escuchar cambios
         window.addEventListener('resize', handleResize);
-
-        // Limpiar evento al desmontar
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
+    /*FUNCIONES*/
     const handleClick = (path) => {
         setActivo(path)
         navigate(path === 'inicio' ? '/' : `/dashboard/${path}`);
@@ -102,7 +118,7 @@ function Aside() {
                             <Avatar icon={<UserOutlined />} />
                             {!simplificarAside && (
                                 <span className="whitespace-nowrap text-sm font-medium">
-                                    Hola {userData?.usuario?.nombre}
+                                    Hola {loading ? 'Cargando...' : userData?.usuario?.nombre}
                                 </span>
                             )}
                         </div>

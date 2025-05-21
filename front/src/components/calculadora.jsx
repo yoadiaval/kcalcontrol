@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./button";
 import CardMacro from "./cardMacro";
 import { Input, Select } from "./formComp";
 import SectionMain from "./SectionMain";
 import { toast } from "react-toastify";
 import useCentralContext from "../hooks/useCentralContext";
+import { Spin } from 'antd';
 
 function Calculadora() {
-    const { setPersonalInfo, userData, computar } = useCentralContext();
+
+    /*CONTEXT */
+
+    const { getPersonalInfo, setPersonalInfo, userData, computar } = useCentralContext();
+
+    /*ESTADOS */
+
     const [dataForm, setDataForm] = useState({
         genero: '',
         edad: '',
@@ -16,7 +23,9 @@ function Calculadora() {
         altura: '',
         peso: ''
     });
+    const [loading, setLoading] = useState(true)
 
+    /*VARIABLES GLOBALES*/
 
     const optionsGender = [
         {
@@ -69,6 +78,25 @@ function Calculadora() {
 
     let textResultado = "Rellena la información de la sección anterior para obtener/modificar el resultado estimado de macronutrintes necesarios por día"
 
+    /*ACTUALIZACIONES */
+
+    useEffect(() => {
+        const fetchData = async () => {
+            /*Resto de elementos que necesito cargar*/
+            const resultGetAlimentos = await getPersonalInfo();
+
+            if (resultGetAlimentos) {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+
+
+    }, []);
+
+
+    /*FUNCIONES */
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -104,7 +132,7 @@ function Calculadora() {
 
     return (
         <SectionMain header="Calculadora de Macros">
-            {/*SECCION 1*/}
+            {/*SECCION 1 - calculadora*/}
             <section className="flex flex-col lg:flex-row flex-wrap gap-10 p-6">
                 {/* Columna izquierda: texto */}
                 <div className="w-full lg:w-1/3 max-w-[448px]">
@@ -186,14 +214,14 @@ function Calculadora() {
                 </div>
             </section>
 
-            {/*SECCION 2*/}
+            {/*SECCION 2 - resultados */}
             <section className="flex flex-col lg:flex-row flex-wrap gap-10 p-6 mb-[150px] sm:mb-0">
                 <div className="w-full lg:w-1/3 max-w-[448px] ">
                     <h3 className="text-lg font-semibold mb-2">Resultados</h3>
                     <p className="text-sm text-gray-600">
                         {textResultado}</p>
                 </div>
-                <div className="w-full lg:flex-1 max-w-[896px] flex flex-col items-center lg:flex-row gap-4 ">
+                {loading ? <div className="w-full max-w-[896px] min-h-[118px] flex items-center justify-center pb-6"><Spin /></div> : <div className="w-full lg:flex-1 max-w-[896px] flex flex-col items-center lg:flex-row gap-4 ">
                     <div className="w-[100%] lg:w-1/2 max-w-[448px] flex flex-col gap-5">
                         <h3>Distribución de macros</h3>
                         <CardMacro color="#51a2ff" content={{ macro: 'Proteina', value: `${userData.usuario.obj_proteinas} g`, percent: "50" }} />
@@ -206,7 +234,7 @@ function Calculadora() {
                             <div className="w-[85%] h-[85%] bg-white  rounded-full flex justify-center items-center text-4xl flex-col "><p>{userData.usuario.obj_calorias}</p><p>kCal</p></div>
                         </div>
                     </div>
-                </div>
+                </div>}
             </section>
 
 

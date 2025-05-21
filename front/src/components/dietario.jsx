@@ -4,16 +4,14 @@ import CardFood from "./cardFood";
 import Button from "./button";
 import Modal from "./modal";
 import { useState, useEffect } from "react";
-import usePersonalInfoContext from "../hooks/usePersonalInfoContext";
-import useRegistrosContext from "../hooks/useRegistrosComidaContext";
 import AddRegistro from "./addRegistro";
 import useCentralContext from "../hooks/useCentralContext";
 import imgNoData from '../assets/nodata.png';
 
 
 function Dietario() {
-    /*IMPORTADOS DEL CONTEXT*/
-    const { userData, obtenerFechaActual, isMobile, setIsMobile, simplificarAside, setSimplificarAside, registros } = useCentralContext();
+    /*CONTEXT*/
+    const { userData, obtenerFechaActual, isMobile, registros } = useCentralContext();
 
     /*VARIABLES GLOBALES*/
     const currentDate = obtenerFechaActual();
@@ -84,7 +82,6 @@ function Dietario() {
 
 
     const loadFood = (foodActiva) => {
-        console.log(foodActiva)
         setFood(registros.filter((item) => item.tipo_comida_id === foodActiva))
     };
 

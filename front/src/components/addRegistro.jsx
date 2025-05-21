@@ -1,5 +1,5 @@
 import useAlimentosContext from "../hooks/useAlimentosContext";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Input, Space, Table, Button, Spin } from 'antd';
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
@@ -9,25 +9,40 @@ import axios from "axios";
 import ImportarAlimento from "./importarAlimento";
 
 function AddRegistro({ tipoComida }) {
-    const { alimentos } = useAlimentosContext();
-    const { insertarRegistro, transaccionCrearRegistrarComida, isMobile } = useCentralContext();
-    const [codProducto, setCodProducto] = useState('');
-    const [productoApi, setProductoApi] = useState({
-        descripcion: '',
-        proteinas: '',
-        carbohidratos: '',
-        grasas: '',
-        calorias: ''
-    });
-    const [busquedaActiva, setBusquedaActiva] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [imgProducto, setImgProducto] = useState(null);
+
+    /*CONTEXT*/
+
+    const { getAlimentos, alimentos, insertarRegistro, isMobile } = useCentralContext();
+
+    /*ESTADOS*/
+
+    const [loading, setLoading] = useState(true);
     const [activo, setActivo] = useState('op1')
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const [ampliada, setAmpliada] = useState(false);
+
+    /*VARIABLES GLOBALES*/
     const searchInput = useRef(null);
 
+    /*ACTUALIZACIONES*/
+
+    useEffect(() => {
+        const fetchData = async () => {
+            /*Resto de elementos que necesito cargar*/
+            const resultGetAlimentos = await getAlimentos();
+
+            if (resultGetAlimentos) {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+
+
+    }, []);
+
+
+    /*FUNCIONES*/
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -47,15 +62,7 @@ function AddRegistro({ tipoComida }) {
             toast.error('Alimento repetido')
         }
     }
-    const handleImport = async () => {
-        const result = await transaccionCrearRegistrarComida(productoApi, tipoComida);
-        if (result) {
-            toast.success('Alimento agregado exitosamente')
-            setBusquedaActiva(false);
-        } else {
-            toast.error('Ha ocurrido un error. Posible alimento repetido')
-        }
-    }
+
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={e => e.stopPropagation()}>
@@ -205,35 +212,6 @@ function AddRegistro({ tipoComida }) {
         ),
     ];
 
-    const searchAlimentoApi = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        if (codProducto !== '') {
-            try {
-                const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${codProducto}.json`);
-                const datosProducto = response.data.product
-                setProductoApi({
-                    descripcion: datosProducto.product_name_es,
-                    proteinas: datosProducto.nutriments.proteins_100g ?? '-',
-                    carbohidratos: datosProducto.nutriments.carbohydrates_100g ?? '-',
-                    grasas: datosProducto.nutriments.fat_100g ?? '-',
-                    calorias: datosProducto.nutriments["energy-kcal_100g"] ?? '-'
-                });
-                setBusquedaActiva(true);
-                setLoading(false);
-
-                console.log(response.data.product)
-                setImgProducto(response.data.product.image_url)
-                setCodProducto('');
-
-            } catch (error) {
-                console.error('Error al buscar el producto:', error);
-            }
-        } else {
-            toast.error('No existe un producto asociado a ese código');
-        }
-
-    };
 
 
     return (
@@ -244,8 +222,9 @@ function AddRegistro({ tipoComida }) {
             </ul>
 
             <hr className="w-[100%] border-gray-200 mb-[20px]" />
-            {activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
-            {activo === 'op2' && <ImportarAlimento data={tipoComida}/>}
+            {loading ? <div className="min-h-[453px] w-[100%] flex items-center justify-center"><Spin /></div> : <div>{activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
+                {activo === 'op2' && <ImportarAlimento data={tipoComida} />}</div>}
+
 
         </div>)
 }

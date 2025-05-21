@@ -8,11 +8,11 @@ function Dashboard() {
   const { getPersonalInfo, getAlimentos, getRegistros } = useCentralContext();
 
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchData = async () => {
-      /*Resto de elementos que necesito cargar*/
+      
       const resultPersonalInfo = await getPersonalInfo();
       const resultAlimentos = await getAlimentos();
       const resultRegistros = await getRegistros();
@@ -23,7 +23,7 @@ function Dashboard() {
     };
     fetchData();
   }, []);
-
+*/
   if (loading) {
     return <div className="flex items-center justify-center w-[100vw] h-[100vh]">
       <Spin tip="Loading" size="large">
@@ -34,7 +34,7 @@ function Dashboard() {
 
   return (
     <div className="flex gap-[30px] relative w-[100vw] overflow-x-hidden">
-      <Aside></Aside>
+      <Aside />
       <main className="flex-1 p-[10px]">
         <Outlet />
       </main>

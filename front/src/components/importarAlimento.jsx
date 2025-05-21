@@ -30,14 +30,21 @@ function ImportarAlimento(props) {
             try {
                 const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${codProducto}.json`);
                 const datosProducto = response.data.product
-                setProductoApi({
-                    descripcion: datosProducto.product_name_es,
-                    base: '100',
-                    proteinas: datosProducto.nutriments.proteins_100g ?? '-',
-                    carbohidratos: datosProducto.nutriments.carbohydrates_100g ?? '-',
-                    grasas: datosProducto.nutriments.fat_100g ?? '-',
-                    calorias: datosProducto.nutriments["energy-kcal_100g"] ?? '-'
-                });
+
+                console.log(datosProducto['status_verbose'])
+               /* if(datosProducto !== []){
+                    setProductoApi({
+                        descripcion: datosProducto.product_name_es,
+                        base: '100',
+                        proteinas: datosProducto.nutriments.proteins_100g ?? '-',
+                        carbohidratos: datosProducto.nutriments.carbohydrates_100g ?? '-',
+                        grasas: datosProducto.nutriments.fat_100g ?? '-',
+                        calorias: datosProducto.nutriments["energy-kcal_100g"] ?? '-'
+                    });
+                }else{
+                    toast.error('No existe un producto asociado a ese código');
+                }*/
+               
                 setBusquedaActiva(true);
                 setLoading(false);
 
