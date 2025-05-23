@@ -33,6 +33,7 @@ function Aside() {
         { key: 'calculadora', label: 'Calculadora de Macros', icon: <CalculatorOutlined className='icono-aside' /> },
         { key: 'dietario', label: 'Dietario', icon: <ControlOutlined className='icono-aside' /> },
         { key: 'alimentos', label: 'Biblioteca de alimentos', icon: <UnorderedListOutlined className='icono-aside' /> },
+        { key: 'evolucion', label: 'Evolución', icon: <SettingOutlined className='icono-aside' /> },
         { key: 'configuracion', label: 'Configuración', icon: <SettingOutlined className='icono-aside' /> },
     ];
 

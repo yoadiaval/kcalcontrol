@@ -14,6 +14,7 @@ import Calculadora from "./components/calculadora";
 import Dietario from "./components/dietario";
 import Configuracion from "./components/configuracion";
 import Biblioteca from "./components/biblioteca";
+import Evolucion from "./components/evolucion";
 
 const AppRouter = () => {
   return (
@@ -31,7 +32,9 @@ const AppRouter = () => {
             <Route path="calculadora" element={<Calculadora />} />
             <Route path="dietario" element={<Dietario />} />
             <Route path="alimentos" element={<Biblioteca />} />
+            <Route path="evolucion" element={<Evolucion />} />
             <Route path="configuracion" element={<Configuracion />} />
+
           </Route>
         </Route>
 

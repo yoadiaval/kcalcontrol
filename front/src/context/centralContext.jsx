@@ -20,7 +20,9 @@ function CentralProvider({ children }) {
     insertarRegistro,
     editarRegistro,
     eliminarRegistro,
-    obtenerFechaActual }= useRegistrosContext();
+    obtenerFechaActual,
+    getRegistrosPorRangoFechas,
+    registrosPorPeriodo } = useRegistrosContext();
 
    useEffect(() => {
           const handleResize = () => {
@@ -79,7 +81,9 @@ function CentralProvider({ children }) {
     isMobile,
     setIsMobile,
     simplificarAside,
-    setSimplificarAside
+    setSimplificarAside,
+    getRegistrosPorRangoFechas,
+    registrosPorPeriodo
   }
   return (
     <CentralContext.Provider value={valuesToShare}>

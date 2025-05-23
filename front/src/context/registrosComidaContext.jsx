@@ -9,8 +9,9 @@ const RegistrosContext = createContext();
 
 function RegistrosProvider({ children }) {
     const [registros, setRegistros] = useState([]);
+    const [registrosPorPeriodo, setRegistrosPorPeriodo] = useState(null)
     const { currentUser } = useAuthContext();
-    
+
 
 
     const getRegistros = async () => {
@@ -30,6 +31,21 @@ function RegistrosProvider({ children }) {
         }
     }
 
+    const getRegistrosPorRangoFechas = async (startDate, endDate) => {
+        if (!currentUser) return false;
+       
+        try {
+            const response = await axios.get(
+                `${SERVER_HOST}/api/registros/usuario/${currentUser.uid}/rango-fechas?fecha_inicio=${startDate}&fecha_fin=${endDate}`
+            );
+            setRegistrosPorPeriodo(response.data.registros);
+            
+        } catch (error) {
+            console.error(error.message)
+        }
+
+    }
+
     const insertarRegistro = async (alimentoId, tipoComida) => {
         if (!currentUser) return false;
         const fechaActual = obtenerFechaActual();
@@ -40,8 +56,8 @@ function RegistrosProvider({ children }) {
             alimento_id: alimentoId,
             cantidad: 100
         }
-      
-        
+
+
         try {
 
             const response = await axios.post(
@@ -63,7 +79,7 @@ function RegistrosProvider({ children }) {
                 uid: currentUser.uid,
                 ...data
             }
-        console.log(dataToSend);
+            console.log(dataToSend);
             const response = await axios.patch(
                 `${SERVER_HOST}/api/registros/${id}`, dataToSend
             );
@@ -97,7 +113,7 @@ function RegistrosProvider({ children }) {
 
     }
 
-    
+
 
     const obtenerFechaActual = () => {
         const fecha = new Date();
@@ -114,8 +130,10 @@ function RegistrosProvider({ children }) {
         editarRegistro,
         eliminarRegistro,
         obtenerFechaActual,
-        
-        
+        getRegistrosPorRangoFechas,
+        registrosPorPeriodo
+
+
     }
     return (
         <RegistrosContext.Provider value={valuesToShare}>

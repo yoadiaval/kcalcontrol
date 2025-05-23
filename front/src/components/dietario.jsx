@@ -11,9 +11,9 @@ import imgNoData from '../assets/nodata.png';
 
 function Dietario() {
 
-    
-    
-    
+
+
+
 
     /*CONTEXT*/
     const { userData, obtenerFechaActual, isMobile, getRegistros, registros } = useCentralContext();
