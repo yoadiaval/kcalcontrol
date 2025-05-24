@@ -6,6 +6,7 @@ import {
     CalculatorOutlined,
     HomeOutlined,
     SettingOutlined,
+    LineChartOutlined,
     LogoutOutlined,
     UserOutlined,
     DoubleLeftOutlined,
@@ -33,8 +34,8 @@ function Aside() {
         { key: 'calculadora', label: 'Calculadora de Macros', icon: <CalculatorOutlined className='icono-aside' /> },
         { key: 'dietario', label: 'Dietario', icon: <ControlOutlined className='icono-aside' /> },
         { key: 'alimentos', label: 'Biblioteca de alimentos', icon: <UnorderedListOutlined className='icono-aside' /> },
-        { key: 'evolucion', label: 'Evolución', icon: <SettingOutlined className='icono-aside' /> },
-        { key: 'configuracion', label: 'Configuración', icon: <SettingOutlined className='icono-aside' /> },
+        { key: 'evolucion', label: 'Evolución', icon: <LineChartOutlined className='icono-aside' /> },
+       
     ];
 
     /*ESTADOS*/
@@ -128,7 +129,7 @@ function Aside() {
 
                     {/* Menu */}
                     <div className="flex-1 flex flex-col justify-between">
-                        <ul className={`flex flex-col gap-[2rem] ${simplificarAside ? 'items-center' : ''}`}>
+                        <ul className={`flex flex-col gap-[1.3rem] ${simplificarAside ? 'items-center' : ''}`}>
                             {items.map((item) => (
                                 <li
                                     key={item.key}

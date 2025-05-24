@@ -19,8 +19,8 @@ export default function DateRangeComponent({ onChange }) {
     }
 
     return (
-        <div>
-            <div className=' bg-blue-100 w-full h-[100%] flex flex-col justify-center items-center p-[1rem] rounded'>
+        <div className="w-[fit-content]">
+            <div className=' border border-neutral-200 max-w-[fit-content] h-[100%] flex flex-col justify-center items-center p-[1rem] rounded '>
                 <p className="mb-4 font-bold">Seleccione un rango de fechas</p>
                 <DateRange
                     editableDateInputs={true}
@@ -30,10 +30,10 @@ export default function DateRangeComponent({ onChange }) {
                 />
                 <div className="mt-4">
                     <p>
-                        <strong>Desde:</strong> {range[0].startDate.toLocaleDateString()}
+                        <span>Desde:</span> {range[0].startDate.toLocaleDateString()}
                     </p>
                     <p>
-                        <strong>Hasta:</strong> {range[0].endDate.toLocaleDateString()}
+                        <span>Hasta:</span> {range[0].endDate.toLocaleDateString()}
                     </p>
                 </div>
             </div>

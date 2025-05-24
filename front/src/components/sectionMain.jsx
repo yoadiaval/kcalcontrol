@@ -12,7 +12,7 @@ function SectionMain({ header, children }) {
     };
     return (
         <div className="h-[100vh] overflow-scroll">
-            <div className="sticky top-0 bg-white z-10 pt-2 pb-2 ">
+            <div className="sticky top-0 bg-white z-10 pt-2  ">
                 <div className="flex justify-between">
                     <h2 className="inline-block  text-lg font-semibold ">
                         {header}
