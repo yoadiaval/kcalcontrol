@@ -107,7 +107,7 @@ function AlimentosProvider({ children }) {
             base: 100
         }
 
-
+console.log(dataToSend)
         try {
             const response = await axios.post(`${SERVER_HOST}/api/crear-registrar-comida`, dataToSend);
             getRegistros();
