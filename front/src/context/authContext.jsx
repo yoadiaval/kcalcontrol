@@ -1,5 +1,4 @@
-import { createContext, useState } from "react";
-import { useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
 import {
   signInWithEmailAndPassword,
@@ -16,21 +15,37 @@ import { SERVER_HOST } from "../config";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-
   const [currentUser, setCurrentUser] = useState(null);
 
+  // Configurar el interceptor solo una vez cuando el usuario esté autenticado
   useEffect(() => {
-    const onAuthChange = onAuthStateChanged(auth, (user) => {
-      const usuario = user ? user : null;
-      setCurrentUser(usuario);
+    const interceptor = axios.interceptors.request.use(
+      async (config) => {
+        const user = auth.currentUser;
+        if (user) {
+          const token = await user.getIdToken();
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
+    // Limpiar interceptor al desmontar
+    return () => {
+      axios.interceptors.request.eject(interceptor);
+    };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user ?? null);
     });
-    return () => onAuthChange();
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {
     await signInWithEmailAndPassword(auth, email, password);
-
   };
 
   const loginWithGoogle = async () => {
@@ -38,34 +53,23 @@ function AuthProvider({ children }) {
     await signInWithPopup(auth, provider);
   };
 
-  const logout = () => {
-    return signOut(auth);
-  };
+  const logout = () => signOut(auth);
 
   const registro = async (name, surname, email, password) => {
-
-    // Crear usuario en Firebase
-    const userCredentials = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
     const userId = userCredentials.user.uid;
 
-    // Enviar datos a la API de Laravel
-    console.log(`${import.meta.env.VITE_SERVER_HOST}/api/usuarios`)
     await axios.post(`${SERVER_HOST}/api/usuarios`, {
       id: userId,
       nombre: name,
       apellidos: surname,
     });
-
-
   };
 
   const resetPassword = async (email) => {
     await sendPasswordResetEmail(auth, email);
   };
+
   const valuesToShare = {
     currentUser,
     login,

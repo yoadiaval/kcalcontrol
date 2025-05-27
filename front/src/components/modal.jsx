@@ -23,7 +23,7 @@ function Modal({ children, title, onClose }) {
                         <path d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
-                <h1 className="mb-1.5">{title}</h1 >
+                <h1 className="mb-1.5 text-3xl mb-4">{title}</h1 >
 
                 {children}
 

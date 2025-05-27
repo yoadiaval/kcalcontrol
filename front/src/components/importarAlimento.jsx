@@ -51,7 +51,7 @@ function ImportarAlimento(props) {
                     });
                     setImgProducto(response.data.product.image_url)
                     setBusquedaActiva(true);
-                    
+
                 } else if (result === 0) {
                     setProductoApi({
                         descripcion: '',
@@ -100,7 +100,7 @@ function ImportarAlimento(props) {
     }
     return (<><div>
         <div className={`flex gap-[6rem] mt-[2rem] ${isMobile ? 'justify-center' : ''}`}>
-            {!isMobile && <div className="w-[30%]">
+            {!isMobile && <div className="w-[30%] text-gray-600">
                 <p>Desde esta vista podrás escribir el código de barras del alimento que deseas añadir</p>
                 <br />
                 <p >Realice esta acción una única vez por alimento</p>
@@ -120,12 +120,16 @@ function ImportarAlimento(props) {
                     (busquedaActiva && resultSearch === 1) && (
                         <div>
                             {<>
-                                <h3>¿Es este el producto que buscas?</h3>
+                                <h3 className="pb-2">¿Es este el producto que buscas?</h3>
 
                                 <div className="flex gap-[1rem]">
-                                    <figure className="w-[100px] h-[fit-content] shadow-md cursor-zoom-in">
-                                        <img onClick={() => setAmpliada(true)} src={imgProducto || "/img/default.jpg"} alt="" className="w-[100%] rounded" />
-                                    </figure>
+                                    <div>
+                                        <h3 className="pb-2">{productoApi.descripcion}</h3>
+
+                                        <figure className="w-[100px] h-[fit-content] shadow-md  cursor-zoom-in">
+                                            <img onClick={() => setAmpliada(true)} src={imgProducto || "/img/default.jpg"} alt="" className="w-[100%] rounded-lg" />
+                                        </figure>
+                                    </div>
                                     {ampliada && (
                                         <div
                                             className="fixed inset-0 bg-white rounded-2xl bg-opacity-80 flex items-center justify-center z-50 "
@@ -137,17 +141,20 @@ function ImportarAlimento(props) {
                                             <img
                                                 src={imgProducto}
                                                 alt=''
-                                                className="max-w-full max-h-full rounded shadow-lg cursor-zoom-out"
+                                                className="max-w-full max-h-full rounded-lg shadow-lg cursor-zoom-out"
                                             />
                                         </div>
                                     )}
-                                    <div>
-                                        <h3 className="border border-gray-200 rounded  text-center">{productoApi.descripcion}</h3>
+                                    <div className="flex flex-col gap-2">
+
+
                                         <p className="underline" >Propiedades Macros (por cada 100g de producto)</p>
-                                        <div><span>Proteinas: </span>{productoApi.proteinas} g</div>
-                                        <div><span>Carbohidratos: </span>{productoApi.carbohidratos} g</div>
-                                        <div><span>Grasas: </span>{productoApi.grasas} g</div>
-                                        <div><span>Calorias: </span>{productoApi.calorias} kcal</div>
+                                        <div>
+                                            <div><span>Proteinas: </span>{productoApi.proteinas} g</div>
+                                            <div><span>Carbohidratos: </span>{productoApi.carbohidratos} g</div>
+                                            <div><span>Grasas: </span>{productoApi.grasas} g</div>
+                                            <div><span>Calorias: </span>{productoApi.calorias} kcal</div>
+                                        </div>
                                         <div className="flex gap-[0.5rem] my-2">
                                             <button
                                                 onClick={handleImport}
