@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import axios from "axios";
-import useAuthContext from "../hooks/useAuthContex";
+import useAuthContext from "../hooks/useAuthContext";
 import { SERVER_HOST } from "../config";
 
 

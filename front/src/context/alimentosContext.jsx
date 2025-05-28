@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import axios from "axios";
-import useAuthContext from "../hooks/useAuthContex";
+import useAuthContext from "../hooks/useAuthContext";
 import { SERVER_HOST } from "../config";
 import useRegistrosComidaContext from "../hooks/useRegistrosComidaContext";
 
@@ -107,7 +107,7 @@ function AlimentosProvider({ children }) {
             base: 100
         }
 
-console.log(dataToSend)
+        console.log(dataToSend)
         try {
             const response = await axios.post(`${SERVER_HOST}/api/crear-registrar-comida`, dataToSend);
             getRegistros();

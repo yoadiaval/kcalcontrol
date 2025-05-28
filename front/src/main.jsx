@@ -4,7 +4,7 @@ import "./index.css";
 
 import App from "./App.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
-import { PersonalInfoProvider } from "./context/personalInfoContex.jsx";
+import { PersonalInfoProvider } from "./context/personalInfoContext.jsx";
 import { ComputoProvider } from "./context/computoContext.jsx";
 import { CentralProvider } from "./context/centralContext.jsx";
 import FoodCombinedProvider from "./foodCombinedProviders.jsx";

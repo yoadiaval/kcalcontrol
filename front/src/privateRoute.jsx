@@ -1,10 +1,11 @@
-import useAuthContext from "./hooks/useAuthContex";
+
 import { Navigate, Outlet } from "react-router-dom";
+import useCentralContext from "./hooks/useCentralContext";
 
 
 function PrivateRoute() {
-  const { currentUser } = useAuthContext();
-  
+  const { currentUser } = useCentralContext();
+
   if (currentUser == null) {
     return <Navigate to="/" />;
   }

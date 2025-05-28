@@ -4,13 +4,21 @@ import usePersonalInfoContext from "../hooks/usePersonalInfoContext";
 import useComputoContext from "../hooks/useComputoContext";
 import useAlimentosContext from "../hooks/useAlimentosContext";
 import useRegistrosContext from "../hooks/useRegistrosComidaContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 const CentralContext = createContext();
 
 function CentralProvider({ children }) {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const [simplificarAside, setSimplificarAside] = useState(false);
+  const [simplificarAside, setSimplificarAside] = useState(false);
+
+  const { currentUser,
+    login,
+    logout,
+    registro,
+    loginWithGoogle,
+    resetPassword, } = useAuthContext();
   const { getPersonalInfo, setPersonalInfo, userData } = usePersonalInfoContext();
   const { nutriMacros, setNutriMacros, computar } = useComputoContext();
   const { alimentos, getAlimentos, insertarAlimento, editarAlimento, eliminarAlimento, transaccionCrearRegistrarComida } = useAlimentosContext();
@@ -24,35 +32,35 @@ function CentralProvider({ children }) {
     getRegistrosPorRangoFechas,
     registrosPorPeriodo } = useRegistrosContext();
 
-   useEffect(() => {
-          const handleResize = () => {
-              if (window.innerWidth <= 768) {
-                  setIsMobile(true)
-              }
-              if (window.innerWidth > 768) {
-                  setIsMobile(false)
-              }
-              if (window.innerWidth <= 1024) {
-                  setSimplificarAside(true);
-  
-              }
-              if (window.innerWidth > 1024) {
-                  setSimplificarAside(false);
-              }
-  
-          };
-  
-          // Ejecutar al montar
-          handleResize();
-  
-          // Escuchar cambios
-          window.addEventListener('resize', handleResize);
-  
-          // Limpiar evento al desmontar
-          return () => {
-              window.removeEventListener('resize', handleResize);
-          };
-      }, []);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsMobile(true)
+      }
+      if (window.innerWidth > 768) {
+        setIsMobile(false)
+      }
+      if (window.innerWidth <= 1024) {
+        setSimplificarAside(true);
+
+      }
+      if (window.innerWidth > 1024) {
+        setSimplificarAside(false);
+      }
+
+    };
+
+    // Ejecutar al montar
+    handleResize();
+
+    // Escuchar cambios
+    window.addEventListener('resize', handleResize);
+
+    // Limpiar evento al desmontar
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
 
@@ -60,6 +68,14 @@ function CentralProvider({ children }) {
 
 
   const valuesToShare = {
+    currentUser,
+    login,
+    logout,
+    registro,
+    loginWithGoogle,
+    resetPassword,
+
+
     userData,
     getPersonalInfo,
     setPersonalInfo,

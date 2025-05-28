@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import axios from "axios";
-import useAuthContext from "../hooks/useAuthContex";
+import useAuthContext from "../hooks/useAuthContext";
 import { SERVER_HOST } from "../config";
 
 
@@ -33,13 +33,13 @@ function RegistrosProvider({ children }) {
 
     const getRegistrosPorRangoFechas = async (startDate, endDate) => {
         if (!currentUser) return false;
-       
+
         try {
             const response = await axios.get(
                 `${SERVER_HOST}/api/registros/usuario/${currentUser.uid}/rango-fechas?fecha_inicio=${startDate}&fecha_fin=${endDate}`
             );
             setRegistrosPorPeriodo(response.data.registros);
-            
+
         } catch (error) {
             console.error(error.message)
         }

@@ -11,10 +11,6 @@ import imgNoData from '../assets/nodata.png';
 
 function Dietario() {
 
-
-
-
-
     /*CONTEXT*/
     const { userData, obtenerFechaActual, isMobile, getRegistros, registros } = useCentralContext();
 
@@ -37,6 +33,7 @@ function Dietario() {
         grasas: 0,
         calorias: 0
     });
+
     const [loading, setLoading] = useState(true);
 
     /*VARIABLES GLOBALES */
@@ -124,7 +121,7 @@ function Dietario() {
     return (
         <SectionMain header="Dietario">
             {showModal && modal}
-            <div className="flex flex-col md:flex-row">
+            {loading ? <div className="flex justify-center items-center h-[400px]"><Spin /></div> : <div className="flex flex-col md:flex-row">
                 {/*SECCION LISTADO POR TIPOS DE COMIDAS*/}
                 <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
                     <div className="p-[20px]">
@@ -183,7 +180,7 @@ function Dietario() {
                         </div>
                     </div>
                 </section>
-            </div>
+            </div>}
         </SectionMain>
     )
 }

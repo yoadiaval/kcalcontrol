@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import AnimationLanding from "../components/animationLanding";
 import logo from '../assets/logo-dark.png'
+import useCentralContext from "../hooks/useCentralContext";
 
-import useAuthContext from "../hooks/useAuthContex";
 function Home() {
   const navigate = useNavigate();
-  const { currentUser } = useAuthContext();
+  const { currentUser } = useCentralContext();
 
   return (
     <div className="relative w-full min-w-[360px] md:w-[80vw] md:mx-auto h-[100dvh] flex flex-col overflow-hidden">

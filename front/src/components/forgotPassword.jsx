@@ -1,12 +1,16 @@
 import { useState } from "react";
-import useAuthContext from "../hooks/useAuthContex";
+import useAuthContext from "../hooks/useAuthContext";
 import { toast } from "react-toastify";
+import { Spin } from "antd";
+
 function ForgotPassword(props) {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false)
   const { resetPassword } = useAuthContext();
 
   const { onChange } = props;
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     try {
       await resetPassword(email);
@@ -19,9 +23,12 @@ function ForgotPassword(props) {
       if (e.code == "auth/invalid-email") {
         toast.error("El email insertado no es válido");
       }
-    } 
+    } finally {
+      setLoading(false);
+      setEmail("");
+    }
 
-    setEmail("");
+
   };
   const handleChange = (event) => {
     setEmail(event.target.value);
@@ -33,6 +40,7 @@ function ForgotPassword(props) {
     <div className="bg-blue-200 w-[100vw] h-[100vh]">
       <div id="forgotPasswContainer">
         <h1 className="text-3xl text-center my-[1rem] font-bold">Restablecer contraseña</h1>
+        <div className="h-[20px] flex justify-center items-center">{loading ? <Spin /> : null}</div>
         <p>
           Indicanos tu email para enviarte el enlace de restablecimiento de
           contraseña

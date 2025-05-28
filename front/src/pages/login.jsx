@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthContext from "../hooks/useAuthContex";
 import ForgotPassword from "../components/forgotPassword";
 import { toast } from "react-toastify";
 import logo from '../assets/logo-dark.png'
+import useCentralContext from "../hooks/useCentralContext";
+import { Spin } from "antd";
 
 function Login() {
   const navigate = useNavigate();
-  const { login, loginWithGoogle } = useAuthContext();
+  const [loading, setLoading] = useState(false);
+  const { login, loginWithGoogle } = useCentralContext();
   const [loginInfo, setLoginInfo] = useState({
     user: "",
     password: "",
@@ -29,6 +31,7 @@ function Login() {
   }, []);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     try {
       await login(loginInfo.user, loginInfo.password);
@@ -54,6 +57,7 @@ function Login() {
         password: "",
         recordar: false,
       });
+      setLoading(false);
     }
   };
 
@@ -91,8 +95,9 @@ function Login() {
   ) : (
     <div className="w-[100vw] h-[100vh] bg-blue-200">
       {" "}
-        <div id="loginContainer" >
-          <img src={logo} alt="" className="w-[250px] mx-auto" />
+      <div id="loginContainer" >
+        <img src={logo} alt="" className="w-[250px] mx-auto" />
+        <div className="h-[20px] flex justify-center items-center">{loading ? <Spin /> : null}</div>
         <h1 className="text-3xl text-center my-[1rem] font-bold">Login</h1>
         <form onSubmit={handleSubmit} id="loginForm">
           <div className="inputWithEfect">
@@ -155,7 +160,7 @@ function Login() {
             Registrar
           </span>
         </p>
-        <p onClick={goToInicio} className="cursor-pointer text-sky-700  ">
+        <p onClick={goToInicio} className="cursor-pointer text-sky-700 font-bold">
           Regresar a Inicio
         </p>{" "}
       </div>

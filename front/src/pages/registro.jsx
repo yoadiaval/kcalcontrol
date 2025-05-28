@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useAuthContext from "../hooks/useAuthContex";
 import logo from '../assets/logo-dark.png'
+import useCentralContext from "../hooks/useCentralContext";
+import { Spin } from "antd";
 
 function Registro() {
   const navigate = useNavigate();
-  const { registro } = useAuthContext();
+  const { registro } = useCentralContext();
+  const [loading, setLoading] = useState(false);
   const [registroInfo, setRegistroInfo] = useState({
     name: "",
     surname:"",
@@ -16,6 +18,7 @@ function Registro() {
   });
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     if (registroInfo.password !== registroInfo.confirmPassword) {
       toast.error("las contraseñas no coinciden");
@@ -52,6 +55,7 @@ function Registro() {
         password: "",
         confirmPassword: "",
       });
+      setLoading(false)
       navigate("/login");
     }
   };
@@ -72,6 +76,7 @@ function Registro() {
       <div id="registroContainer">
         
         <img src={logo} className="w-[250px] mx-auto" alt="" />
+        <div className="h-[20px] flex justify-center items-center">{loading ? <Spin /> : null}</div>
         <h1 className="text-3xl text-center my-[1rem] font-bold">Registro</h1>
         <div>
           <form onSubmit={handleSubmit} id="registroForm">

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import PersonalInfoContext from "../context/personalInfoContex";
+import PersonalInfoContext from "../context/personalInfoContext";
 
 function usePersonalInfoContext() {
   return useContext(PersonalInfoContext);

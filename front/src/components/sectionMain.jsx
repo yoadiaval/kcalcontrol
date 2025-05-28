@@ -1,11 +1,11 @@
-import useAuthContext from "../hooks/useAuthContex";
+
 import useCentralContext from "../hooks/useCentralContext";
 import { LogoutOutlined } from '@ant-design/icons';
 
 
 function SectionMain({ header, children }) {
-    const { logout } = useAuthContext();
-    const { isMobile } = useCentralContext();
+
+    const { isMobile, logout } = useCentralContext();
 
     const exit = async () => {
         await logout();

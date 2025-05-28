@@ -13,7 +13,7 @@ import {
     DoubleRightOutlined,
 } from '@ant-design/icons';
 import useCentralContext from '../hooks/useCentralContext';
-import useAuthContext from '../hooks/useAuthContex'; 
+import useAuthContext from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 
@@ -25,7 +25,7 @@ function Aside() {
     const { logout } = useAuthContext();
 
     /*VARIABLES GLOBALES*/
-    
+
     const navigate = useNavigate();
 
 
@@ -35,7 +35,7 @@ function Aside() {
         { key: 'dietario', label: 'Dietario', icon: <ControlOutlined className='icono-aside' /> },
         { key: 'alimentos', label: 'Biblioteca de alimentos', icon: <UnorderedListOutlined className='icono-aside' /> },
         { key: 'evolucion', label: 'Evolución', icon: <LineChartOutlined className='icono-aside' /> },
-       
+
     ];
 
     /*ESTADOS*/
