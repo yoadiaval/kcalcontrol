@@ -16,7 +16,7 @@ const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [loadingUser, setLoadingUser] = useState(true);
   // Configura el interceptor solo una vez cuando el usuario esté autenticado
   useEffect(() => {
     const interceptor = axios.interceptors.request.use(
@@ -40,6 +40,7 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user ?? null);
+      setLoadingUser(false);
     });
     return () => unsubscribe();
   }, []);
@@ -77,6 +78,7 @@ function AuthProvider({ children }) {
     registro,
     loginWithGoogle,
     resetPassword,
+    loadingUser
   };
 
   return (

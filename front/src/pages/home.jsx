@@ -8,7 +8,7 @@ function Home() {
   const { currentUser } = useCentralContext();
 
   return (
-    <div className="relative w-full min-w-[360px] md:w-[80vw] md:mx-auto min-h-[100dvh] flex flex-col overflow-auto">
+    <div className="relative w-full h-full min-w-[360px] md:w-[80vw] md:mx-auto flex flex-col scroll md:overflow-y-hidden overflow-x-hidden">
       <div className="w-[500px] h-[500px] fixed bg-[#DBEAFE80] rounded-full top-[-200px] left-[-200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#FFC64D33] rounded-full top-[-300px] left-[200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#66be722a] rounded-full bottom-[-300px] right-[-120px] z-[-1]"></div>
@@ -44,7 +44,7 @@ function Home() {
         </div>
 
       </header>
-      <div className=" flex flex-1 mt-[60px] flex-col lg:flex-row justify-center items-center gap-[50px]  ">
+      <div className=" flex flex-1 mt-[60px] flex-col lg:flex-row justify-center items-center gap-[50px] h-[1000px] ">
         <div className="w-[50%] min-w-[340px] flex flex-col  ">
           <div className="flex flex-col gap-[1.5rem] items-center lg:items-start">
             <h1 className="font-bold text-center lg:text-left text-[32px] lg:text-[60px]">SISTEMA DE   CONTROL DE CALORÍAS</h1>

@@ -14,6 +14,7 @@ function CentralProvider({ children }) {
   const [simplificarAside, setSimplificarAside] = useState(false);
 
   const { currentUser,
+    loadingUser,
     login,
     logout,
     registro,
@@ -63,12 +64,10 @@ function CentralProvider({ children }) {
   }, []);
 
 
-
-
-
-
   const valuesToShare = {
     currentUser,
+    loadingUser,
+
     login,
     logout,
     registro,
