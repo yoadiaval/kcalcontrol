@@ -151,7 +151,7 @@ function Dietario() {
                     </div>
                 </section>
                 {/*SECCION OBJETIVOS */}
-                <section className={`flex flex-col gap-[20px] items-center p-[10px] bg-[#DBEAFE] rounded-2xl ${isMobile ? 'order-1' : ''}`}>
+                <section className={`flex flex-col gap-[20px] items-center p-[10px] bg-[#DBEAFE] rounded-2xl ${isMobile ? 'order-1 mt-[20px]' : ''}`}>
                     <div className="text-center">
                         <h3>Objetivos</h3>
                         <p>Este es tu progreso en el día de hoy</p>

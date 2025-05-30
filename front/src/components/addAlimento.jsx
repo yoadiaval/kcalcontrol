@@ -76,6 +76,7 @@ function AddAlimento() {
             <Input
                 name="calorias"
                 type="number"
+                step="any"
                 min='0'
                 value={dataForm.calorias}
                 onChange={handleChange}
@@ -90,6 +91,7 @@ function AddAlimento() {
             <Input
                 name="proteinas"
                 type="number"
+                step="any"
                 min='0'
                 value={dataForm.proteinas}
                 onChange={handleChange}
@@ -104,6 +106,7 @@ function AddAlimento() {
             <Input
                 name="grasas"
                 type="number"
+                step="any"
                 min='0'
                 value={dataForm.grasas}
                 onChange={handleChange}
@@ -118,6 +121,7 @@ function AddAlimento() {
             <Input
                 name="carbohidratos"
                 type="number"
+                step="any"
                 min='0'
                 value={dataForm.carbohidratos}
                 onChange={handleChange}

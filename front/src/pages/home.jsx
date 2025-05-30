@@ -8,7 +8,7 @@ function Home() {
   const { currentUser } = useCentralContext();
 
   return (
-    <div className="relative w-full min-w-[360px] md:w-[80vw] md:mx-auto h-[100dvh] flex flex-col overflow-hidden">
+    <div className="relative w-full min-w-[360px] md:w-[80vw] md:mx-auto min-h-[100dvh] flex flex-col overflow-auto">
       <div className="w-[500px] h-[500px] fixed bg-[#DBEAFE80] rounded-full top-[-200px] left-[-200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#FFC64D33] rounded-full top-[-300px] left-[200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#66be722a] rounded-full bottom-[-300px] right-[-120px] z-[-1]"></div>

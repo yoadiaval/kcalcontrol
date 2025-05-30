@@ -17,7 +17,7 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Configurar el interceptor solo una vez cuando el usuario esté autenticado
+  // Configura el interceptor solo una vez cuando el usuario esté autenticado
   useEffect(() => {
     const interceptor = axios.interceptors.request.use(
       async (config) => {

@@ -61,7 +61,7 @@ function RegistrosProvider({ children }) {
         try {
 
             const response = await axios.post(
-                `${SERVER_HOST}/api/registros/`, dataToSend
+                `${SERVER_HOST}/api/registros`, dataToSend
             );
             getRegistros()
             return response;

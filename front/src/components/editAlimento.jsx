@@ -79,6 +79,7 @@ function EditAlimento({ data, onClose }) {
                 <Input
                     name="calorias"
                     type="number"
+                    step="any"
                     min='0'
                     value={dataForm.calorias}
                     onChange={handleChange}
@@ -93,6 +94,7 @@ function EditAlimento({ data, onClose }) {
                 <Input
                     name="proteinas"
                     type="number"
+                    step="any"
                     min='0'
                     value={dataForm.proteinas}
                     onChange={handleChange}
@@ -107,6 +109,7 @@ function EditAlimento({ data, onClose }) {
                 <Input
                     name="grasas"
                     type="number"
+                    step="any"
                     min='0'
                     value={dataForm.grasas}
                     onChange={handleChange}
@@ -121,6 +124,7 @@ function EditAlimento({ data, onClose }) {
                 <Input
                     name="carbohidratos"
                     type="number"
+                    step="any"
                     min='0'
                     value={dataForm.carbohidratos}
                     onChange={handleChange}

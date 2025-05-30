@@ -40,23 +40,23 @@ function Calculadora() {
 
     const optionsActivity = [
         {
-            label: "Sedentario",
+            label: "Sedentario (Poco o ningún ejer.)",
             value: "1"
         },
         {
-            label: "Ligeramente Activo",
+            label: "Ligeramente Activo (Ejer. 1 a 3 días)",
             value: "2"
         },
         {
-            label: "Moderadamente Activo",
+            label: "Moderadamente Activo (Ejer. 3 a 5 días)",
             value: "3"
         },
         {
-            label: "Muy Activo",
+            label: "Muy Activo (Ejer. 6 a 7 días)",
             value: "4"
         },
         {
-            label: "Extremadamente activo",
+            label: "Extremadamente activo (Ejer. dos veces al día)",
             value: "5"
         },
     ]
@@ -67,7 +67,7 @@ function Calculadora() {
             value: "1"
         },
         {
-            label: "mantenerme",
+            label: "Mantenerme",
             value: "2"
         },
         {
@@ -193,7 +193,8 @@ function Calculadora() {
                                     name="altura"
                                     value={dataForm.altura}
                                     type="number"
-                                    min={0}
+                                    step="any"
+                                    min={50}
                                     required
                                 />
                             </div>
@@ -204,6 +205,7 @@ function Calculadora() {
                                     name="peso"
                                     value={dataForm.peso}
                                     type="number"
+                                    step="any"
                                     min={0}
                                     required
                                 />
