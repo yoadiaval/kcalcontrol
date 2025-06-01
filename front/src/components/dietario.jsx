@@ -56,6 +56,7 @@ function Dietario() {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
             await getRegistros();
+            console.log(registros)
 
             // if (resultGetRegistros) {
             //     setLoading(false);
@@ -71,6 +72,7 @@ function Dietario() {
 
 
     /*FUNCIONES*/
+
     const accPorMacro = (macro) => {
         return registros.reduce((acc, item) => {
             const valor = parseFloat(item.alimento_info[macro]) || 0;

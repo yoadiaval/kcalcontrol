@@ -38,7 +38,7 @@ function AlimentosProvider({ children }) {
             }
             console.log(dataToSend)
             const response = await axios.post(
-                `${SERVER_HOST}/api/alimentos/`, dataToSend
+                `${SERVER_HOST}/api/alimentos`, dataToSend
             );
 
             getAlimentos()

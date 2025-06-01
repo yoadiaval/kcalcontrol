@@ -21,7 +21,7 @@ function RegistrosProvider({ children }) {
                 `${SERVER_HOST}/api/registros/usuario/${currentUser.uid}`
             );
 
-
+            console.log(`${SERVER_HOST}/api/registros/usuario/${currentUser.uid}`)
             setRegistros(response.data.registros);
 
             return true;

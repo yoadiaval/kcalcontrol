@@ -21,7 +21,7 @@ function CardFood(props) {
 
     const inputRef = useRef(null);
 
-    const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput);
+    const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput)/100;
 
 
 
