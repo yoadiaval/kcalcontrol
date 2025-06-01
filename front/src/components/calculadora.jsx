@@ -24,6 +24,7 @@ function Calculadora() {
         peso: ''
     });
     const [loading, setLoading] = useState(true)
+    const [loadingCalc, setLoadingCalc] = useState(false)
 
     /*VARIABLES GLOBALES*/
 
@@ -98,18 +99,17 @@ function Calculadora() {
 
     /*FUNCIONES */
     const handleSubmit = async (event) => {
+        setLoadingCalc(true);
         event.preventDefault();
-
-
         if (
             dataForm.genero != '' &&
             dataForm.objetivo != '' &&
             dataForm.actividad != ''
         ) {
             /*Se gurdan los datos en la base de datos*/
-            setPersonalInfo(dataForm);
+            await setPersonalInfo(dataForm);
             /*Se envían los datos a computo de calorías*/
-            computar(dataForm);
+           await computar(dataForm);
             setDataForm({
                 genero: '',
                 edad: '',
@@ -121,6 +121,7 @@ function Calculadora() {
         } else {
             toast.error('Ha dejado de indicar alguno de los siguientes valores: Género, Indice de actividad u Objetivo');
         }
+        setLoadingCalc(false);
 
     }
     const handleChange = (event) => {
@@ -211,7 +212,7 @@ function Calculadora() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" variant="primary">Enviar</Button>
+                        <Button type="submit" variant="primary">{loadingCalc ? 'Procesando...': 'Enviar'}</Button>
                     </form>
                 </div>
             </section>

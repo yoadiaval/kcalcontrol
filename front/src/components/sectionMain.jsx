@@ -11,9 +11,9 @@ function SectionMain({ header, children }) {
         await logout();
     };
     return (
-        <div className="h-[100vh] overflow-scroll">
-            <div className="sticky top-0 bg-white z-10 pt-2  ">
-                <div className="flex justify-between">
+        <div className="h-[100vh] w-[100vw] sm:w-auto overflow-x-hidden">
+            <div className="sticky top-0 bg-white z-10 pt-2 py-4 px-2">
+                <div className="flex justify-between ">
                     <h2 className="inline-block  text-lg font-semibold ">
                         {header}
                     </h2>

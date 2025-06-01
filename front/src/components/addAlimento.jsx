@@ -16,7 +16,7 @@ function AddAlimento() {
         grasas: '',
         carbohidratos: '',
     });
-    
+    const [loading, setLoading] = useState(false);
     const handleChange = (event) => {
         const { name, value } = event.target;
         setDataForm((prev) => {
@@ -24,6 +24,7 @@ function AddAlimento() {
         });
     }
     const handleSubmit = async (event) => {
+        setLoading(true)
         event.preventDefault();
         const result = await insertarAlimento(dataForm);
         if (result) {
@@ -40,7 +41,7 @@ function AddAlimento() {
             carbohidratos: '',
 
         })
-
+setLoading(false);
     }
 
     return <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -131,7 +132,7 @@ function AddAlimento() {
         </div>
 
         <div className="flex justify-end md:col-span-2">
-            <Button type="submit">Guardar</Button>
+            <Button type="submit">{loading ? 'Añadiendo...':'Guardar'}</Button>
         </div>
     </form>
 

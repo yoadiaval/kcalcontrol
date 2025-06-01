@@ -134,7 +134,7 @@ function Dietario() {
                 <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
                     <div className="p-[20px]">
                         {/*OPCIONES DE COMIDAS */}
-                        <ul className={`flex sticky ${isMobile ? 'top-[59px] bg-white' : ''}`}>
+                        <ul className={`flex sticky ${isMobile ? 'top-[50px] py-2 bg-white' : ''}`}>
                             {tiposComidas.map((item) => (
                                 <li
                                     key={item}
@@ -146,7 +146,7 @@ function Dietario() {
                             ))}
                         </ul>
                         <hr className="w-[100%] border-gray-200 " />
-                        <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[105px] bg-white z-10">
+                        <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[100px] bg-white z-10 py-2">
                             <Button onClick={() => openModal()}>Agregar Comida</Button>
                         </div>
                         {/*LISTADO DE ALIMENTOS*/}
@@ -159,7 +159,7 @@ function Dietario() {
                     </div>
                 </section>
                 {/*SECCION OBJETIVOS */}
-                <section className={`flex flex-col gap-[20px] items-center p-[10px] bg-[#DBEAFE] rounded-2xl ${isMobile ? 'order-1 mt-[20px]' : ''}`}>
+                <section className={`flex flex-col gap-[20px] items-center p-[10px] bg-[#DBEAFE] rounded-2xl ${isMobile ? 'order-1 mt-[20px] w-[90%] m-auto' : ''}`}>
                     <div className="text-center">
                         <h3>Objetivos</h3>
                         <p>Este es tu progreso en el día de hoy</p>

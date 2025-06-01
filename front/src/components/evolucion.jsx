@@ -144,7 +144,7 @@ function Evolucion() {
     }
 
     return (<>
-        <SectionMain header='Mi Evolución' className='relative'>
+        <SectionMain header='Mi Evolución' className='relative '>
             <div className="w-[100%] h-[100%] flex flex-wrap mb-[200px] md:mb-0">
                 <section className="w-[fit-content] p-[1rem] md:p-[3rem]  h-[100%] ">
                     <DateRangeComponent onChange={changeDateRange} />
