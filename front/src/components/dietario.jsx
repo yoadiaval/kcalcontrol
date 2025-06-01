@@ -134,7 +134,7 @@ function Dietario() {
                 <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
                     <div className="p-[20px]">
                         {/*OPCIONES DE COMIDAS */}
-                        <ul className={`flex sticky ${isMobile ? 'top-[50px] py-2 bg-white' : ''}`}>
+                        <ul className={`flex sticky ${isMobile ? 'top-[50px] pt-2 bg-white' : ''}`}>
                             {tiposComidas.map((item) => (
                                 <li
                                     key={item}
@@ -146,7 +146,7 @@ function Dietario() {
                             ))}
                         </ul>
                         <hr className="w-[100%] border-gray-200 " />
-                        <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[100px] bg-white z-10 py-2">
+                        <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[95px] bg-white z-10 py-3">
                             <Button onClick={() => openModal()}>Agregar Comida</Button>
                         </div>
                         {/*LISTADO DE ALIMENTOS*/}

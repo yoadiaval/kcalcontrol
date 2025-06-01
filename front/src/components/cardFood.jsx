@@ -92,6 +92,7 @@ function CardFood(props) {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={dataInput}
+                            step="any"
                             ref={inputRef}
                             type="number"
                             min={0}

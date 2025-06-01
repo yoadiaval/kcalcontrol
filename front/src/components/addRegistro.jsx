@@ -225,7 +225,7 @@ function AddRegistro({ tipoComida }) {
             </ul>
 
             <hr className="w-[100%] border-gray-200 mb-[20px]" />
-            {loading ? <div className="min-h-[453px] lg:min-w-[1432px] flex items-center justify-center"><Spin /></div> : <div>{activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
+            {loading ? <div className="min-h-[453px] lg:min-w-[899px] flex items-center justify-center"><Spin /></div> : <div>{activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
                 {activo === 'op2' && <ImportarAlimento data={tipoComida} />}</div>}
 
 

@@ -7,7 +7,7 @@ function Dashboard() {
   return (
     <div className="flex gap-[30px] relative w-[100vw] overflow-x-hidden">
       <Aside />
-      <main className="flex-1 ">
+      <main className="flex-1 sm:pr-[10px] ">
         <Outlet />
       </main>
     </div>

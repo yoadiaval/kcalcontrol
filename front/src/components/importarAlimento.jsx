@@ -25,6 +25,7 @@ function ImportarAlimento(props) {
     const [busquedaActiva, setBusquedaActiva] = useState(false);
     const [loading, setLoading] = useState(false);
     const [imgProducto, setImgProducto] = useState(null);
+    const [loadingImport, setLoadingImport] = useState(false);
 
     const searchAlimentoApi = async (e) => {
         e.preventDefault();
@@ -75,7 +76,7 @@ function ImportarAlimento(props) {
     };
 
     const handleImport = async () => {
-
+        setLoadingImport(true)
         if (tipoComida === undefined) {
 
             const result = await insertarAlimento(productoApi);
@@ -95,7 +96,7 @@ function ImportarAlimento(props) {
                 toast.error('Ha ocurrido un error. Posible alimento repetido')
             }
         }
-
+        setLoadingImport(false)
 
     }
     return (<><div>
@@ -110,7 +111,7 @@ function ImportarAlimento(props) {
             <div className="flex flex-col gap-[2rem] w-[400px]">
                 <form className=' flex flex-col gap-2 w-[100%]' onSubmit={searchAlimentoApi}>
                     <label>Inserte el código de barras del producto deseado</label>
-                    <input className="bg-[#F9FAFB] px-4 py-2 rounded-md border border-neutral-200 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 w-[100%]" value={codProducto} onChange={(e) => { setCodProducto(e.target.value) }} />
+                    <input required className="bg-[#F9FAFB] px-4 py-2 rounded-md border border-neutral-200 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 w-[100%]" value={codProducto} onChange={(e) => { setCodProducto(e.target.value) }} />
                     <button type="submit" disabled={busquedaActiva} className={`py-[0.5rem] rounded cursor-pointer text-white
     ${loading || busquedaActiva ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-400 hover:bg-blue-500'}`}>Enviar</button>
                 </form>
@@ -160,7 +161,7 @@ function ImportarAlimento(props) {
                                                 onClick={handleImport}
                                                 className="block w-[100%] bg-blue-400 text-white px-[0.5rem] hover:bg-blue-500 py-[0.5rem] rounded cursor-pointer"
                                             >
-                                                Añadir
+                                                {loading ? 'Añadiendo' : 'Añadir'}
                                             </button>
                                             <button
                                                 onClick={() => setBusquedaActiva(false)}
