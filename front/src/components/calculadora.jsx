@@ -6,28 +6,35 @@ import SectionMain from "./SectionMain";
 import { toast } from "react-toastify";
 import useCentralContext from "../hooks/useCentralContext";
 import { Spin } from 'antd';
+import {InfoCircleOutlined} from '@ant-design/icons'
 
 function Calculadora() {
 
     /*CONTEXT */
 
-    const { getPersonalInfo, setPersonalInfo, userData, computar } = useCentralContext();
-
+    const { getPersonalInfo, setPersonalInfo,  userData, computar } = useCentralContext();
+    const usuario = userData?.usuario;
     /*ESTADOS */
-
+    
     const [dataForm, setDataForm] = useState({
-        genero: '',
-        edad: '',
+        genero: usuario?.sexo,
+        edad: usuario?.edad,
+        altura: usuario?.altura,
+        peso: usuario?.peso,
         actividad: '',
-        objetivo: '',
-        altura: '',
-        peso: ''
+        objetivo: usuario?.objetivo,
+        bodyFact:'',
+        proteinPerKg: '2',
+        factPerKg: '1',
+        carbPerKg: '7'
     });
+    const [includeFactBody, setIncludeFactBody] = useState(false);
+
     const [loading, setLoading] = useState(true)
     const [loadingCalc, setLoadingCalc] = useState(false)
 
     /*VARIABLES GLOBALES*/
-
+    
     const optionsGender = [
         {
             label: "Hombre",
@@ -84,9 +91,9 @@ function Calculadora() {
     useEffect(() => {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
-            const resultGetAlimentos = await getPersonalInfo();
+            const resultGetPersonalInfo = await getPersonalInfo();
 
-            if (resultGetAlimentos) {
+            if (resultGetPersonalInfo) {
                 setLoading(false);
             }
         };
@@ -109,15 +116,15 @@ function Calculadora() {
             /*Se gurdan los datos en la base de datos*/
             await setPersonalInfo(dataForm);
             /*Se envían los datos a computo de calorías*/
-           await computar(dataForm);
-            setDataForm({
-                genero: '',
-                edad: '',
-                actividad: '',
-                objetivo: '',
-                altura: '',
-                peso: ''
-            })
+            await computar(dataForm);
+            // setDataForm({
+            //     genero: '',
+            //     edad: '',
+            //     actividad: '',
+            //     objetivo: '',
+            //     altura: '',
+            //     peso: ''
+            // })
         } else {
             toast.error('Ha dejado de indicar alguno de los siguientes valores: Género, Indice de actividad u Objetivo');
         }
@@ -212,7 +219,67 @@ function Calculadora() {
                                 />
                             </div>
                         </div>
-                        <Button type="submit" variant="primary">{loadingCalc ? 'Procesando...': 'Enviar'}</Button>
+                        {/* AJUSTES AVANZADOS */}
+                        <fieldset className="border border-gray-300 p-6 rounded flex  gap-8">
+                            <legend className="font-bold ">Ajustes avanzados</legend>
+                            <div className="flex flex-col justify-between w-[50%] gap-2">
+                                <p className="font-bold">Ajuste de macros por Kg de peso corporal</p>
+                                <div className="">
+                                    <label className="flex items-center gap-2">Proteinas <span className="cursor-pointer"><InfoCircleOutlined /></span></label>
+                                    <Input 
+                                    type="number" 
+                                    step="any" 
+                                    min={1.2} max={2.2} 
+                                    onChange={handleChange}
+                                    name="proteinPerKg"
+                                    value={dataForm.proteinPerKg}/>
+                                </div>
+                                <div className="">
+                                    <label className="flex items-center gap-2">Grasas
+                                        <span className="cursor-pointer"><InfoCircleOutlined /></span>
+                                    </label>
+                                    <Input 
+                                    type="number" 
+                                    step="any" 
+                                    min={1} max={1.5}
+                                    onChange={handleChange}
+                                    name="factPerKg"
+                                    value={dataForm.factPerKg}
+                                     />
+                                </div>
+                                <div className="">
+                                    <label className="flex items-center gap-2">Carbohidratos
+                                        <span className="cursor-pointer"><InfoCircleOutlined /></span>
+                                    </label>
+                                    <Input 
+                                    type="number" 
+                                    step="any" 
+                                    onChange={handleChange}
+                                    name="carbPerKg"
+                                    value={dataForm.carbPerKg}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="w-[50%] flex flex-col gap-2">
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" id="checkbox" 
+                                    name="checkbox" 
+                                        checked={includeFactBody}
+                                        onChange={(event) => { setIncludeFactBody(event.target.checked); 
+                                        setDataForm({ ...dataForm, bodyFact: '' }); 
+                                        }}  />
+                                    <p className="mb-0">Incluye mi nivel de grasa corporal (%)</p>
+
+                                </div>
+                                <Input type="number" step="any" disabled={!includeFactBody} onChange={handleChange} name="bodyFact" 
+                                value={dataForm.bodyFact} />
+                                
+                            </div>
+                            
+
+                        </fieldset>
+                        <Button type="submit" variant="primary">{loadingCalc ? 'Procesando...' : 'Enviar'}</Button>
                     </form>
                 </div>
             </section>
@@ -227,14 +294,14 @@ function Calculadora() {
                 {loading ? <div className="w-full max-w-[896px] min-h-[118px] flex items-center justify-center pb-6"><Spin /></div> : <div className="w-full lg:flex-1 max-w-[896px] flex flex-col items-center lg:flex-row gap-4 ">
                     <div className="w-[100%] lg:w-1/2 max-w-[448px] flex flex-col gap-5">
                         <h3>Distribución de macros</h3>
-                        <CardMacro color="#51a2ff" content={{ macro: 'Proteina', value: `${userData.usuario.obj_proteinas} g`, percent: "50" }} />
-                        <CardMacro color="#66be72" content={{ macro: 'Carbohidratos', value: `${userData.usuario.obj_carbohidratos} g`, percent: "50" }} />
-                        <CardMacro color="#ffc64d" content={{ macro: 'Grasas', value: `${userData.usuario.obj_grasas} g`, percent: "50" }} />
+                        <CardMacro color="#51a2ff" content={{ macro: 'Proteina', value: `${usuario.obj_proteinas} g`, percent: "50" }} />
+                        <CardMacro color="#66be72" content={{ macro: 'Carbohidratos', value: `${usuario.obj_carbohidratos} g`, percent: "50" }} />
+                        <CardMacro color="#ffc64d" content={{ macro: 'Grasas', value: `${usuario.obj_grasas} g`, percent: "50" }} />
                     </div>
                     <div className="w-[100%] lg:w-1/2 max-w-[448px] flex flex-col items-center gap-5">
                         <h3>Calorias totales a consumir por día</h3>
                         <div className="w-[150px] h-[150px] rounded-full bg-linear-to-bl from-[#51a2ff] to-[#66be72] flex items-center justify-center">
-                            <div className="w-[85%] h-[85%] bg-white  rounded-full flex justify-center items-center text-4xl flex-col "><p>{userData.usuario.obj_calorias}</p><p>kCal</p></div>
+                            <div className="w-[85%] h-[85%] bg-white  rounded-full flex justify-center items-center text-4xl flex-col "><p>{usuario.obj_calorias}</p><p>kCal</p></div>
                         </div>
                     </div>
                 </div>}

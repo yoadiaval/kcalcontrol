@@ -19,8 +19,9 @@ function ComputoProvider({ children }) {
         let bmr = 0;
         const distinctH = 5;
         const distinctM = -161;
-
+        
         switch (data.genero) {
+
             case "h":
                 bmr = bmrCompute(distinctH, data);
                 break;
@@ -30,13 +31,15 @@ function ComputoProvider({ children }) {
             default:
                 break;
         }
-
+       
         const gastoEnergTot = tdeeCompute(bmr, data.actividad);
+       
         const goalAdjust = goalAdjustCompute(gastoEnergTot, data.objetivo);
+    
 
         /*Ajuste de macros por peso */
-        const protObj = (1.9 * parseFloat(data.peso)) / 4;
-        const graObj = (0.3 * goalAdjust) / 9;
+        const protObj = (data.proteinPerKg * parseFloat(data.peso));
+        const graObj = (data.factPerKg * parseFloat(data.peso));
         const carboObj = (goalAdjust - (protObj * 4 + graObj * 9)) / 4;
 
         const nuevosMacros = {
@@ -55,12 +58,22 @@ function ComputoProvider({ children }) {
 
     //============FUNCIONES AUXILIARES==========//
     const bmrCompute = (distinct, data) => {
-        return (
-            10 * parseFloat(data.peso) +
-            6.25 * parseFloat(data.altura) +
-            5 * parseFloat(data.edad) +
-            distinct
-        );
+        let bmr = 0;
+        if (data.bodyFact !== '') {
+        
+        /*Se tiene en cuenta la grasa corporal, ecuacion: Katch-McArdle */
+            const masaMagra = parseFloat(data.peso) * (1-parseFloat(data.bodyFact)/100);
+            console.log('masa magra '+masaMagra)
+            bmr = 370 + (21.6 * masaMagra);
+            console.log('bmr '+bmr)
+        }else{
+            /* ecuación: Mifflin-St Jeor */
+            bmr = 10 * parseFloat(data.peso) +
+                6.25 * parseFloat(data.altura) -
+                5 * parseFloat(data.edad) +
+                distinct;
+        }
+        return bmr;
     };
 
 
@@ -93,14 +106,14 @@ function ComputoProvider({ children }) {
         let goalAdjust = 0;
         switch (objetivo) {
             case "1":
-                goalAdjust = gastoEnergTot + 375;
+                goalAdjust = gastoEnergTot + 0.15 * gastoEnergTot;
                 break;
             case "2":
-                goalAdjust = gastoEnergTot - 375;
+                goalAdjust = gastoEnergTot;
 
                 break;
             case "3":
-                goalAdjust = gastoEnergTot;
+                goalAdjust = gastoEnergTot - 0.15 * gastoEnergTot;
 
                 break;
 
