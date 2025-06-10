@@ -6,16 +6,19 @@ import SectionMain from "./SectionMain";
 import { toast } from "react-toastify";
 import useCentralContext from "../hooks/useCentralContext";
 import { Spin } from 'antd';
-import {InfoCircleOutlined} from '@ant-design/icons'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import InfoText from "./infoText";
+import Modal from "./modal";
 
 function Calculadora() {
 
     /*CONTEXT */
 
-    const { getPersonalInfo, setPersonalInfo,  userData, computar } = useCentralContext();
+    const { getPersonalInfo, setPersonalInfo, userData, computar } = useCentralContext();
     const usuario = userData?.usuario;
     /*ESTADOS */
-    
+    const [showModal, setShowModal] = useState(false);
+    const [infoType, setInfoType] = useState(null);
     const [dataForm, setDataForm] = useState({
         genero: usuario?.sexo,
         edad: usuario?.edad,
@@ -23,18 +26,18 @@ function Calculadora() {
         peso: usuario?.peso,
         actividad: '',
         objetivo: usuario?.objetivo,
-        bodyFact:'',
+        bodyFat: '',
         proteinPerKg: '2',
-        factPerKg: '1',
+        fatPerKg: '1',
         carbPerKg: '7'
     });
-    const [includeFactBody, setIncludeFactBody] = useState(false);
+    const [includeFatBody, setIncludeFatBody] = useState(false);
 
     const [loading, setLoading] = useState(true)
     const [loadingCalc, setLoadingCalc] = useState(false)
 
     /*VARIABLES GLOBALES*/
-    
+
     const optionsGender = [
         {
             label: "Hombre",
@@ -84,6 +87,8 @@ function Calculadora() {
         }
     ]
 
+
+
     let textResultado = "Rellena la información de la sección anterior para obtener/modificar el resultado estimado de macronutrintes necesarios por día"
 
     /*ACTUALIZACIONES */
@@ -117,14 +122,7 @@ function Calculadora() {
             await setPersonalInfo(dataForm);
             /*Se envían los datos a computo de calorías*/
             await computar(dataForm);
-            // setDataForm({
-            //     genero: '',
-            //     edad: '',
-            //     actividad: '',
-            //     objetivo: '',
-            //     altura: '',
-            //     peso: ''
-            // })
+
         } else {
             toast.error('Ha dejado de indicar alguno de los siguientes valores: Género, Indice de actividad u Objetivo');
         }
@@ -138,8 +136,19 @@ function Calculadora() {
         });
     }
 
+    const hadleModal = (infoType) => {
+        setInfoType(infoType);
+        setShowModal(true);
+    }
+    const closeModal = () => { setShowModal(false); }
+
     return (
         <SectionMain header="Calculadora de Macros">
+            {showModal && (
+                <Modal onClose={closeModal} title='Información'>
+                    <InfoText infoType={infoType} />
+                </Modal>
+            )}
             {/*SECCION 1 - calculadora*/}
             <section className="flex flex-col lg:flex-row flex-wrap gap-10 p-6">
                 {/* Columna izquierda: texto */}
@@ -225,58 +234,61 @@ function Calculadora() {
                             <div className="flex flex-col justify-between w-[50%] gap-2">
                                 <p className="font-bold">Ajuste de macros por Kg de peso corporal</p>
                                 <div className="">
-                                    <label className="flex items-center gap-2">Proteinas <span className="cursor-pointer"><InfoCircleOutlined /></span></label>
-                                    <Input 
-                                    type="number" 
-                                    step="any" 
-                                    min={1.2} max={2.2} 
-                                    onChange={handleChange}
-                                    name="proteinPerKg"
-                                    value={dataForm.proteinPerKg}/>
+                                    <label className="flex items-center gap-2">Proteinas <span className="cursor-pointer" onClick={() => hadleModal('proteinInfo')}><InfoCircleOutlined /></span></label>
+                                    <Input
+                                        type="number"
+                                        step="any"
+                                        min={1.2} max={2.2}
+                                        onChange={handleChange}
+                                        name="proteinPerKg"
+                                        value={dataForm.proteinPerKg} />
                                 </div>
                                 <div className="">
                                     <label className="flex items-center gap-2">Grasas
-                                        <span className="cursor-pointer"><InfoCircleOutlined /></span>
+                                        <span className="cursor-pointer" onClick={() => hadleModal('fatInfo')}><InfoCircleOutlined /></span>
                                     </label>
-                                    <Input 
-                                    type="number" 
-                                    step="any" 
-                                    min={1} max={1.5}
-                                    onChange={handleChange}
-                                    name="factPerKg"
-                                    value={dataForm.factPerKg}
-                                     />
+                                    <Input
+                                        type="number"
+                                        step="any"
+                                        min={1} max={1.5}
+                                        onChange={handleChange}
+                                        name="fatPerKg"
+                                        value={dataForm.fatPerKg}
+                                    />
                                 </div>
                                 <div className="">
                                     <label className="flex items-center gap-2">Carbohidratos
-                                        <span className="cursor-pointer"><InfoCircleOutlined /></span>
+                                        <span className="cursor-pointer" onClick={() => hadleModal('carbInfo')}><InfoCircleOutlined /></span>
                                     </label>
-                                    <Input 
-                                    type="number" 
-                                    step="any" 
-                                    onChange={handleChange}
-                                    name="carbPerKg"
-                                    value={dataForm.carbPerKg}
+                                    <Input
+                                        type="number"
+                                        step="any"
+                                        onChange={handleChange}
+                                        name="carbPerKg"
+                                        disabled='true'
+                                        value={dataForm.carbPerKg}
                                     />
                                 </div>
                             </div>
 
                             <div className="w-[50%] flex flex-col gap-2">
                                 <div className="flex items-center gap-2">
-                                    <input type="checkbox" id="checkbox" 
-                                    name="checkbox" 
-                                        checked={includeFactBody}
-                                        onChange={(event) => { setIncludeFactBody(event.target.checked); 
-                                        setDataForm({ ...dataForm, bodyFact: '' }); 
-                                        }}  />
-                                    <p className="mb-0">Incluye mi nivel de grasa corporal (%)</p>
+                                    <input type="checkbox" id="checkbox"
+                                        name="checkbox"
+                                        checked={includeFatBody}
+                                        onChange={(event) => {
+                                            setIncludeFatBody(event.target.checked);
+                                            setDataForm({ ...dataForm, bodyFat: '' });
+                                        }} />
+                                    <p className="mb-0">Incluye mi nivel de grasa corporal (%)</p><span className="cursor-pointer"
+                                        onClick={() => hadleModal('bodyFatInfo')}><InfoCircleOutlined /></span>
 
                                 </div>
-                                <Input type="number" step="any" disabled={!includeFactBody} onChange={handleChange} name="bodyFact" 
-                                value={dataForm.bodyFact} />
-                                
+                                <Input type="number" step="any" disabled={!includeFatBody} onChange={handleChange} name="bodyFat"
+                                    value={dataForm.bodyFat} />
+
                             </div>
-                            
+
 
                         </fieldset>
                         <Button type="submit" variant="primary">{loadingCalc ? 'Procesando...' : 'Enviar'}</Button>

@@ -39,7 +39,7 @@ function ComputoProvider({ children }) {
 
         /*Ajuste de macros por peso */
         const protObj = (data.proteinPerKg * parseFloat(data.peso));
-        const graObj = (data.factPerKg * parseFloat(data.peso));
+        const graObj = (data.fatPerKg * parseFloat(data.peso));
         const carboObj = (goalAdjust - (protObj * 4 + graObj * 9)) / 4;
 
         const nuevosMacros = {
@@ -59,10 +59,10 @@ function ComputoProvider({ children }) {
     //============FUNCIONES AUXILIARES==========//
     const bmrCompute = (distinct, data) => {
         let bmr = 0;
-        if (data.bodyFact !== '') {
+        if (data.bodyFat !== '') {
         
         /*Se tiene en cuenta la grasa corporal, ecuacion: Katch-McArdle */
-            const masaMagra = parseFloat(data.peso) * (1-parseFloat(data.bodyFact)/100);
+            const masaMagra = parseFloat(data.peso) * (1-parseFloat(data.bodyFat)/100);
             console.log('masa magra '+masaMagra)
             bmr = 370 + (21.6 * masaMagra);
             console.log('bmr '+bmr)
