@@ -86,14 +86,14 @@ function AddRegistro({ tipoComida }) {
                         size="small"
                         style={{ width: 90 }}
                     >
-                        Search
+                        Buscar
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
                         size="small"
                         style={{ width: 90 }}
                     >
-                        Reset
+                        Rest.
                     </Button>
                     <Button
                         type="link"
@@ -104,7 +104,7 @@ function AddRegistro({ tipoComida }) {
                             setSearchedColumn(dataIndex);
                         }}
                     >
-                        Filter
+                        Filtrar
                     </Button>
                     <Button
                         type="link"
@@ -113,7 +113,7 @@ function AddRegistro({ tipoComida }) {
                             close();
                         }}
                     >
-                        close
+                        Cerrar
                     </Button>
                 </Space>
             </div>

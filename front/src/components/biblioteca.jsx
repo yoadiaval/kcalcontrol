@@ -112,14 +112,14 @@ function Biblioteca() {
                         size="small"
                         style={{ width: 90 }}
                     >
-                        Search
+                        Buscar
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
                         size="small"
                         style={{ width: 90 }}
                     >
-                        Reset
+                        Rest.
                     </Button>
                     <Button
                         type="link"
@@ -130,7 +130,7 @@ function Biblioteca() {
                             setSearchedColumn(dataIndex);
                         }}
                     >
-                        Filter
+                        Filtrar
                     </Button>
                     <Button
                         type="link"
@@ -139,7 +139,7 @@ function Biblioteca() {
                             close();
                         }}
                     >
-                        close
+                        Cerrar
                     </Button>
                 </Space>
             </div>
