@@ -8,13 +8,13 @@ function Home() {
   const { currentUser } = useCentralContext();
 
   return (
-    <div className="relative w-full h-full min-w-[360px] md:w-[80vw] md:mx-auto flex flex-col scroll md:overflow-y-hidden overflow-x-hidden">
+    <div className="relative w-full h-[100vh] min-w-[360px] md:w-[80vw] md:mx-auto flex flex-col scroll md:overflow-y-hidden overflow-x-hidden">
       <div className="w-[500px] h-[500px] fixed bg-[#DBEAFE80] rounded-full top-[-200px] left-[-200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#FFC64D33] rounded-full top-[-300px] left-[200px] z-[-1]"></div>
       <div className="w-[500px] h-[500px] fixed bg-[#66be722a] rounded-full bottom-[-300px] right-[-120px] z-[-1]"></div>
       <header className="sticky flex flex-col md:flex-row  justify-between items-center ">
 
-        <div className="w-[100%] flex justify-center md:justify-start py-4">
+        <div className="w-[100%] flex justify-center md:justify-start py-4 lg:pt-[3rem]">
           <figure className="w-[150px]">
             <img src={logo} className="w-[100%]" />
           </figure>

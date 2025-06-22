@@ -97,7 +97,7 @@ function Calculadora() {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
             const resultGetPersonalInfo = await getPersonalInfo();
-
+            
             if (resultGetPersonalInfo) {
                 setLoading(false);
             }

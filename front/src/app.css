@@ -15,11 +15,15 @@
     --color-hover: rgb(226, 23, 104);   
     --padding-lateral-sm: 2.5vw;
 
+    --toastify-color-dark: #1E1E2F;
+    --toastify-color-success: #2B7FFF;
+
     font-family: "Alegreya Sans", sans-serif;
     box-sizing: border-box;
     
 
 }
+
 
 /*=========SMALL DEFAULT=============*/
 

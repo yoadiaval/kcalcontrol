@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Spin } from 'antd';
 import useCentralContext from "../hooks/useCentralContext";
+import { SERVER_HOST } from "../config";
 
 function ImportarAlimento(props) {
     const { data: tipoComida } = props;
@@ -32,7 +33,7 @@ function ImportarAlimento(props) {
         setLoading(true);
         if (codProducto !== '') {
             try {
-                const response = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${codProducto}.json`);
+                const response = await axios.get(`${SERVER_HOST}/api/openfoodfact/${codProducto}`);
 
                 const result = response.data.status;
 
