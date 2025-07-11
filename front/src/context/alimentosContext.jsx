@@ -95,7 +95,7 @@ function AlimentosProvider({ children }) {
     /*Este método tiene que estar aquí, si lo pongo en registroContext() no podria acceder a getAlimentos() por la organizacion de los provider, si invierto esta organizacion entonces me fallaria getRegistros en AlimentosContext() */
     const transaccionCrearRegistrarComida = async (data, tipoComida) => {
         if (!currentUser) return false;
-
+        
         const fechaActual = obtenerFechaActual();
 
         const dataToSend = {
@@ -103,7 +103,7 @@ function AlimentosProvider({ children }) {
             uid: currentUser.uid,
             tipo_comida_id: tipoComida,
             fecha: fechaActual[0],
-            cantidad: 100,
+            cantidad: data.base ?? 100,
             base: 100
         }
 

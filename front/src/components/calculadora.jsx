@@ -97,7 +97,7 @@ function Calculadora() {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
             const resultGetPersonalInfo = await getPersonalInfo();
-            
+
             if (resultGetPersonalInfo) {
                 setLoading(false);
             }
@@ -260,14 +260,15 @@ function Calculadora() {
                                     <label className="flex items-center gap-2">Carbohidratos
                                         <span className="cursor-pointer" onClick={() => hadleModal('carbInfo')}><InfoCircleOutlined /></span>
                                     </label>
-                                    <Input
+                                    <strong>***Este valor se ajusta a partir de los datos indicados de proteinas y grasas</strong>
+                                    {/* <Input
                                         type="number"
                                         step="any"
                                         onChange={handleChange}
                                         name="carbPerKg"
                                         disabled='true'
                                         value={dataForm.carbPerKg}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
 

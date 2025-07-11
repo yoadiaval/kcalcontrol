@@ -6,7 +6,7 @@ import Highlighter from 'react-highlight-words';
 import useCentralContext from "../hooks/useCentralContext";
 import { toast } from "react-toastify";
 import ImportarAlimento from "./importarAlimento";
-
+import AddAlimento from "./addAlimento"
 function AddRegistro({ tipoComida }) {
 
     /*CONTEXT*/
@@ -220,13 +220,27 @@ function AddRegistro({ tipoComida }) {
     return (
         <div className="w-[100%] min-h-[500px]">
             <ul className="flex gap-[1rem]">
-                <li onClick={() => { setActivo('op1') }} className={`cursor-pointer ${activo == 'op1' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Mis alimentos</li>
+                <li onClick={() => { setActivo('op1') }} className={`cursor-pointer ${activo == 'op1' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Mis alimentos en Biblioteca</li>
                 <li onClick={() => { setActivo('op2') }} className={`cursor-pointer ${activo == 'op2' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Alimentos por Código de Barras</li>
+                <li onClick={() => { setActivo('op3') }} className={`cursor-pointer ${activo == 'op3' ? 'border-b-4 border-b-blue-300 ' : ''}`}>Nuevo alimento</li>
             </ul>
 
             <hr className="w-[100%] border-gray-200 mb-[20px]" />
-            {loading ? <div className="min-h-[453px] lg:min-w-[899px] flex items-center justify-center"><Spin /></div> : <div>{activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
-                {activo === 'op2' && <ImportarAlimento data={tipoComida} />}</div>}
+            {loading ? <div className="min-h-[453px] lg:min-w-[899px] flex items-center justify-center"><Spin /></div>
+                : <div>
+                    {activo == 'op1' && <Table columns={columns} dataSource={alimentos} pagination={{ pageSize: 5 }} className="w-[100%] overflow-x-scroll" />}
+                    {activo === 'op2' && <ImportarAlimento data={tipoComida} />}
+                    {activo === 'op3' &&
+                        <div className="flex gap-[6rem] mt-[2rem] w-[100%]">
+                            {!isMobile && <div className="w-[30%] text-gray-600 ">
+                                <p>Desde esta vista podrás añadir alimentos que no hayas insertado aún en tu biblioteca.</p><br />
+                                <p>Por defecto dicho alimento se añadirá también a tu biblioteca.</p>
+                            </div>}
+                            <AddAlimento data={tipoComida} />
+                        </div>
+                    }
+
+                </div>}
 
 
         </div>)

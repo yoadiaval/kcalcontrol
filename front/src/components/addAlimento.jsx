@@ -5,9 +5,11 @@ import { toast } from "react-toastify";
 
 import useCentralContext from "../hooks/useCentralContext";
 
-function AddAlimento() {
+function AddAlimento(props) {
+    const { data: tipoComida } = props;
 
-    const { insertarAlimento } = useCentralContext()
+
+    const { insertarAlimento, transaccionCrearRegistrarComida } = useCentralContext()
     const [dataForm, setDataForm] = useState({
         descripcion: '',
         base: '',
@@ -24,13 +26,25 @@ function AddAlimento() {
         });
     }
     const handleSubmit = async (event) => {
+        
         setLoading(true)
         event.preventDefault();
-        const result = await insertarAlimento(dataForm);
-        if (result) {
-            toast.success('Alimento agregado exitosamente')
-        } else {
-            toast.error('Ha ocurrido un error. Posible alimento repetido')
+
+        if (tipoComida === undefined) {
+            const result = await insertarAlimento(dataForm);
+            if (result) {
+                toast.success('Alimento agregado exitosamente')
+            } else {
+                toast.error('Ha ocurrido un error. Posible alimento repetido')
+            }
+        }else{
+            const result = await transaccionCrearRegistrarComida(dataForm, tipoComida);
+            if (result) {
+                toast.success('Alimento agregado exitosamente')
+                
+            } else {
+                toast.error('Ha ocurrido un error. Posible alimento repetido')
+            }
         }
         setDataForm({
             descripcion: '',
@@ -41,10 +55,10 @@ function AddAlimento() {
             carbohidratos: '',
 
         })
-setLoading(false);
+        setLoading(false);
     }
 
-    return <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    return <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 w-[100%]">
 
         <div>
             <label className="block text-sm font-medium mb-1">Descripción</label>
@@ -132,7 +146,7 @@ setLoading(false);
         </div>
 
         <div className="flex justify-end md:col-span-2">
-            <Button type="submit">{loading ? 'Añadiendo...':'Guardar'}</Button>
+            <Button type="submit">{loading ? 'Añadiendo...' : 'Guardar'}</Button>
         </div>
     </form>
 

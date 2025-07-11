@@ -9,7 +9,7 @@ function ImportarAlimento(props) {
     const { data: tipoComida } = props;
 
     const { insertarAlimento, transaccionCrearRegistrarComida, isMobile } = useCentralContext();
-
+    
     const [ampliada, setAmpliada] = useState(false);
     const [codProducto, setCodProducto] = useState('');
     const [productoApi, setProductoApi] = useState({
@@ -76,9 +76,11 @@ function ImportarAlimento(props) {
 
     };
 
+    
+  
     const handleImport = async () => {
         setLoadingImport(true)
-        if (tipoComida === undefined) {
+        if (tipoComida === undefined ) {
 
             const result = await insertarAlimento(productoApi);
             if (result) {
@@ -103,11 +105,11 @@ function ImportarAlimento(props) {
     return (<><div>
         <div className={`flex gap-[6rem] mt-[2rem] ${isMobile ? 'justify-center' : ''}`}>
             {!isMobile && <div className="w-[30%] text-gray-600">
-                <p>Desde esta vista podrás escribir el código de barras del alimento que deseas añadir</p>
+                <p>Desde esta vista podrás escribir el código de barras del alimento que deseas añadir.</p>
                 <br />
-                <p >Realice esta acción una única vez por alimento</p>
+                <p >Realice esta acción una única vez por alimento.</p>
                 <br />
-                <p>Cada alimento añadido pasa a formar parte de su biblioteca de alimentos</p>
+                <p>Por defecto dicho alimento se añadirá también a tu biblioteca</p>
             </div>}
             <div className="flex flex-col gap-[2rem] w-[400px]">
                 <form className=' flex flex-col gap-2 w-[100%]' onSubmit={searchAlimentoApi}>
@@ -157,6 +159,7 @@ function ImportarAlimento(props) {
                                             <div><span>Grasas: </span>{productoApi.grasas} g</div>
                                             <div><span>Calorias: </span>{productoApi.calorias} kcal</div>
                                         </div>
+                                       
                                         <div className="flex gap-[0.5rem] my-2">
                                             <button
                                                 onClick={handleImport}
