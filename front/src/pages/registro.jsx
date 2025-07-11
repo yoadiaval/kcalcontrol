@@ -123,6 +123,7 @@ function Registro() {
                 required
               />
               <label htmlFor="password">Inserte una contraseña</label>
+              
             </div>
             <div className="inputWithEfect ">
               <input

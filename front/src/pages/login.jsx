@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import logo from '../assets/logo-dark.png'
 import useCentralContext from "../hooks/useCentralContext";
 import { Spin } from "antd";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Login() {
     recordar: false,
   });
   const [resetPassword, setResetPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false)
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     const storedPassword = localStorage.getItem("password");
@@ -60,6 +61,11 @@ function Login() {
       setLoading(false);
     }
   };
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  }
+
 
   const goGoogle = async () => {
     try {
@@ -113,7 +119,7 @@ function Login() {
           </div>
           <div className="inputWithEfect">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               onChange={handleChange}
@@ -121,6 +127,7 @@ function Login() {
               required
             />
             <label for="password">Inserte su contraseña</label>
+            <button type="button" className='cursor-pointer absolute right-[20px] top-[50%] translate-y-[-50%]' onClick={togglePassword}>{showPassword ? <EyeInvisibleOutlined className="text-xl text-gray-600" /> : <EyeOutlined className="text-xl text-gray-600" />}</button>
           </div>
           <div className="flex place-content-between px-3">
             <div className="flex gap-1">
