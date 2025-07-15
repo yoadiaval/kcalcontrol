@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from '../assets/logo-dark.png'
 import useCentralContext from "../hooks/useCentralContext";
-import { Spin } from "antd";
+// import { Spin } from "antd";
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 function Registro() {
   const navigate = useNavigate();

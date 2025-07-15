@@ -3,8 +3,9 @@ import DateRangeComponent from "./dateRangeComponent";
 import SectionMain from "./SectionMain";
 import Chart from 'chart.js/auto';
 import useCentralContext from '../hooks/useCentralContext';
-import { Spin } from 'antd';
-
+//import { Spin } from 'antd';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 function Evolucion() {
 

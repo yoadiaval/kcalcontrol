@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Avatar } from 'antd';
+import Avatar from 'antd/es/avatar';
+import 'antd/es/avatar/style';
 import {
     ControlOutlined,
     UnorderedListOutlined,

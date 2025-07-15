@@ -4,7 +4,9 @@ import ForgotPassword from "../components/forgotPassword";
 import { toast } from "react-toastify";
 import logo from '../assets/logo-dark.png'
 import useCentralContext from "../hooks/useCentralContext";
-import { Spin } from "antd";
+// import { Spin } from "antd";
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 function Login() {

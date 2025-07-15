@@ -1,5 +1,14 @@
 import SectionMain from "./SectionMain";
-import { Progress, Spin } from "antd";
+
+
+// import { Progress, Spin } from "antd";
+
+//IMPORTACIONES DE ANTDESIGN//
+import Progress from 'antd/es/progress';
+import 'antd/es/progress/style';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+//==========================//
 import CardFood from "./cardFood";
 import Button from "./button";
 import Modal from "./modal";

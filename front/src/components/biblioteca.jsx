@@ -1,6 +1,20 @@
 import { useRef, useState, useEffect } from 'react';
 import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Input, Space, Table, Spin } from 'antd';
+//import { Input, Space, Table, Spin } from 'antd';
+
+import Table from 'antd/es/table';
+import 'antd/es/table/style';
+
+import Space from 'antd/es/space';
+import 'antd/es/space/style';
+
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+
+import Input from 'antd/es/input';
+import 'antd/es/input/style';
+
+
 import SectionMain from './SectionMain';
 import Highlighter from 'react-highlight-words';
 import useCentralContext from '../hooks/useCentralContext'

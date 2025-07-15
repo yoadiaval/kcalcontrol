@@ -1,12 +1,33 @@
 
 import { useState, useRef, useEffect } from "react";
-import { Input, Space, Table, Button, Spin } from 'antd';
+//import { Input, Space, Table, Button, Spin } from 'antd';
+
+//IMPORTACIONES DE ANTDESIGN
+import Button from 'antd/es/button';
+import 'antd/es/button/style';
+
+import Table from 'antd/es/table';
+import 'antd/es/table/style';
+
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+
+import Input from 'antd/es/input';
+import 'antd/es/input/style';
+
+import Space from 'antd/es/space';
+import 'antd/es/space/style';
+
+//==============================//
+
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
 import useCentralContext from "../hooks/useCentralContext";
 import { toast } from "react-toastify";
 import ImportarAlimento from "./importarAlimento";
 import AddAlimento from "./addAlimento"
+
+
 function AddRegistro({ tipoComida }) {
 
     /*CONTEXT*/

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import { toast } from "react-toastify";
-import { Spin } from "antd";
+// import { Spin } from "antd";
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
 
 function ForgotPassword(props) {
   const [email, setEmail] = useState("");

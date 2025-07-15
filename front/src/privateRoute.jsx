@@ -1,4 +1,6 @@
-import { Spin } from "antd";
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+
 import { Navigate, Outlet } from "react-router-dom";
 import useCentralContext from "./hooks/useCentralContext";
 

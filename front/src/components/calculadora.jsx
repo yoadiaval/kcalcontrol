@@ -5,7 +5,10 @@ import { Input, Select } from "./formComp";
 import SectionMain from "./SectionMain";
 import { toast } from "react-toastify";
 import useCentralContext from "../hooks/useCentralContext";
-import { Spin } from 'antd';
+//import { Spin } from 'antd';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+
 import { InfoCircleOutlined } from '@ant-design/icons'
 import InfoText from "./infoText";
 import Modal from "./modal";

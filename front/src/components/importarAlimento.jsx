@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Spin } from 'antd';
+// import { Spin } from 'antd';
+import Spin from 'antd/es/spin';
+import 'antd/es/spin/style';
+
 import useCentralContext from "../hooks/useCentralContext";
 import { SERVER_HOST } from "../config";
 

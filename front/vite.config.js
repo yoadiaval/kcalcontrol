@@ -12,17 +12,16 @@ export default defineConfig({
         manualChunks: {
           react: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          antd: ['antd'],
           charts: ['chart.js'],
           date: ['date-fns', 'react-date-range'],
           firebase: ['firebase/app',
             'firebase/auth',
             'firebase/firestore',
-            ],
+          ],
           toast: ['react-toastify'],
           highlight: ['react-highlight-words'],
           axios: ['axios'],
-          
+
         }
       }
     }
