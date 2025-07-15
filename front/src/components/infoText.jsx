@@ -1,5 +1,5 @@
 
-import fatImg from '../assets/fat.png'
+import fatImg from '../assets/fat.webp'
 
 function InfoText(props) {
 
