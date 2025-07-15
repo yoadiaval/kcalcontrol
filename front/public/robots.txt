@@ -1,0 +1,18 @@
+
+# Permitir a todos los bots el acceso general
+User-agent: *
+
+# Bloquear rutas privadas protegidas por login
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /dashboard/calculadora
+Disallow: /dashboard/dietario
+Disallow: /dashboard/alimentos
+Disallow: /dashboard/evolucion
+Disallow: /dashboard/configuracion
+
+# Permitir todo lo demás
+Allow: /
+
+# Indicar la ubicación del sitemap (si lo tienes o planeas tener uno)
+#Sitemap: https://tusitio.com/sitemap.xml
