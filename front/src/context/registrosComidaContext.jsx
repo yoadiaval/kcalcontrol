@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import axios from "axios";
 import useAuthContext from "../hooks/useAuthContext";
 import { SERVER_HOST } from "../config";
-
+import { obtenerFechaActual } from "../utils/utils";
 
 
 const RegistrosContext = createContext();
@@ -113,15 +113,6 @@ function RegistrosProvider({ children }) {
 
     }
 
-
-
-    const obtenerFechaActual = () => {
-        const fecha = new Date();
-        const anio = fecha.getFullYear();
-        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
-        const dia = String(fecha.getDate()).padStart(2, '0');
-        return [`${anio}-${mes}-${dia}`, `${dia}-${mes}-${anio}`];
-    }
 
     const valuesToShare = {
         registros,

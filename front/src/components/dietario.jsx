@@ -1,5 +1,5 @@
 import SectionMain from "./SectionMain";
-
+import { obtenerFechaActual } from "../utils/utils";
 
 // import { Progress, Spin } from "antd";
 
@@ -21,7 +21,7 @@ import imgNoData from '../assets/nodata.png';
 function Dietario() {
 
     /*CONTEXT*/
-    const { userData, obtenerFechaActual, isMobile, getRegistros, registros } = useCentralContext();
+    const { userData, isMobile, getRegistros, registros } = useCentralContext();
 
 
 

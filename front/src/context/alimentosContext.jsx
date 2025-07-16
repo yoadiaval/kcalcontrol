@@ -3,14 +3,14 @@ import axios from "axios";
 import useAuthContext from "../hooks/useAuthContext";
 import { SERVER_HOST } from "../config";
 import useRegistrosComidaContext from "../hooks/useRegistrosComidaContext";
-
+import { obtenerFechaActual } from "../utils/utils";
 
 const AlimentosContext = createContext();
 
 function AlimentosProvider({ children }) {
     const [alimentos, setAlimentos] = useState([]);
     const { currentUser } = useAuthContext();
-    const { getRegistros, obtenerFechaActual } = useRegistrosComidaContext();
+    const { getRegistros } = useRegistrosComidaContext();
 
     const getAlimentos = async () => {
         if (!currentUser) return false;
@@ -107,7 +107,7 @@ function AlimentosProvider({ children }) {
             base: 100
         }
 
-        console.log(dataToSend)
+      
         try {
             const response = await axios.post(`${SERVER_HOST}/api/crear-registrar-comida`, dataToSend);
             getRegistros();
