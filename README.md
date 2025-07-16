@@ -1,41 +1,35 @@
 # 🥗 KcalControl
 
-**KcalControl** es una aplicación moderna para llevar el control de calorías de forma sencilla, visual y efectiva. Diseñada para ayudarte a alcanzar tus objetivos nutricionales, mejorar tus hábitos alimenticios y tomar decisiones saludables todos los días.
-
+**KcalControl** es una aplicación para llevar el control de calorías y el cómputo de macros según tus carácterísticas y objetivos a perseguir. Diseñada para ayudar a alcanzar tus metas nutricionales.
 ---
 
 ## 📲 En producción
 
-🔗 [Ir a la app](https://tusitio.com)  
-📱 Disponible en: iOS / Android  
+🔗 [Ir a la app](https://kcalcontrol.yoadiaval.com/)   
 🛠️ Estado: Activa y en desarrollo continuo
 
 ---
 
 ## ✨ Características principales
 
+- Calculadora de macros
 - Registro diario de alimentos y calorías
-- Creación de metas personalizadas
-- Gráficas de progreso e historial nutricional
-- Escaneo de códigos de barra (opcional)
-- Soporte multilenguaje
+- Escaneo de códigos de barra de productos de supermercado
 - Interfaz intuitiva y adaptable a cualquier dispositivo
 
 ---
 
-## 📸 Capturas de pantalla
+## 🎥 Demo en video
 
-<p align="center">
-  <img src="imgs/landingPage.png" width="300" alt="Pantalla principal" />
-  <img src="imgs/login.png" width="300" alt="Pantalla de progreso" />
-</p>
+Mira una demostración completa de KcalControl en acción:  
+👉 [Ver en YouTube](https://www.youtube.com/watch?v=snKi8_-OOxc)
 
 ---
 
 ## 🚀 Instalación (modo desarrollo)
 
 ```bash
-git clone https://github.com/ydiaval/kcalcontrol.git
+git clone https://github.com/yoadiaval/kcalcontrol.git
 cd kcalcontrol
 npm install
 npm run dev
