@@ -23,9 +23,10 @@ function CardFood(props) {
 
     const inputRef = useRef(null);
 
-    const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput)/100;
+    // const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput)/100;
 
-
+    const calorias = data.alimento_info.calorias * parseFloat(dataInput) / 100;
+   
 
     /*FUNCIONES */
 
@@ -40,19 +41,19 @@ function CardFood(props) {
         if (!currentUser) return false;
 
         try {
-          await  editarRegistro({ cantidad: dataInput }, data.id, currentUser.uid)
+            await editarRegistro({ cantidad: dataInput }, data.id, currentUser.uid)
             toast.success('Registro actualizado correctamente');
         } catch (e) {
             console.error(e)
             toast.error('Error al actualizar el registro');
         }
-        
-        
-       
+
+
+
     };
     const handleDelete = () => {
         setShowDelModal(true)
-       
+
     }
     const closeModal = () => {
         setShowDelModal(false);
@@ -115,7 +116,8 @@ function CardFood(props) {
                 <hr className="w-[100%] border-neutral-200" />
                 <div className="flex justify-between py-[10px]">
                     <p>Total calorias</p>
-                    <p>{calorias} Kcal</p>
+                    <p>{isNaN(calorias) ? 0 : calorias.toFixed(2)} Kcal</p>
+
                 </div>
             </div>
         </>
