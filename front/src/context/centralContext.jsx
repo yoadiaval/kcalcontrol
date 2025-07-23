@@ -5,7 +5,11 @@ import useComputoContext from "../hooks/useComputoContext";
 import useAlimentosContext from "../hooks/useAlimentosContext";
 import useRegistrosContext from "../hooks/useRegistrosComidaContext";
 import useAuthContext from "../hooks/useAuthContext";
-
+import {
+  getAlimentos,
+  insertarAlimento,
+  editarAlimento,
+  eliminarAlimento, } from "../services/alimentosService";
 const CentralContext = createContext();
 
 function CentralProvider({ children }) {
@@ -22,7 +26,7 @@ function CentralProvider({ children }) {
     resetPassword, } = useAuthContext();
   const { getPersonalInfo, setPersonalInfo, userData } = usePersonalInfoContext();
   const { nutriMacros, setNutriMacros, computar } = useComputoContext();
-  const { alimentos, getAlimentos, insertarAlimento, editarAlimento, eliminarAlimento, transaccionCrearRegistrarComida } = useAlimentosContext();
+  const { alimentos, setAlimentos, transaccionCrearRegistrarComida } = useAlimentosContext();
 
   const { registros,
     getRegistros,
@@ -82,6 +86,7 @@ function CentralProvider({ children }) {
     setNutriMacros,
     computar,
     alimentos,
+    setAlimentos,
     getAlimentos,
     insertarAlimento,
     editarAlimento,

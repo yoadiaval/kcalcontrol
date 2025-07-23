@@ -1,7 +1,6 @@
 import SectionMain from "./SectionMain";
 import { obtenerFechaActual } from "../utils/utils";
-
-// import { Progress, Spin } from "antd";
+import { getRegistros  } from "../services/registrosService"
 
 //IMPORTACIONES DE ANTDESIGN//
 import Progress from 'antd/es/progress';
@@ -16,13 +15,16 @@ import { useState, useEffect } from "react";
 import AddRegistro from "./addRegistro";
 import useCentralContext from "../hooks/useCentralContext";
 import imgNoData from '../assets/nodata.png';
+import useRegistrosContext from "../hooks/useRegistrosComidaContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 
 function Dietario() {
 
     /*CONTEXT*/
-    const { userData, isMobile, getRegistros, registros } = useCentralContext();
-
+    const {currentUser} = useAuthContext();
+    const { userData, isMobile } = useCentralContext();
+    const { registros, setRegistros } = useRegistrosContext();
 
 
     /*ESTADOS*/
@@ -63,13 +65,8 @@ function Dietario() {
 
     useEffect(() => {
         const fetchData = async () => {
-            /*Resto de elementos que necesito cargar*/
-            await getRegistros();
-            console.log(registros)
-
-            // if (resultGetRegistros) {
-            //     setLoading(false);
-            // }
+            const resultGetRegistros = await getRegistros(currentUser.uid);
+            setRegistros(resultGetRegistros);
         };
         fetchData();
     }, []);

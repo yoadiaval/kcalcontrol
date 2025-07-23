@@ -2,11 +2,11 @@ import { Input, Select } from "./formComp";
 import Button from "./button";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import useAuthContext from "../hooks/useAuthContext";
 import useCentralContext from "../hooks/useCentralContext";
 
 function EditAlimento({ data, onClose }) {
-
+    const { currentUser } = useAuthContext();
     const { editarAlimento } = useCentralContext()
     const [dataForm, setDataForm] = useState({
         id: data.id,
@@ -25,8 +25,8 @@ function EditAlimento({ data, onClose }) {
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const result = await editarAlimento(dataForm);
+        if (!currentUser) return false;
+        const result = await editarAlimento(dataForm, currentUser.uid);
         onClose()
         if (result) {
             toast.success('Alimento modificado exitosamente')

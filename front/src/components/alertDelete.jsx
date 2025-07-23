@@ -1,21 +1,32 @@
-import Modal from "./modal";
 import { DeleteOutlined } from "@ant-design/icons";
 import Button from "./button";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import useAuthContext from "../hooks/useAuthContext";
 
+import { getRegistros } from "../services/registrosService";
+import useRegistrosContext from "../hooks/useRegistrosComidaContext";
 function AlertDelete(props) {
     const { onClose, onDelete, value } = props;
+    const { currentUser } = useAuthContext();
+
+    const {setRegistros} = useRegistrosContext()
     const [loading, setLoading] = useState(false);
+    if (!currentUser) return false;
 
     const handleDelete = async () => {
         setLoading(true);
-        const result = await onDelete(value.id)
-        if (result.status == 200) {
+        try {
+            await onDelete(value.id)
             toast.success('Alimento eliminado con éxito')
-        } else {
-            toast.error('Ha Ocurrido un error al eliminar el alimento')
+            const updatedRegistros = await getRegistros(currentUser.uid);
+            setRegistros(updatedRegistros);
+
+        } catch (e) {
+            console.error(e)
+            toast.error('Ha Ocurrido un error')
         }
+        
         setLoading(false);
         onClose();
     }

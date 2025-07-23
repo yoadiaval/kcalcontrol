@@ -4,15 +4,18 @@ import { toast } from "react-toastify";
 // import { Spin } from 'antd';
 import Spin from 'antd/es/spin';
 import 'antd/es/spin/style';
+import useCentralContext from "../hooks/useCentralContext"
 
-import useCentralContext from "../hooks/useCentralContext";
+
 import { SERVER_HOST } from "../config";
+import { useInsertarAlimento } from "../hooks/useInsertarAlimento";
 
 function ImportarAlimento(props) {
     const { data: tipoComida } = props;
 
-    const { insertarAlimento, transaccionCrearRegistrarComida, isMobile } = useCentralContext();
-    
+    const { isMobile } = useCentralContext();
+  
+    const { submitAlimento} = useInsertarAlimento();
     const [ampliada, setAmpliada] = useState(false);
     const [codProducto, setCodProducto] = useState('');
     const [productoApi, setProductoApi] = useState({
@@ -83,28 +86,10 @@ function ImportarAlimento(props) {
   
     const handleImport = async () => {
         setLoadingImport(true)
-        if (tipoComida === undefined ) {
-
-            const result = await insertarAlimento(productoApi);
-            if (result) {
-                toast.success('Alimento agregado exitosamente')
-                setBusquedaActiva(false);
-            } else {
-                toast.error('Ha ocurrido un error. Posible alimento repetido')
-            }
-        } else {
-
-            const result = await transaccionCrearRegistrarComida(productoApi, tipoComida);
-            if (result) {
-                toast.success('Alimento agregado exitosamente')
-                setBusquedaActiva(false);
-            } else {
-                toast.error('Ha ocurrido un error. Posible alimento repetido')
-            }
-        }
+        await submitAlimento(productoApi, tipoComida);
         setLoadingImport(false)
-
     }
+
     return (<><div>
         <div className={`flex gap-[6rem] mt-[2rem] ${isMobile ? 'justify-center' : ''}`}>
             {!isMobile && <div className="w-[30%] text-gray-600">

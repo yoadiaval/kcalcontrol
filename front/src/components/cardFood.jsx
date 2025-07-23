@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
-import useCentralContext from "../hooks/useCentralContext";
+import useAuthContext from "../hooks/useAuthContext";
+import { eliminarRegistro, editarRegistro } from "../services/registrosService"
 import Modal from "./modal";
 import AlertDelete from "./alertDelete";
+import { toast } from "react-toastify";
 
 function CardFood(props) {
 
@@ -9,7 +11,7 @@ function CardFood(props) {
 
     /*CONTEXTO*/
 
-    const { eliminarRegistro, editarRegistro } = useCentralContext();
+    const { currentUser } = useAuthContext();
 
     /*ESTADOS */
 
@@ -34,9 +36,19 @@ function CardFood(props) {
         setDataInput(event.target.value);
     }
 
-    const handleBlur = () => {
-        editarRegistro({ cantidad: dataInput }, data.id)
-        //editarRegistro(data_id, dataInput)
+    const handleBlur = async () => {
+        if (!currentUser) return false;
+
+        try {
+          await  editarRegistro({ cantidad: dataInput }, data.id, currentUser.uid)
+            toast.success('Registro actualizado correctamente');
+        } catch (e) {
+            console.error(e)
+            toast.error('Error al actualizar el registro');
+        }
+        
+        
+       
     };
     const handleDelete = () => {
         setShowDelModal(true)

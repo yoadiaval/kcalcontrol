@@ -1,15 +1,16 @@
 import { Input, Select } from "./formComp";
 import Button from "./button";
 import { useState } from "react";
-import { toast } from "react-toastify";
-
-import useCentralContext from "../hooks/useCentralContext";
+import { useInsertarAlimento } from "../hooks/useInsertarAlimento";
 
 function AddAlimento(props) {
     const { data: tipoComida } = props;
+    
+    
+   
 
+    const { submitAlimento, loading } = useInsertarAlimento();
 
-    const { insertarAlimento, transaccionCrearRegistrarComida } = useCentralContext()
     const [dataForm, setDataForm] = useState({
         descripcion: '',
         base: '',
@@ -18,34 +19,22 @@ function AddAlimento(props) {
         grasas: '',
         carbohidratos: '',
     });
-    const [loading, setLoading] = useState(false);
+
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setDataForm((prev) => {
             return { ...prev, [name]: value };
         });
     }
+
     const handleSubmit = async (event) => {
         
-        setLoading(true)
         event.preventDefault();
+        
+        const success = await submitAlimento(dataForm, tipoComida);
 
-        if (tipoComida === undefined) {
-            const result = await insertarAlimento(dataForm);
-            if (result) {
-                toast.success('Alimento agregado exitosamente')
-            } else {
-                toast.error('Ha ocurrido un error. Posible alimento repetido')
-            }
-        }else{
-            const result = await transaccionCrearRegistrarComida(dataForm, tipoComida);
-            if (result) {
-                toast.success('Alimento agregado exitosamente')
-                
-            } else {
-                toast.error('Ha ocurrido un error. Posible alimento repetido')
-            }
-        }
+        if(success){
         setDataForm({
             descripcion: '',
             base: '',
@@ -54,8 +43,8 @@ function AddAlimento(props) {
             grasas: '',
             carbohidratos: '',
 
-        })
-        setLoading(false);
+        })}
+        
     }
 
     return <form onSubmit={handleSubmit} className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 w-[100%]">

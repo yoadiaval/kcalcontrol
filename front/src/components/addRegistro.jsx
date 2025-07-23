@@ -1,20 +1,24 @@
 
 import { useState, useRef, useEffect } from "react";
-//import { Input, Space, Table, Button, Spin } from 'antd';
+import { getAlimentos } from "../services/alimentosService";
+import { getRegistros, insertarRegistro } from "../services/registrosService";
+import AddAlimento from "./addAlimento";
+import ImportarAlimento from "./importarAlimento";
+import useAuthContext from "../hooks/useAuthContext";
+import useRegistrosContext from "../hooks/useRegistrosComidaContext";
+import useAlimentosContext from "../hooks/useAlimentosContext";
+import useCentralContext from "../hooks/useCentralContext";
 
 //IMPORTACIONES DE ANTDESIGN
+
 import Button from 'antd/es/button';
 import 'antd/es/button/style';
-
 import Table from 'antd/es/table';
 import 'antd/es/table/style';
-
 import Spin from 'antd/es/spin';
 import 'antd/es/spin/style';
-
 import Input from 'antd/es/input';
 import 'antd/es/input/style';
-
 import Space from 'antd/es/space';
 import 'antd/es/space/style';
 
@@ -22,17 +26,17 @@ import 'antd/es/space/style';
 
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
-import useCentralContext from "../hooks/useCentralContext";
 import { toast } from "react-toastify";
-import ImportarAlimento from "./importarAlimento";
-import AddAlimento from "./addAlimento"
 
 
 function AddRegistro({ tipoComida }) {
 
     /*CONTEXT*/
 
-    const { getAlimentos, alimentos, insertarRegistro, isMobile } = useCentralContext();
+    const { currentUser } = useAuthContext();
+    const { setRegistros } = useRegistrosContext();
+    const { alimentos, setAlimentos } = useAlimentosContext();
+    const { isMobile } = useCentralContext();
 
     /*ESTADOS*/
 
@@ -52,16 +56,14 @@ function AddRegistro({ tipoComida }) {
     useEffect(() => {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
-            const resultGetAlimentos = await getAlimentos();
-
+            const resultGetAlimentos = await getAlimentos(currentUser.uid);
+            setAlimentos(resultGetAlimentos);
+            /*Fin de elementos que necesito cargar*/
             if (resultGetAlimentos) {
                 setLoading(false);
             }
         };
-
         fetchData();
-
-
     }, []);
 
 
@@ -77,16 +79,25 @@ function AddRegistro({ tipoComida }) {
     };
 
     const handleAdd = async (record) => {
+        if (!currentUser) return false;
         setLoadingAdd(true);
         setFoodAdd(record);
-        const response = await insertarRegistro(record.id, tipoComida);
-        if (response) {
+        try {
+            await insertarRegistro(record.id, tipoComida, currentUser.uid);
+            const updatedRegistros = await getRegistros(currentUser.uid);
+            setRegistros(updatedRegistros);
             toast.success('Ha insertado un registro exitosamente')
-        } else {
-            toast.error('Alimento repetido')
+        } catch (e) {
+            console.error(e);
+            toast.error('Ha ocurrido un error al insertar el registro')
         }
         setLoadingAdd(false);
+    
+        
+       
+        setLoadingAdd(false);
     }
+
 
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (

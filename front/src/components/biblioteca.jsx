@@ -1,20 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
+import useAuthContext from '../hooks/useAuthContext';
+//IMPORT DE ANTDESIG//
 import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-//import { Input, Space, Table, Spin } from 'antd';
-
 import Table from 'antd/es/table';
 import 'antd/es/table/style';
-
 import Space from 'antd/es/space';
 import 'antd/es/space/style';
-
 import Spin from 'antd/es/spin';
 import 'antd/es/spin/style';
-
 import Input from 'antd/es/input';
 import 'antd/es/input/style';
-
-
+//===============================//
 import SectionMain from './SectionMain';
 import Highlighter from 'react-highlight-words';
 import useCentralContext from '../hooks/useCentralContext'
@@ -23,16 +19,21 @@ import Button from './button';
 import Modal from './modal';
 import EditAlimento from './editAlimento';
 import ImportarAlimento from './importarAlimento';
-
 import AlertDelete from './alertDelete';
+import {
+    getAlimentos,
+    eliminarAlimento,
+} from "../services/alimentosService";
+
 
 function Biblioteca() {
 
     /*CONETXT*/
-
-    const { getAlimentos, alimentos, eliminarAlimento, simplificarAside, isMobile } = useCentralContext();
+    const { currentUser } = useAuthContext();
+    const { alimentos, setAlimentos, simplificarAside, isMobile } = useCentralContext();
 
     /*ESTADOS*/
+
     const [loading, setLoading] = useState(true);
     const [showModalAdd, setShowModalAdd] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
@@ -52,15 +53,16 @@ function Biblioteca() {
     useEffect(() => {
         const fetchData = async () => {
             /*Resto de elementos que necesito cargar*/
-            const resultGetAlimentos = await getAlimentos();
+            if (!currentUser) return false;
+            const resultGetAlimentos = await getAlimentos(currentUser.uid);
 
             if (resultGetAlimentos) {
+                setAlimentos(resultGetAlimentos);
                 setLoading(false);
             }
         };
 
         fetchData();
-
 
     }, []);
 
