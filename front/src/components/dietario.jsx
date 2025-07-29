@@ -1,28 +1,30 @@
 import SectionMain from "./SectionMain";
-import { obtenerFechaActual } from "../utils/utils";
-import { getRegistros  } from "../services/registrosService"
+import AddRegistro from "./addRegistro";
+import ObjetivosProgreso from "./objetivosProgreso";
+import CardFood from "./cardFood";
+import Button from "./button";
+import Modal from "./modal";
+
+import { useState, useEffect } from "react";
+import { getRegistros } from "../services/registrosService"
+
+
+import useCentralContext from "../hooks/useCentralContext";
+import useRegistrosContext from "../hooks/useRegistrosComidaContext";
+import useAuthContext from "../hooks/useAuthContext";
+
+import imgNoData from '../assets/nodata.png';
 
 //IMPORTACIONES DE ANTDESIGN//
-import Progress from 'antd/es/progress';
 import 'antd/es/progress/style';
 import Spin from 'antd/es/spin';
 import 'antd/es/spin/style';
 //==========================//
-import CardFood from "./cardFood";
-import Button from "./button";
-import Modal from "./modal";
-import { useState, useEffect } from "react";
-import AddRegistro from "./addRegistro";
-import useCentralContext from "../hooks/useCentralContext";
-import imgNoData from '../assets/nodata.png';
-import useRegistrosContext from "../hooks/useRegistrosComidaContext";
-import useAuthContext from "../hooks/useAuthContext";
-
 
 function Dietario() {
 
     /*CONTEXT*/
-    const {currentUser} = useAuthContext();
+    const { currentUser } = useAuthContext();
     const { userData, isMobile } = useCentralContext();
     const { registros, setRegistros } = useRegistrosContext();
 
@@ -32,28 +34,23 @@ function Dietario() {
     const [origenAccion, setOrigenAccion] = useState(null);
     const [activo, setActivo] = useState(1);
     const [food, setFood] = useState([]);
-    const [macrosAcc, setMacrosAcc] = useState({
-        proteinas: 0,
-        carbohidratos: 0,
-        grasas: 0,
-        calorias: 0
-    });
     const [porcentajeMacros, setPorcentajeMacros] = useState({
         proteinas: 0,
         carbohidratos: 0,
         grasas: 0,
         calorias: 0
     });
-
+    const [macrosAcc, setMacrosAcc] = useState({
+        proteinas: 0,
+        carbohidratos: 0,
+        grasas: 0,
+        calorias: 0
+    });
     const [loading, setLoading] = useState(true);
 
     /*VARIABLES GLOBALES */
     const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
-    const twoColors = {
-        '0%': '#108ee9',
-        '100%': '#87d068',
-    };
-    const currentDate = obtenerFechaActual();
+
 
     /*ACTUALIZACIONES*/
     useEffect(() => {
@@ -78,7 +75,6 @@ function Dietario() {
 
 
     /*FUNCIONES*/
-
     const accPorMacro = (macro) => {
         return registros.reduce((acc, item) => {
             const valor = parseFloat(item.alimento_info[macro]) || 0;
@@ -112,6 +108,18 @@ function Dietario() {
 
     };
 
+    const handleCantidadChange = (value, id) => {
+        setRegistros((prevRegistros) => {
+            return prevRegistros.map((item) => {
+                if (item.id === id) {
+                    return { ...item, cantidad: value };
+                }
+                return item;
+            });
+        });
+        computosDePorcentajesMacros();
+
+    }
 
     const loadFood = (foodActiva) => {
         setFood(registros.filter((item) => item.tipo_comida_id === foodActiva))
@@ -158,42 +166,14 @@ function Dietario() {
                         {/*LISTADO DE ALIMENTOS*/}
                         {loading ? <div className="w-[100%] min-h-[75%] flex items-center justify-center"><Spin /></div> : <div className={`max-h-[75%] overflow-y-auto flex flex-wrap gap-2 ${isMobile ? 'justify-center' : ''}`}>
                             {food.length === 0 ? <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div> : food.map((item) => (
-                                <CardFood key={item.id} data={item} />
+                                <CardFood key={item.id} data={item} onCantidadChange={handleCantidadChange} />
                             ))}
 
                         </div>}
                     </div>
                 </section>
                 {/*SECCION OBJETIVOS */}
-                <section className={`flex flex-col gap-[20px] items-center p-[10px] bg-[#DBEAFE] rounded-2xl ${isMobile ? 'order-1 mt-[20px] w-[90%] m-auto' : ''}`}>
-                    <div className="text-center">
-                        <h3>Objetivos</h3>
-                        <p>Este es tu progreso en el día de hoy</p>
-                        <p className="font-bold text-3xl">{currentDate[1]}</p>
-                    </div>
-                    <div className={`flex flex-col justify-around gap-[10px] ${isMobile ? 'flex-row flex-wrap' : ''} `}>
-                        <div className="flex flex-col items-center ">
-                            <Progress type="circle" percent={porcentajeMacros.proteinas} strokeColor={twoColors} />
-                            <div className="font-bold">{macrosAcc.proteinas.toFixed(2)} / {userData?.usuario?.obj_proteinas}</div>
-                            <p>Proteinas (g)</p>
-                        </div>
-                        <div className="flex flex-col items-center ">
-                            <Progress type="circle" percent={porcentajeMacros.carbohidratos} strokeColor={twoColors} />
-                            <div className="font-bold">{macrosAcc.carbohidratos.toFixed(2)} / {userData?.usuario?.obj_carbohidratos}</div>
-                            <p>Carbohidratos (g)</p>
-                        </div>
-                        <div className="flex flex-col items-center ">
-                            <Progress type="circle" percent={porcentajeMacros.grasas} strokeColor={twoColors} />
-                            <div className="font-bold">{macrosAcc.grasas.toFixed(2)} / {userData?.usuario?.obj_grasas}</div>
-                            <p>Grasas (g)</p>
-                        </div>
-                        <div className="flex flex-col items-center ">
-                            <Progress type="circle" percent={porcentajeMacros.calorias} strokeColor={twoColors} />
-                            <div className="font-bold">{macrosAcc.calorias.toFixed(2)} / {userData?.usuario?.obj_calorias}</div>
-                            <p>Calorias  </p>
-                        </div>
-                    </div>
-                </section>
+                <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} />
             </div>}
         </SectionMain>
     )

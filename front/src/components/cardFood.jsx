@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 function CardFood(props) {
 
-    const { data } = props;
+    const { data, onCantidadChange } = props;
 
     /*CONTEXTO*/
 
@@ -34,7 +34,9 @@ function CardFood(props) {
 
 
     const handleChange = (event) => {
+
         setDataInput(event.target.value);
+        onCantidadChange(event.target.value, data.id);
     }
 
     const handleBlur = async () => {
@@ -47,8 +49,6 @@ function CardFood(props) {
             console.error(e)
             toast.error('Error al actualizar el registro');
         }
-
-
 
     };
     const handleDelete = () => {
