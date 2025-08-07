@@ -61,7 +61,11 @@ function CardFood(props) {
 
     const modal = (
         <Modal onClose={closeModal} title='Eliminar Alimento'>
-            <AlertDelete onDelete={eliminarRegistro} value={data} onClose={closeModal} />
+            <AlertDelete 
+            onDelete={eliminarRegistro} 
+            value={data}
+            type="registro" 
+            onClose={closeModal} />
         </Modal>)
     return (
         <>

@@ -1,4 +1,4 @@
-import { Input, Select } from "./formComp";
+import { Input } from "./formComp";
 import Button from "./button";
 import { useState } from "react";
 import { useInsertarAlimento } from "../hooks/useInsertarAlimento";
@@ -76,7 +76,7 @@ function AddAlimento(props) {
 
 
         <div>
-            <label className="block text-sm font-medium mb-1">Calorías (g)</label>
+            <label className="block text-sm font-medium mb-1">Calorías (Kcal)</label>
             <Input
                 name="calorias"
                 type="number"

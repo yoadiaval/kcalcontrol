@@ -281,7 +281,11 @@ function Biblioteca() {
             )}
             {showDelModal && (
                 <Modal onClose={closeDelModal} title='Eliminar Alimento'>
-                    <AlertDelete onDelete={eliminarAlimento} value={deleteFood} onClose={closeDelModal} />
+                    <AlertDelete 
+                    onDelete={eliminarAlimento} 
+                    value={deleteFood}
+                    type="alimento" 
+                    onClose={closeDelModal} />
                 </Modal>
             )}
             <SectionMain header="Biblioteca de alimentos">

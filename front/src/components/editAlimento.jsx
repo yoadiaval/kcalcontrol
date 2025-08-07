@@ -1,13 +1,14 @@
-import { Input, Select } from "./formComp";
+import { Input } from "./formComp";
+import {getAlimentos, editarAlimento} from "../services/alimentosService";
 import Button from "./button";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import useAuthContext from "../hooks/useAuthContext";
-import useCentralContext from "../hooks/useCentralContext";
+import useAlimentosContext from "../hooks/useAlimentosContext";
 
 function EditAlimento({ data, onClose }) {
     const { currentUser } = useAuthContext();
-    const { editarAlimento } = useCentralContext()
+    const { setAlimentos } = useAlimentosContext()
     const [dataForm, setDataForm] = useState({
         id: data.id,
         descripcion: data.descripcion,
@@ -26,21 +27,25 @@ function EditAlimento({ data, onClose }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!currentUser) return false;
-        const result = await editarAlimento(dataForm, currentUser.uid);
-        onClose()
-        if (result) {
+
+        try {
+            await editarAlimento(dataForm, currentUser.uid);
+            const alimentosUpdated = await getAlimentos(currentUser.uid);
+            setAlimentos(alimentosUpdated);
             toast.success('Alimento modificado exitosamente')
-        } else {
-            toast.error('Ha ocurrido un error. Posible alimento repetido')
+            onClose()
+        } catch (e) {
+            console.error(e)
+            toast.error("Ha ocurrido un error al modificar el alimento")
         }
-        setDataForm({
+        
+       setDataForm({
             descripcion: '',
             base: '',
             calorias: '',
             proteinas: '',
             grasas: '',
             carbohidratos: '',
-
         })
 
     }
@@ -75,7 +80,7 @@ function EditAlimento({ data, onClose }) {
 
 
             <div>
-                <label className="block text-sm font-medium mb-1">Calorías (g)</label>
+                <label className="block text-sm font-medium mb-1">Calorías (Kcal)</label>
                 <Input
                     name="calorias"
                     type="number"

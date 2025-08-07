@@ -3,14 +3,16 @@ import Button from "./button";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import useAuthContext from "../hooks/useAuthContext";
-
+import useAlimentosContext from "../hooks/useAlimentosContext";
 import { getRegistros } from "../services/registrosService";
+import { getAlimentos } from "../services/alimentosService";
 import useRegistrosContext from "../hooks/useRegistrosComidaContext";
 function AlertDelete(props) {
-    const { onClose, onDelete, value } = props;
+    const { onClose, onDelete, value, type } = props;
     const { currentUser } = useAuthContext();
+    const { setRegistros } = useRegistrosContext();
+    const { setAlimentos } = useAlimentosContext();
 
-    const {setRegistros} = useRegistrosContext()
     const [loading, setLoading] = useState(false);
     if (!currentUser) return false;
 
@@ -19,8 +21,15 @@ function AlertDelete(props) {
         try {
             await onDelete(value.id)
             toast.success('Alimento eliminado con éxito')
-            const updatedRegistros = await getRegistros(currentUser.uid);
-            setRegistros(updatedRegistros);
+
+            if (type === 'alimento') {
+                const updatedAlimentos = await getAlimentos(currentUser.uid);
+                setAlimentos(updatedAlimentos)
+            } else if (type === 'registro') {
+                const updatedRegistros = await getRegistros(currentUser.uid);
+                setRegistros(updatedRegistros);
+            }
+            
 
         } catch (e) {
             console.error(e)

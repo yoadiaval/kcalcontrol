@@ -48,8 +48,7 @@ const editarAlimento = async (data, uid) => {
 
         return response;
     } catch (e) {
-        console.error(e);
-        return false;
+        throw new Error(e.response?.data?.message || 'Error al editar el alimento');
     }
 }
 
