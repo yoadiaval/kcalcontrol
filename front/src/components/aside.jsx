@@ -15,7 +15,7 @@ import {
 } from '@ant-design/icons';
 import useCentralContext from '../hooks/useCentralContext';
 import useAuthContext from '../hooks/useAuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import React from 'react';
 
 function Aside() {
@@ -28,7 +28,7 @@ function Aside() {
     /*VARIABLES GLOBALES*/
 
     const navigate = useNavigate();
-
+    const location = useLocation();
 
     const items = [
         { key: 'inicio', label: 'Inicio', icon: <HomeOutlined className='icono-aside' /> },
@@ -39,9 +39,21 @@ function Aside() {
 
     ];
 
+    
+    // Determina el path inicial
+    const getInitialActivo = () => {
+        const path = location.pathname;
+        if (path === '/' || path.includes('inicio')) return 'inicio';
+        if (path.includes('calculadora')) return 'calculadora';
+        if (path.includes('dietario')) return 'dietario';
+        if (path.includes('alimentos')) return 'alimentos';
+        if (path.includes('evolucion')) return 'evolucion';
+        return 'calculadora'; // fallback
+    };
+
     /*ESTADOS*/
 
-    const [activo, setActivo] = useState('calculadora');
+    const [activo, setActivo] = useState(getInitialActivo());
     const [loading, setLoading] = useState(true);
 
     /*ACTUALIZACIONES*/
@@ -79,6 +91,11 @@ function Aside() {
         };
     }, []);
 
+    // Actualiza el estado activo al cambiar de ruta por otro medio que no sea el menú ejemplo botón atrás del navegador.
+    useEffect(() => {
+        setActivo(getInitialActivo());
+    }, [location.pathname]);
+
     /*FUNCIONES*/
     const handleClick = (path) => {
         setActivo(path)
@@ -90,6 +107,7 @@ function Aside() {
     const exit = async () => {
         await logout();
     };
+
 
     return (
         < div className={`${isMobile ? 'fixed bottom-[-20px] left-[50%] translate-[-50%] rounded-full z-50' : ''} `}>
