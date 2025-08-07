@@ -27,7 +27,7 @@ function Calculadora() {
         edad: usuario?.edad,
         altura: usuario?.altura,
         peso: usuario?.peso,
-        actividad: '',
+        actividad: usuario?.nivel_actividad,
         objetivo: usuario?.objetivo,
         bodyFat: '',
         proteinPerKg: '2',
@@ -111,6 +111,19 @@ function Calculadora() {
 
     }, []);
 
+    useEffect(() => {
+        if (usuario) {
+            setDataForm(prev => ({
+                ...prev,
+                genero: usuario.sexo || "",
+                edad: usuario.edad || "",
+                altura: usuario.altura || "",
+                peso: usuario.peso || "",
+                actividad: usuario.nivel_actividad || "",
+                objetivo: usuario.objetivo || "",
+            }));
+        }
+    }, [usuario]);
 
     /*FUNCIONES */
     const handleSubmit = async (event) => {

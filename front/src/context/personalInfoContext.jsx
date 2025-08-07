@@ -17,12 +17,15 @@ function PersonalInfoProvider({ children }) {
       const response = await axios.get(
         `${SERVER_HOST}/api/usuarios/${currentUser.uid}`
       );
+      console.log(currentUser.uid); 
+      console.log(`${SERVER_HOST}/api/usuarios/${currentUser.uid}`)
       setUserData(response.data);
       return true;
     } catch (e) {
       console.error(e);
       return false;
     }
+    
   };
 
   const setPersonalInfo = async (data) => {
@@ -38,6 +41,7 @@ function PersonalInfoProvider({ children }) {
       altura: "altura",
       objetivo: "objetivo",
       peso: "peso",
+      actividad: "nivel_actividad",
       calorias: "obj_calorias",
       proteinas: "obj_proteinas",
       carbohidratos: "obj_carbohidratos",
@@ -50,7 +54,7 @@ function PersonalInfoProvider({ children }) {
       }
     }
 
-    
+    console.log(dataToSend)
 
     try {
       await axios.patch(
