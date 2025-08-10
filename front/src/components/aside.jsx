@@ -109,11 +109,12 @@ function Aside() {
     };
 
 
+
     return (
         < div className={`${isMobile ? 'fixed bottom-[-20px] left-[50%] translate-[-50%] rounded-full z-50' : ''} `}>
             {isMobile
                 ? (<aside className=' w-[85vw] rounded-full bg-[#1E1E2F] px-2'>
-                    <ul className={`flex gap-4 justify-around py-[1.5rem] `}>
+                    <ul className={`flex gap-4 justify-around py-[1.1rem] `}>
                         {items.map((item) => (
                             <li
                                 key={item.key}
