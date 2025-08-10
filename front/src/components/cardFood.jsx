@@ -70,7 +70,7 @@ function CardFood(props) {
     return (
         <>
             {showDelModal && modal}
-            <div className="flex-1 max-w-[250px] min-w-[230px] bg-[#F6F6F6] rounded p-[10px]">
+            <div className="flex-1 max-w-[463px] min-w-[150px] bg-[#F6F6F6] rounded p-[10px]">
                 <div className="flex items-center justify-between"><h3>{data.alimento_info.descripcion}</h3><span onClick={handleDelete} className="text-white bg-red-500 px-2 rounded-full m-1 cursor-pointer">x</span></div>
 
                 <hr className="w-[100%] border-neutral-200" />

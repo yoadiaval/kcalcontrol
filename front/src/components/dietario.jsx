@@ -141,41 +141,70 @@ function Dietario() {
     const modal = (<Modal onClose={closeModal} title='Añadir comida'><AddRegistro tipoComida={origenAccion} /></Modal>)
 
     return (
+        <>
+        {showModal && modal}
         <SectionMain header="Dietario">
-            {showModal && modal}
-            {loading ? <div className="flex justify-center items-center h-[400px]"><Spin /></div> : <div className="flex flex-col md:flex-row">
-                {/*SECCION LISTADO POR TIPOS DE COMIDAS*/}
-                <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
-                    <div className="p-[20px]">
-                        {/*OPCIONES DE COMIDAS */}
-                        <ul className={`flex sticky ${isMobile ? 'top-[50px] pt-2 bg-white' : ''}`}>
-                            {tiposComidas.map((item) => (
-                                <li
-                                    key={item}
-                                    onClick={() => { activarFoodType(item) }}
-                                    className={`${tiposComidas[activo - 1] === item ? 'border-b-4 border-b-blue-300 ' : ''
-                                        } cursor-pointer  hover:bg-neutral-200 w-[80px] p-[5px] border-b-4 border-transparent transition-all duration-200 ease-in`}
-                                >{item.charAt(0).toUpperCase() + item.slice(1)}
-                                </li>
-                            ))}
-                        </ul>
-                        <hr className="w-[100%] border-gray-200 " />
-                        <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[95px] bg-white z-10 py-3">
-                            <Button onClick={() => openModal()}>Agregar Comida</Button>
-                        </div>
-                        {/*LISTADO DE ALIMENTOS*/}
-                        {loading ? <div className="w-[100%] min-h-[75%] flex items-center justify-center"><Spin /></div> : <div className={`max-h-[75%] overflow-y-auto flex flex-wrap gap-2 ${isMobile ? 'justify-center' : ''}`}>
-                            {food.length === 0 ? <div className="w-[100%] flex justify-center"><img src={imgNoData} /></div> : food.map((item) => (
-                                <CardFood key={item.id} data={item} onCantidadChange={handleCantidadChange} />
-                            ))}
-
-                        </div>}
-                    </div>
-                </section>
-                {/*SECCION OBJETIVOS */}
+        {loading 
+        ? (<div className="flex justify-center items-center h-[400px]"><Spin /></div>) 
+        : (<>
+            <div className="block md:hidden  h-full w-full" >
                 <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} />
-            </div>}
+            </div>
+                            <div className="flex flex-row w-full ">
+                    {/* Contenido principal ocupa el espacio sobrante */}
+                    <div className="flex flex-col flex-1 pr-0 md:pr-[280px]">
+                        {/*SECCION LISTADO POR TIPOS DE COMIDAS*/}
+                        <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
+                            <div className="p-[20px]">
+                                {/*OPCIONES DE COMIDAS */}
+                                <ul className={`flex sticky ${isMobile ? 'top-[50px] pt-2 bg-white' : ''}`}>
+                                    {tiposComidas.map((item) => (
+                                        <li
+                                            key={item}
+                                            onClick={() => { activarFoodType(item) }}
+                                            className={`${tiposComidas[activo - 1] === item ? 'border-b-4 border-b-blue-300 ' : ''
+                                                } cursor-pointer  hover:bg-neutral-200 w-[80px] p-[5px] border-b-4 border-transparent transition-all duration-200 ease-in`}
+                                        >{item.charAt(0).toUpperCase() + item.slice(1)}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <hr className="w-[100%] border-gray-200 " />
+                                <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[95px] bg-white z-10 py-3">
+                                    <Button onClick={() => openModal()}>Agregar Comida</Button>
+                                </div>
+                                {/*LISTADO DE ALIMENTOS*/}
+                                {loading ? (
+                                    <div className="w-[100%] min-h-[75%] flex items-center justify-center"><Spin /></div>
+                                ) : (
+                                                <div
+                                                    className={`max-h-[75%] overflow-y-auto grid gap-4 w-full
+        ${isMobile ? 'grid-cols-1' : 'grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 '}`}
+                                                >
+                                                    {food.length === 0 ? (
+                                                        <div className="w-full flex justify-center"><img src={imgNoData} /></div>
+                                                    ) : (
+                                                        food.map((item) => (
+                                                            <div className="flex justify-center">
+                                                                <CardFood key={item.id} data={item} onCantidadChange={handleCantidadChange} />
+                                                            </div>
+                                                        ))
+                                                    )}
+                                                </div>
+                                )}
+                            </div>
+                        </section>
+                    </div>
+                    
+                </div>
+                    </>
+      )}
         </SectionMain>
+       
+        <div className= "hidden md:block absolute right-0 top-0 h-full w-[250px]" >
+            <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} />
+        </div>
+    </>
+
     )
 }
 
