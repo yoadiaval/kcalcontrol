@@ -4,10 +4,10 @@ import { eliminarRegistro, editarRegistro } from "../services/registrosService"
 import Modal from "./modal";
 import AlertDelete from "./alertDelete";
 import { toast } from "react-toastify";
-
+import { obtenerFechaActual } from "../utils/utils";
 function CardFood(props) {
 
-    const { data, onCantidadChange } = props;
+    const { data, onCantidadChange, date } = props;
 
     /*CONTEXTO*/
 
@@ -20,7 +20,7 @@ function CardFood(props) {
 
     /*VARIABLES GLOBALES*/
 
-
+    const currentDate = obtenerFechaActual();
     const inputRef = useRef(null);
 
     // const calorias = ((parseFloat(data.alimento_info.proteinas) * 4) + (parseFloat(data.alimento_info.carbohidratos) * 4) + (parseFloat(data.alimento_info.grasas) * 9)) * parseFloat(dataInput)/100;
@@ -71,7 +71,7 @@ function CardFood(props) {
         <>
             {showDelModal && modal}
             <div className="flex-1 max-w-[463px] min-w-[150px] bg-[#F6F6F6] rounded p-[10px]">
-                <div className="flex items-center justify-between"><h3>{data.alimento_info.descripcion}</h3><span onClick={handleDelete} className="text-white bg-red-500 px-2 rounded-full m-1 cursor-pointer">x</span></div>
+                <div className="flex items-center justify-between"><h3>{data.alimento_info.descripcion}</h3><button onClick={handleDelete} className="text-white bg-red-500 px-2 rounded-full flex items-center justify-center m-1 cursor-pointer w-6 h-6" disabled={date !== currentDate[0]}>x</button></div>
 
                 <hr className="w-[100%] border-neutral-200" />
                 <p>Datos (para 100g)</p>
@@ -113,6 +113,7 @@ function CardFood(props) {
                             ref={inputRef}
                             type="number"
                             min={0}
+                            disabled={date !== currentDate[0]}
                             className="border border-neutral-200 w-[80px] bg-white rounded px-[5px]" />
                     </form>
 

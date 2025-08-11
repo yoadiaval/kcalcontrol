@@ -1,23 +1,45 @@
 import Progress from 'antd/es/progress';
-import { obtenerFechaActual } from "../utils/utils";
 import useCentralContext from '../hooks/useCentralContext';
 import { CheckOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-
+import {  useState } from 'react';
+import { getRegistrosPorFecha } from '../services/registrosService';
+import useRegistrosContext from '../hooks/useRegistrosComidaContext';
+import { Input } from './formComp';
 function ObjetivosProgreso(props) {
-    const { porcentajeMacros, macrosAcc } = props;
+    const { porcentajeMacros, macrosAcc, date, setDate } = props;
     const { userData, isMobile } = useCentralContext();
-    const currentDate = obtenerFechaActual();
+    const {setRegistros} = useRegistrosContext();
+    
+    
     const [showMacros, setShowMacros] = useState(true);
+
+    const handleDateChange = async (e) => {
+       setDate(e.target.value)
+       const registrosFinded = await getRegistrosPorFecha(userData.usuario.id, e.target.value);
+       setRegistros(registrosFinded);
+    }
 
     return (
         <section
-            className="flex flex-col w-full h-full gap-[20px] items-center p-[20px] bg-[#DBEAFE]"
+            className="flex flex-col w-full h-full gap-[20px] items-center  p-[20px] bg-[#DBEAFE]"
         >
-            <div className="flex md:flex-col justify-between w-full items-center">
-                <h3 className="text-lg font-semibold">
-                    Objetivos: <span className="font-bold text-2xl">{currentDate[1]}</span>
-                </h3>
+            <div className="flex flex-wrap md:flex-col justify-between w-full items-center md:gap-5">
+                <div className='flex md:block '>
+                 <h3 className="text-lg flex items-center font-semibold ">
+                    Objetivos 
+                 </h3>
+                
+                 <Input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value={date}
+                    onChange={handleDateChange}
+                    style={{ fontSize: '20px', marginLeft: '10px' }}
+                   
+                    />
+                </div>
+                <div className='flex'>
                 <h3>
                     Calorías: <span className="font-bold text-2xl">{porcentajeMacros.calorias} %</span>
                 </h3>
@@ -29,6 +51,7 @@ function ObjetivosProgreso(props) {
                 >
                     {showMacros ? <UpOutlined /> : <DownOutlined />}
                 </span>}
+                </div>
             </div>
 
             {showMacros ? (

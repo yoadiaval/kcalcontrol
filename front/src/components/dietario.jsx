@@ -15,6 +15,7 @@ import useAuthContext from "../hooks/useAuthContext";
 
 import imgNoData from '../assets/nodata.png';
 
+import { obtenerFechaActual } from '../utils/utils'
 //IMPORTACIONES DE ANTDESIGN//
 import 'antd/es/progress/style';
 import Spin from 'antd/es/spin';
@@ -28,6 +29,9 @@ function Dietario() {
     const { userData, isMobile } = useCentralContext();
     const { registros, setRegistros } = useRegistrosContext();
 
+    /*VARIABLES GLOBALES */
+    const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
+    const currentDate = obtenerFechaActual();
 
     /*ESTADOS*/
     const [showModal, setShowModal] = useState(false);
@@ -47,10 +51,9 @@ function Dietario() {
         calorias: 0
     });
     const [loading, setLoading] = useState(true);
+    const [date, setDate] = useState(currentDate[0]);
 
-    /*VARIABLES GLOBALES */
-    const tiposComidas = ['desayuno', 'comida', 'cena', 'merienda'];
-
+    
 
     /*ACTUALIZACIONES*/
     useEffect(() => {
@@ -69,8 +72,10 @@ function Dietario() {
     }, []);
 
     useEffect(() => {
+       
         computosDePorcentajesMacros();
         loadFood(activo);
+       
     }, [registros]);
 
 
@@ -148,7 +153,7 @@ function Dietario() {
         ? (<div className="flex justify-center items-center h-[400px]"><Spin /></div>) 
         : (<>
             <div className="block md:hidden  h-full w-full" >
-                <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} />
+                            <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} date={date} setDate={setDate} />
             </div>
                             <div className="flex flex-row w-full ">
                     {/* Contenido principal ocupa el espacio sobrante */}
@@ -157,40 +162,67 @@ function Dietario() {
                         <section className={`flex-1 ${isMobile ? 'order-2 mb-[90px]' : ''}`}>
                             <div className="p-[20px]">
                                 {/*OPCIONES DE COMIDAS */}
-                                <ul className={`flex sticky ${isMobile ? 'top-[50px] pt-2 bg-white' : ''}`}>
-                                    {tiposComidas.map((item) => (
-                                        <li
-                                            key={item}
-                                            onClick={() => { activarFoodType(item) }}
-                                            className={`${tiposComidas[activo - 1] === item ? 'border-b-4 border-b-blue-300 ' : ''
-                                                } cursor-pointer  hover:bg-neutral-200 w-[80px] p-[5px] border-b-4 border-transparent transition-all duration-200 ease-in`}
-                                        >{item.charAt(0).toUpperCase() + item.slice(1)}
-                                        </li>
-                                    ))}
-                                </ul>
+                                        <ul className={`flex sticky ${isMobile ? 'top-[50px] pt-2 bg-white' : ''}`}>
+                                            {tiposComidas.map((item, idx) => {
+                                                // Calcula el total de registros para cada tipo de comida
+                                                const totalRegistros = registros.filter(r => r.tipo_comida_id === idx + 1).length;
+                                                return (
+                                                    <li
+                                                        key={item}
+                                                        onClick={() => { activarFoodType(item) }}
+                                                        className={`${tiposComidas[activo - 1] === item ? 'border-b-4 border-b-blue-300 ' : ''
+                                                            } cursor-pointer hover:bg-neutral-200 w-[100px] p-[5px] border-b-4 border-transparent transition-all duration-200 ease-in flex items-center justify-center`}
+                                                    >
+                                                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                                                        <span className="ml-2  rounded-full flex items-center justify-center
+                                                        w-6 h-6 bg-blue-100 text-blue-900 text-xs font-bold">
+                                                            {totalRegistros}
+                                                        </span>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
                                 <hr className="w-[100%] border-gray-200 " />
                                 <div className="w-[100%] text-end pr-[31px] my-4 sticky top-[95px] bg-white z-10 py-3">
-                                    <Button onClick={() => openModal()}>Agregar Comida</Button>
+                                            <Button
+                                                onClick={() => 
+                                                     openModal()
+                                                    
+                                                }
+                                                 disabled={date !== currentDate[0]}
+                                            >
+                                                Agregar Comida
+                                            </Button>
                                 </div>
                                 {/*LISTADO DE ALIMENTOS*/}
-                                {loading ? (
-                                    <div className="w-[100%] min-h-[75%] flex items-center justify-center"><Spin /></div>
-                                ) : (
-                                                <div
-                                                    className={`max-h-[75%] overflow-y-auto grid gap-4 w-full
-        ${isMobile ? 'grid-cols-1' : 'grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 '}`}
-                                                >
-                                                    {food.length === 0 ? (
-                                                        <div className="w-full flex justify-center"><img src={imgNoData} /></div>
-                                                    ) : (
-                                                        food.map((item) => (
-                                                            <div className="flex justify-center">
-                                                                <CardFood key={item.id} data={item} onCantidadChange={handleCantidadChange} />
-                                                            </div>
-                                                        ))
-                                                    )}
-                                                </div>
-                                )}
+                                        {loading ? (
+                                            <div className="w-full min-h-[75%] flex items-center justify-center">
+                                                <Spin />
+                                            </div>
+                                        ) : food.length === 0 ? (
+                                            <div className="w-full min-h-[75%] flex items-center justify-center">
+                                                <img
+                                                    src={imgNoData}
+                                                    alt="No hay datos"
+                                                    className="max-w-[200px]"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className={`max-h-[75%] overflow-y-auto grid gap-4 w-full
+      ${isMobile ? 'grid-cols-1' : 'grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 '}`}
+                                            >
+                                                {food.map((item) => (
+                                                    <div key={item.id} className="flex justify-center">
+                                                        <CardFood
+                                                            data={item}
+                                                            date={date}
+                                                            onCantidadChange={handleCantidadChange}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                             </div>
                         </section>
                     </div>
@@ -201,7 +233,7 @@ function Dietario() {
         </SectionMain>
        
         <div className= "hidden md:block absolute right-0 top-0 h-full w-[250px]" >
-            <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} />
+            <ObjetivosProgreso porcentajeMacros={porcentajeMacros} macrosAcc={macrosAcc} date={date} setDate={setDate}/>
         </div>
     </>
 

@@ -1,4 +1,4 @@
- import { obtenerFechaActual } from "../utils/utils";
+import { obtenerFechaActual } from "../utils/utils";
 import { SERVER_HOST } from "../config";
 import axios from "axios";
 
@@ -18,6 +18,21 @@ import axios from "axios";
         }
     }
 
+const getRegistrosPorFecha = async (uid, fecha) => {
+    console.log(`${SERVER_HOST}/api/registros/usuario/${uid}?fecha=${fecha}`)
+    try {
+        const response = await axios.get(
+            `${SERVER_HOST}/api/registros/usuario/${uid}?fecha=${fecha}`
+        );
+
+        console.log(response.data)
+        return response.data.registros;
+    } catch (e) {
+        console.error(e);
+        throw new Error(e?.response?.data?.message || 'Error al obtener registro de alimentos');
+    }
+}
+
     // const getRegistrosPorRangoFechas = async (startDate, endDate, uid) => {
     //     if (!currentUser) return false;
 
@@ -30,7 +45,6 @@ import axios from "axios";
     //     } catch (error) {
     //         console.error(error.message)
     //     }
-
     // }
 
     const insertarRegistro = async (alimentoId, tipoComida, uid) => {
@@ -96,4 +110,4 @@ import axios from "axios";
     }
 
 
-export { getRegistros, insertarRegistro, editarRegistro, eliminarRegistro }
+export { getRegistros, getRegistrosPorFecha, insertarRegistro, editarRegistro, eliminarRegistro }
