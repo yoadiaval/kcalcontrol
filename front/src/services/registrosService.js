@@ -19,13 +19,13 @@ import axios from "axios";
     }
 
 const getRegistrosPorFecha = async (uid, fecha) => {
-    console.log(`${SERVER_HOST}/api/registros/usuario/${uid}?fecha=${fecha}`)
+   
     try {
         const response = await axios.get(
             `${SERVER_HOST}/api/registros/usuario/${uid}?fecha=${fecha}`
         );
 
-        console.log(response.data)
+       
         return response.data.registros;
     } catch (e) {
         console.error(e);
@@ -33,19 +33,20 @@ const getRegistrosPorFecha = async (uid, fecha) => {
     }
 }
 
-    // const getRegistrosPorRangoFechas = async (startDate, endDate, uid) => {
-    //     if (!currentUser) return false;
-
-    //     try {
-    //         const response = await axios.get(
-    //             `${SERVER_HOST}/api/registros/usuario/${currentUser.uid}/rango-fechas?fecha_inicio=${startDate}&fecha_fin=${endDate}`
-    //         );
-    //         setRegistrosPorPeriodo(response.data.registros);
-
-    //     } catch (error) {
-    //         console.error(error.message)
-    //     }
-    // }
+    const getRegistrosPorRangoFechas = async (startDate, endDate, uid) => {
+       
+        try {
+            const response = await axios.get(
+                `${SERVER_HOST}/api/registros/usuario/${uid}/rango-fechas?fecha_inicio=${startDate}&fecha_fin=${endDate}`
+            );
+            console.log(`${SERVER_HOST}/api/registros/usuario/${uid}/rango-fechas?fecha_inicio=${startDate}&fecha_fin=${endDate}`)
+            console.log(response.data.registros)
+            return response.data.registros;
+        } catch (e) {
+            console.error(e);
+            throw new Error(e?.response?.data?.message || 'Error al obtener registro de alimentos');
+        }
+    }
 
     const insertarRegistro = async (alimentoId, tipoComida, uid) => {
        
@@ -110,4 +111,4 @@ const getRegistrosPorFecha = async (uid, fecha) => {
     }
 
 
-export { getRegistros, getRegistrosPorFecha, insertarRegistro, editarRegistro, eliminarRegistro }
+export { getRegistros, getRegistrosPorFecha, getRegistrosPorRangoFechas, insertarRegistro, editarRegistro, eliminarRegistro }
