@@ -199,6 +199,18 @@ function Evolucion() {
         return `${year}-${paddedMonth}-${paddedDay}`;
     };
 
+    /*NO QUITAR HASTA ENCONTRAR SOLUCION MÁS EFECTIVA Aunque es redundante con el useEffect permite que se obtengan las gráficas sin necesidad de depender del estado, ESTO IMPEDIA QUE SE MOSTRARAN LOS DATOS A LA PRIMERA */
+    const showInfo = (registros) => {
+        const info = procesarInfo(registros);
+        setResumen(info);
+
+        showCaloriasPorDiaGraph(info.caloriasPorDia); // Solo calorías
+        showMacrosTotalGraph(info);
+
+        setShowMessage(false);
+       
+    }
+
     const changeDateRange = async (range) => {
         setLoading(true);
         const startDate = formatDate(range[0].startDate);
@@ -206,6 +218,7 @@ function Evolucion() {
         try {
             const registrosDelPeriodo = await getRegistrosPorRangoFechas(startDate, endDate, userData?.usuario?.id);
             setRegistrosPorPeriodo(registrosDelPeriodo);
+            showInfo(registrosDelPeriodo);
         } catch (error) {
             console.error(error.message);
             setLoading(false);
