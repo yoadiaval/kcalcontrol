@@ -96,10 +96,7 @@ function TerminosCondiciones() {
                   <h2 className="text-2xl font-semibold mt-10 mb-3">10. Contacto</h2>
                   <p className="mb-6">
                       Si tienes dudas, sugerencias o reclamaciones relacionadas con estos Términos y
-                      Condiciones, puedes ponerte en contacto con nosotros escribiendo a{" "}
-                      <a href="mailto:soporte@kcalcontrol.com" className="text-blue-600 underline">
-                          soporte@kcalcontrol.com
-                      </a>. Respondemos habitualmente en menos de 48 horas.
+                      Condiciones, puedes ponerte en contacto con nosotros enviando un mensaje desde el formulario de la página principal.
                   </p>
 
                   <p className="mt-12 text-sm text-gray-500 italic">

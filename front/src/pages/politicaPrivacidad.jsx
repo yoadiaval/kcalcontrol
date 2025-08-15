@@ -23,10 +23,7 @@ function PoliticaPrivacidad() {
                   <h2 className="text-2xl font-semibold mt-10 mb-3">1. Responsable del tratamiento</h2>
                   <p className="mb-6">
                       El responsable de tus datos es <strong>KcalControl</strong>, con sede en España.
-                      Puedes ponerte en contacto con nosotros en cualquier momento enviando un correo a{" "}
-                      <a href="mailto:soporte@kcalcontrol.com" className="text-blue-600 underline">
-                          soporte@kcalcontrol.com
-                      </a>. Nos comprometemos a atender cualquier consulta o solicitud relacionada con
+                      Puedes ponerte en contacto con nosotros desdeel formulario de la página principal. Nos comprometemos a atender cualquier consulta o solicitud relacionada con
                       tu información personal en un plazo razonable.
                   </p>
 
@@ -78,10 +75,7 @@ function PoliticaPrivacidad() {
                       Tus datos se conservarán mientras tu cuenta permanezca activa o mientras sea
                       necesario para cumplir con obligaciones legales.
                       Si deseas eliminar tu cuenta y toda tu información, puedes solicitarlo en cualquier
-                      momento enviando un correo a{" "}
-                      <a href="mailto:soporte@kcalcontrol.com" className="text-blue-600 underline">
-                          soporte@kcalcontrol.com
-                      </a>.
+                      momento enviando un mensaje desde el formulario de la página principal.
                   </p>
 
                   <h2 className="text-2xl font-semibold mt-10 mb-3">8. Derechos del usuario</h2>
