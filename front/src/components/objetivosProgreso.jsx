@@ -21,7 +21,7 @@ function ObjetivosProgreso(props) {
 
     return (
         <section
-            className="flex flex-col w-full h-full gap-[20px] items-center  p-[20px] bg-[#DBEAFE]"
+            className="flex flex-col w-full  gap-[20px] items-center  p-[20px] bg-[#DBEAFE] md:z-50 md:absolute md:h-full"
         >
             <div className="flex flex-wrap md:flex-col justify-between w-full items-center md:gap-5">
                 <div className='flex md:block '>

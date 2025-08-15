@@ -12,7 +12,7 @@ function SectionMain({ header, children }) {
     };
     return (
         <div className="h-[100vh] w-[100%] sm:w-auto overflow-x-hidden overflow-y-auto ">
-            <div className="sticky top-0  z-10 pt-2 py-4 px-2 bg-white md:bg-transparent shadow-md md:shadow-none">
+            <div className="sticky top-0  z-10 pt-2 py-4 px-2 bg-white md:bg-white shadow-md md:shadow-none">
                 <div className="flex justify-between ">
                     <h2 className="inline-block  text-lg font-semibold ">
                         {header}

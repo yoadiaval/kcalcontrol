@@ -7,6 +7,8 @@ const Login = lazy(() => import("./pages/login"));
 const Registro = lazy(() => import("./pages/registro"));
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const NotFound = lazy(() => import("./pages/notFound"));
+const TerminosCondiciones = lazy(() => import("./pages/terminosCondiciones"));
+const PoliticaPrivacidad = lazy(() => import("./pages/politicaPrivacidad"));
 
 // Lazy loading componentes usados dentro del dashboard
 const Dietario = lazy(() => import("./components/dietario"));
@@ -27,6 +29,8 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+          <Route path="/terminos" element={<TerminosCondiciones />} />  
 
           {/* Rutas privadas */}
           <Route element={<PrivateRoute />}>

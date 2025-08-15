@@ -153,16 +153,16 @@ function Login() {
             Continuar
           </button>
         </form>
-        <div className="flex items-center justify-center my-4">
+        {/* <div className="flex items-center justify-center my-4">
           <div className="flex items-center gap-2 ">
             <hr className="w-[100px]" />
             <p>o continúa con</p>
             <hr className="w-[100px]" />
           </div>
-        </div>
-        <button onClick={goGoogle} className="btn-clear">
+        </div> */}
+        {/* <button onClick={goGoogle} className="btn-clear">
           Google
-        </button>
+        </button> */}
         <p>
           Aún no tienes cuenta?{" "}
           <span onClick={goToRegistro} className="text-sky-700 cursor-pointer">
